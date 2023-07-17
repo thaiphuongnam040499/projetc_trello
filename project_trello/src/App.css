@@ -1,0 +1,237 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.history-title {
+  font-weight: 500;
+  font-size: 14px;
+}
+/* .history:hover {
+  background-color: #091e4224;
+} */
+.history-name {
+  font-size: 14px;
+}
+.nav-item:hover {
+  background-color: #091e4224;
+}
+.btn-add-table:hover {
+  background-color: #091e4224;
+}
+.sidebar-btn:hover {
+  background-color: #091e4224;
+}
+.container {
+  height: 100vh;
+}
+.sidebar {
+  width: 280px;
+  margin: 0 !important;
+
+  height: 100vh;
+}
+.img-table {
+  width: 35px !important;
+  height: 30px !important;
+}
+.btn-add-table {
+  max-width: 540px;
+}
+.header {
+  background: url(https://images.ctfassets.net/rz1oowkt5gyp/7lTGeXbBRNRLaVk2MdBjtJ/99c266ed4cb8cc63bd0c388071f01ff6/white-wave-bg.svg)
+      center bottom -0.5px / 100% 14% no-repeat scroll padding-box border-box,
+    linear-gradient(60deg, rgb(82, 67, 170), rgb(237, 80, 180)) 0% 0% / auto
+      repeat scroll padding-box border-box rgb(82, 67, 170);
+  background-blend-mode: normal, normal;
+  color: rgb(255, 255, 255);
+}
+@keyframes parabol {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+.sidebar-project {
+  height: 100vh;
+  background-color: #ece8f0;
+  width: 280px;
+}
+.navbar-home {
+  /* background-image: linear-gradient(0, #f7ccf1, #d5b2f7); */
+  /* position: fixed;
+  width: 100%; */
+  background-color: hsla(206, 13.7%, 10%, 0.9);
+  color: #ffff;
+}
+.btn-create-board {
+  position: relative;
+  height: 100px;
+  width: 200px;
+}
+.btn-create-dropdown {
+  position: absolute;
+  transition: all ease 0.5s;
+  inset: -104px auto auto 210px !important;
+  width: 300px;
+}
+.img-create-board {
+  background-image: url(https://images.unsplash.com/photo-1688909987766-8797b4f909b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDY2fDB8MXxjb2xsZWN0aW9ufDF8MzE3MDk5fHx8fHwyfHwxNjg5MDM2MTYyfA&ixlib=rb-4.0.3&q=80&w=400);
+  width: 200px;
+  height: 120px;
+}
+.title_input {
+  height: 35px;
+}
+/* .body-img {
+  background-image: linear-gradient(0, #f7ccf1, #d5b2f7);
+} */
+
+.profile-img {
+  position: relative;
+}
+.profile-menu {
+  position: absolute;
+  inset: 40px auto auto -110px !important;
+}
+.modal-workingSpace {
+  align-items: center;
+  background-image: url(https://trello.com/assets/df0d81969c6394b61c0d.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  width: 600px;
+}
+.content-board {
+  /* background-image: url(https://carback.vn/wp-content/uploads/2019/08/hagiang.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%; */
+  background-color: antiquewhite;
+  overflow-x: scroll;
+}
+.board:hover {
+  cursor: pointer;
+}
+.board {
+  height: 100px;
+  width: 200px;
+}
+.create-list {
+  height: 89px;
+  width: 272px;
+}
+.input-create-list {
+  height: 30px;
+}
+.list {
+  width: 273px;
+}
+.create-board {
+  height: 35px;
+}
+.create-card {
+  width: 273px;
+}
+.card-modal {
+  max-width: 700px;
+}
+.card-modal-content {
+  width: 700px;
+}
+.card-modal-body {
+  width: 500px;
+}
+.create-tag {
+  width: 200px;
+}
+.content {
+  width: 420px;
+}
+.history-project {
+  height: 100px;
+  width: 200px;
+}
+.working-space {
+  max-width: 1200px;
+}
+.working-space-content {
+  width: 1200px;
+  height: 688px;
+}
+.working-space-name {
+  width: 600px;
+}
+.working-space-input {
+  height: 50px;
+}
+.working-space-des {
+  height: 135px;
+}
+.header-project {
+  background-color: rgba(236, 228, 228, 0.5);
+  opacity: inherit;
+  opacity: 0.5;
+  filter: alpha(opacity=80);
+}
+
+/* .react-trello-lane {
+  background-color: #ece8f0;
+}
+
+.react-trello-card {
+  background-color: #ece8f0;
+}
+.react-trello-board {
+  background-color: #ece8f0;
+} */

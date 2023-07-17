@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "email": "nambogia040499@gmail.com",
+      "password": "$2a$10$FJfUFHmB5vH9t027Nzi4g.66n3gYYdCVoOyv4DK3mil/NCR2c2vk.",
+      "googleId": "113420445764393920137",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtdewkBKPFnP0OWa48KLO8Dd2yJd5aKGYeowLBIJNKzIibw=s96-c",
+      "name": "Phương Nam Thái",
+      "givenName": "Phương Nam",
+      "familyName": "Thái",
+      "id": 1
+    }
+  ],
+  "workingSpace": [
+    {
+      "name": "Thái Nam",
+      "type": "3",
+      "description": "abc",
+      "userId": 1,
+      "createdAt": 1689134632305,
+      "id": 1
+    }
+  ],
+  "boards": [
+    {
+      "id": 1,
+      "name": "a",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Thái Nam",
+      "createdAt": 1689155244594
+    },
+    {
+      "id": 2,
+      "name": "Anh nhân tây hồ",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Thái Nam",
+      "createdAt": 1689493328723
+    }
+  ],
+  "lanes": [
+    {
+      "id": 1,
+      "name": "Anh nhân tây hồ",
+      "boardId": 1
+    },
+    {
+      "id": 2,
+      "name": "Thái Nam",
+      "boardId": 1
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "title": "nam",
+      "laneId": 2
+    },
+    {
+      "id": 2,
+      "title": "abc",
+      "laneId": 1
+    },
+    {
+      "id": 3,
+      "title": "xyz",
+      "laneId": 1
+    },
+    {
+      "id": "be8ce740-2446-11ee-9a08-71eb2edf8bf1",
+      "title": "abcd",
+      "laneId": 2,
+      "createdAt": 1689559675857
+    }
+  ]
+}

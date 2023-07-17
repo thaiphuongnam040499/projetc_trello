@@ -1,0 +1,257 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Board from '../project/CreateBoard';
+import { User, UserId } from '../../types/user.type';
+
+export default function () {
+  const user = localStorage.getItem('userLogin');
+  const [userLogin, setUserLogin] = useState<UserId>();
+
+  useEffect(() => {
+    if (user) {
+      setUserLogin(JSON.parse(user).user);
+    }
+  }, [user]);
+
+  const handleSignOut = () => {
+    console.log('123');
+
+    localStorage.removeItem('userLogin');
+  };
+
+  return (
+    <div>
+      <nav className="navbar navbar-dark navbar-expand-lg navbar-home">
+        <div className="container-fluid">
+          <i className="bi bi-trello"></i>
+          <a className="navbar-brand ms-2" href="#">
+            Trello
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
+              <li className="nav-item dropdown ">
+                <a
+                  className="nav-link fs-6"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Các không gian làm việc
+                  <i className="bi bi-chevron-down ms-1 fs-6"></i>
+                </a>
+
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link fs-6"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Gần đây
+                  <i className="bi bi-chevron-down ms-1 fs-6"></i>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link fs-6"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Đã đánh dấu sao
+                  <i className="bi bi-chevron-down ms-1 fs-6"></i>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link fs-6"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Mẫu
+                  <i className="bi bi-chevron-down ms-1 fs-6"></i>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <div className="dropdown">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Tạo mới
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton1"
+                  >
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Tạo bảng
+                      </a>
+                    </li>
+                    <hr className="my-2" />
+                  </ul>
+                </div>
+              </li>
+            </ul>
+            <form className="d-flex align-items-center">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <div className="notification">
+                <i className="bi bi-bell ms-2 fs-5"></i>
+              </div>
+              <div className="question">
+                <i className="bi bi-question-circle ms-2 fs-5"></i>
+              </div>
+              <div className="themes">
+                <i className="bi bi-circle-half ms-2 fs-5"></i>
+              </div>
+              <div>
+                {userLogin ? (
+                  <div className="dropdown">
+                    <img
+                      src={userLogin.imageUrl}
+                      className="border rounded-circle w-50 h-50 ms-2 fs-5 profile-img"
+                      id="dropdownMenuButton1"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    />
+                    <ul
+                      className="dropdown-menu profile-menu"
+                      aria-labelledby="dropdownMenuButton1"
+                    >
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          {userLogin.name}
+                        </a>
+                      </li>
+                      <hr className="my-2" />
+                      <li>
+                        <button
+                          onClick={handleSignOut}
+                          className="dropdown-item btn btn-light"
+                        >
+                          Đăng xuất
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+}
