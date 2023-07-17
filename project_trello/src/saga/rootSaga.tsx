@@ -1,57 +1,50 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
-import { USER_SAGA_LOGIN, USER_SAGA_POST } from './userSaga';
-import { createUser, login } from '../redux/reducer/userSlice';
-import { create, findAllCard, updateCard } from '../redux/reducer/cardSlice';
-import {
-  CARD_SAGA_GET,
-  CARD_SAGA_PATCH,
-  CARD_SAGA_POST,
-  CARD_SAGA_PUT,
-} from './cardSaga';
-import {
-  createList,
-  findAllList,
-  updateLane,
-} from '../redux/reducer/laneSlice';
-import { LIST_SAGA_GET, LIST_SAGA_POST, LIST_SAGA_PUT } from './listSaga';
-import {
-  createWorkingSpace,
-  findAllWorkingSpace,
-} from '../redux/reducer/workingSpaceSlice';
-import {
-  WORKINGSPACE_SAGA_GET,
-  WORKINGSPACE_SAGA_POST,
-} from './workingSpaceSaga';
-import { createBoard, findAllBoard } from '../redux/reducer/boardSlice';
-import { BOARD_SAGA_GET, BOARD_SAGA_POST } from './boardSaga';
+import * as userSaga from './userSaga';
+import * as userSlice from '../redux/reducer/userSlice';
+import * as cardSlice from '../redux/reducer/cardSlice';
+import * as cardSaga from './cardSaga';
+import * as laneSlice from '../redux/reducer/laneSlice';
+import * as laneSaga from './laneSaga';
+import * as workingSpaceSlice from '../redux/reducer/workingSpaceSlice';
+import * as workingSpaceSaga from './workingSpaceSaga';
+import * as boardSlice from '../redux/reducer/boardSlice';
+import * as boardSaga from './boardSaga';
 
 export const rootSaga = function* () {
   yield all([
-    takeLatest(createUser.type, USER_SAGA_POST),
+    takeLatest(userSlice.createUser.type, userSaga.USER_SAGA_POST),
 
-    takeLatest(create.type, CARD_SAGA_POST),
+    takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
 
-    // takeLatest(updateCard.type, CARD_SAGA_PUT),
+    takeLatest(cardSlice.deleteCard.type, cardSaga.CARD_SAGA_DELETE),
 
-    takeLatest(updateCard.type, CARD_SAGA_PATCH),
+    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PATCH),
 
-    takeLatest(findAllCard.type, CARD_SAGA_GET),
+    takeLatest(cardSlice.findAllCard.type, cardSaga.CARD_SAGA_GET),
 
-    takeLatest(createList.type, LIST_SAGA_POST),
+    takeLatest(laneSlice.createList.type, laneSaga.LIST_SAGA_POST),
 
-    takeLatest(findAllList.type, LIST_SAGA_GET),
+    takeLatest(laneSlice.findAllList.type, laneSaga.LIST_SAGA_GET),
 
-    takeLatest(updateLane.type, LIST_SAGA_PUT),
+    takeLatest(laneSlice.updateLane.type, laneSaga.LIST_SAGA_PUT),
 
-    takeLatest(login.type, USER_SAGA_LOGIN),
+    takeLatest(laneSlice.deleteLane.type, laneSaga.LANE_SAGA_DELETE),
 
-    takeLatest(createWorkingSpace.type, WORKINGSPACE_SAGA_POST),
+    takeLatest(userSlice.login.type, userSaga.USER_SAGA_LOGIN),
 
-    takeLatest(findAllWorkingSpace.type, WORKINGSPACE_SAGA_GET),
+    takeLatest(
+      workingSpaceSlice.createWorkingSpace.type,
+      workingSpaceSaga.WORKINGSPACE_SAGA_POST
+    ),
 
-    takeLatest(createBoard.type, BOARD_SAGA_POST),
+    takeLatest(
+      workingSpaceSlice.findAllWorkingSpace.type,
+      workingSpaceSaga.WORKINGSPACE_SAGA_GET
+    ),
 
-    takeLatest(findAllBoard.type, BOARD_SAGA_GET),
+    takeLatest(boardSlice.createBoard.type, boardSaga.BOARD_SAGA_POST),
+
+    takeLatest(boardSlice.findAllBoard.type, boardSaga.BOARD_SAGA_GET),
   ]);
 };

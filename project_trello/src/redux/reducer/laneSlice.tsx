@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Lane } from '../../types/lanes.type';
-import { ListType } from '../../types/list.type';
+import { ListType } from '../../types/lane.type';
 
 interface ListState {
   lanes: ListType[];
@@ -21,8 +21,9 @@ export const listSlice = createSlice({
     updateLane: (state, action) => {
       state.lanes = action.payload;
     },
+    deleteLane: (state, action) => {},
   },
 });
 export default listSlice.reducer;
-export const { createList, findAllList, getAllList, updateLane } =
+export const { createList, findAllList, getAllList, updateLane, deleteLane } =
   listSlice.actions;

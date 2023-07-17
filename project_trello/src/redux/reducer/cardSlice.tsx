@@ -19,9 +19,10 @@ const cardSlice = createSlice({
     },
     findAllCard: () => {},
     updateCard: (state, action) => {},
+    deleteCard: (state, action) => {},
   },
 });
 
 export default cardSlice.reducer;
-export const { create, findAllCard, getAllCard, updateCard } =
+export const { create, findAllCard, getAllCard, updateCard, deleteCard } =
   cardSlice.actions;

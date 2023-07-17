@@ -13,7 +13,12 @@ export const LIST_PATCH_SERVICE = async (laneUp: any) => {
   await intances.patch('lanes/' + laneUp.id, laneUp);
   console.log(laneUp);
 };
+
 export const LIST_PUT_SERVICE = async (laneUp: any) => {
   await intances.put('lanes/' + laneUp.id, laneUp);
   console.log(laneUp);
+};
+
+export const LANE_DELETE_SERVICE = async (laneId: any) => {
+  await intances.delete('lanes/' + laneId);
 };

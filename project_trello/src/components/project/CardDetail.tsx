@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Card } from '../../types/card.type';
+
 import { findAllCard } from '../../redux/reducer/cardSlice';
 import { Lane } from '../../types/lanes.type';
 interface CardDetailProps {

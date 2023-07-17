@@ -40,36 +40,45 @@
   "lanes": [
     {
       "id": 1,
-      "name": "Anh nhân tây hồ",
+      "title": "Anh nhân tây hồ",
       "boardId": 1
     },
     {
       "id": 2,
-      "name": "Thái Nam",
+      "title": "Thái Nam",
       "boardId": 1
+    },
+    {
+      "title": "Nhân nguyễn",
+      "boardId": 1,
+      "createdAt": 1689566093426,
+      "id": 3
     }
   ],
   "cards": [
     {
       "id": 1,
       "title": "nam",
-      "laneId": 2
+      "laneId": 1,
+      "order": 1
     },
     {
       "id": 2,
       "title": "abc",
-      "laneId": 1
+      "laneId": 2,
+      "order": 2
     },
     {
       "id": 3,
       "title": "xyz",
-      "laneId": 1
+      "laneId": 1,
+      "order": 3
     },
     {
-      "id": "be8ce740-2446-11ee-9a08-71eb2edf8bf1",
-      "title": "abcd",
+      "id": "8568cb20-245d-11ee-b6ae-ff2da0add68e",
+      "title": "aaa",
       "laneId": 2,
-      "createdAt": 1689559675857
+      "createdAt": 1689569458404
     }
   ]
 }

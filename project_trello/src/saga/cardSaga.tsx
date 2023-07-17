@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import {
+  CARD_DELETE_SERVICE,
   CARD_GET_SERVICE,
   CARD_PATCH_SERVICE,
   CARD_POST_SERVICE,
@@ -32,10 +33,19 @@ export const CARD_SAGA_PUT = function* (action: any) {
     console.log(error);
   }
 };
+
 export const CARD_SAGA_PATCH = function* (action: any) {
   try {
     yield call(CARD_PATCH_SERVICE, action.payload);
     // yield CARD_SAGA_GET();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const CARD_SAGA_DELETE = function* (action: any) {
+  try {
+    yield call(CARD_DELETE_SERVICE, action.payload);
   } catch (error) {
     console.log(error);
   }
