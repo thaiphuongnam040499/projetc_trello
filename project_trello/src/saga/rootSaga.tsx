@@ -17,6 +17,8 @@ export const rootSaga = function* () {
 
     takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
 
+    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PUT),
+
     takeLatest(cardSlice.deleteCard.type, cardSaga.CARD_SAGA_DELETE),
 
     takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PATCH),
@@ -28,6 +30,8 @@ export const rootSaga = function* () {
     takeLatest(laneSlice.findAllList.type, laneSaga.LIST_SAGA_GET),
 
     takeLatest(laneSlice.updateLane.type, laneSaga.LIST_SAGA_PUT),
+
+    takeLatest(laneSlice.updateLane.type, laneSaga.LANE_SAGA_PATCH),
 
     takeLatest(laneSlice.deleteLane.type, laneSaga.LANE_SAGA_DELETE),
 

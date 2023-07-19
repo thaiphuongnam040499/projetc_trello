@@ -1,14 +1,14 @@
 import React from 'react';
+import { Card } from 'react-trello-ts/dist/types/Board';
 
-export default function ModalCard() {
+interface ModalCardProps {
+  card: Card | null;
+  close: () => void;
+}
+
+export default function ModalCard({ card, close }: ModalCardProps) {
   return (
-    <div
-      className="modal fade"
-      id="exampleModal"
-      tabIndex={-1}
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div className={`${card ? 'on' : 'off'} showModal`}>
       <div className="modal-dialog card-modal">
         <div className="modal-content card-modal-content">
           <div className="modal-header">
@@ -17,6 +17,7 @@ export default function ModalCard() {
             </h5>
             <button
               type="button"
+              onClick={close}
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
@@ -68,14 +69,15 @@ export default function ModalCard() {
             <form className="create-tag">
               <div className="ms-3 ps-2 px-2 mb-2">
                 <p>Thêm vào thẻ</p>
-                <div className="dropdown">
+                <div className="dropdown ">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2 text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-person me-2"></i>
                     Thành viên
                   </button>
                   <ul
@@ -101,12 +103,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-tag me-2"></i>
                     Nhãn
                   </button>
                   <ul
@@ -132,12 +135,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-check2-square me-2"></i>
                     Việc cần làm
                   </button>
                   <ul
@@ -163,12 +167,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-clock me-2"></i>
                     Ngày
                   </button>
                   <ul
@@ -194,12 +199,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-paperclip me-2"></i>
                     Đính kèm
                   </button>
                   <ul
@@ -225,12 +231,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-card-image me-2"></i>
                     Ảnh bìa
                   </button>
                   <ul
@@ -256,12 +263,13 @@ export default function ModalCard() {
                 </div>
                 <div className="dropdown">
                   <button
-                    className="btn btn-light w-100 border rounded mb-2"
+                    className="btn btn-light w-100 border rounded mb-2  text-start"
                     type="button"
                     id="dropdownMenuButton1"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
+                    <i className="bi bi-sliders me-2"></i>
                     Trường tùy chỉnh
                   </button>
                   <ul
@@ -285,26 +293,6 @@ export default function ModalCard() {
                     </li>
                   </ul>
                 </div>
-              </div>
-              <div className="ms-3 ps-2 px-2 mb-2">
-                <p>Tiện ích bổ sung</p>
-                <button
-                  type="submit"
-                  className="btn btn-light w-100 text-start"
-                >
-                  <i className="bi bi-plus-lg mx-2"></i>
-                  Thêm tiện ích bổ sung
-                </button>
-              </div>
-              <div className="ms-3 ps-2 px-2 mb-2">
-                <p>Tự động hóa</p>
-                <button
-                  type="submit"
-                  className="btn btn-light w-100 text-start"
-                >
-                  <i className="bi bi-plus-lg mx-2"></i>
-                  Thêm nút
-                </button>
               </div>
               <div className="ms-3 ps-2 px-2 mb-2">
                 <p>Thao tác</p>

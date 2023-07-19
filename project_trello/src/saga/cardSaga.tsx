@@ -20,7 +20,6 @@ export const CARD_SAGA_GET = function* (): Generator<any, void, any> {
 export const CARD_SAGA_POST = function* (action: any) {
   try {
     yield call(CARD_POST_SERVICE, action.payload);
-    yield CARD_SAGA_GET();
   } catch (error) {
     console.log(error);
   }

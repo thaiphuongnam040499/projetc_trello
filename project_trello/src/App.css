@@ -74,7 +74,6 @@ p {
 .sidebar {
   width: 280px;
   margin: 0 !important;
-
   height: 100vh;
 }
 .img-table {
@@ -101,7 +100,8 @@ p {
   }
 }
 .sidebar-project {
-  height: 100vh;
+  overflow: hidden;
+  height: calc(100vh - 56px);
   background-color: #ece8f0;
   width: 280px;
 }
@@ -158,7 +158,6 @@ p {
   background-size: cover;
   width: 100%; */
   background-color: antiquewhite;
-  overflow-x: scroll;
 }
 .board:hover {
   cursor: pointer;
@@ -224,14 +223,33 @@ p {
   opacity: 0.5;
   filter: alpha(opacity=80);
 }
-
-/* .react-trello-lane {
-  background-color: #ece8f0;
+.showModal {
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  right: 400px;
+}
+.board-trello {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 56px);
+  /* overflow-x: scroll; */
+  /* overflow-y: none; */
 }
 
-.react-trello-card {
-  background-color: #ece8f0;
+.on {
+  transition: all ease-in 2s !important;
+  height: 100%;
+  opacity: 1;
 }
-.react-trello-board {
-  background-color: #ece8f0;
-} */
+
+.off {
+  transition: all ease-in 2s !important;
+  height: 0;
+  opacity: 0;
+}
+.input-create-card {
+  height: 50px;
+  margin-bottom: 5px;
+  padding: 6px;
+}

@@ -1,5 +1,6 @@
 export interface CardType {
-  name: string;
+  title: string;
   id: string;
-  listId: string;
+  laneId: string;
+  order: string;
 }

@@ -2,8 +2,8 @@ import { call, put } from 'redux-saga/effects';
 import { getAllList } from '../redux/reducer/laneSlice';
 import {
   LANE_DELETE_SERVICE,
+  LANE_PATCH_SERVICE,
   LIST_GET_SERVICE,
-  LIST_PATCH_SERVICE,
   LIST_POST_SERVICE,
   LIST_PUT_SERVICE,
 } from '../api/laneService';
@@ -20,6 +20,14 @@ export const LIST_SAGA_POST = function* (action: any) {
   try {
     yield call(LIST_POST_SERVICE, action.payload);
     yield LIST_SAGA_GET();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const LANE_SAGA_PATCH = function* (action: any) {
+  try {
+    yield call(LANE_PATCH_SERVICE, action.payload);
   } catch (error) {
     console.log(error);
   }

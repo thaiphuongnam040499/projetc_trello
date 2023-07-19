@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Board from 'react-trello-ts';
-import { RootState } from '../../redux/store';
-import { useDispatch } from 'react-redux';
-import * as laneSlice from '../../redux/reducer/laneSlice';
-import HeaderProject from './HeaderProject';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import * as laneSlice from '../../redux/reducer/laneSlice';
 import * as cardSlice from '../../redux/reducer/cardSlice';
+import HeaderProject from './HeaderProject';
 import { CardType } from '../../types/card.type';
-import { BoardData, Lane, Card } from '../../types/lanes.type';
+import { BoardData, Card, Lane } from '../../types/lanes.type';
+import ModalCard from './ModalCard';
+import '../../assets/react-trello.css';
+import CreateCard from './CreateCard';
+import CreateLane from './CreateLane';
 
 const initialState: BoardData = {
   lanes: [],
 };
+interface Promise<T> {
+  /**
+   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+   * resolved value cannot be modified from the callback.
+   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+   * @returns A Promise for the completion of the callback.
+   */
+  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+}
 
 export default function BoardTrello() {
   const [data, setData] = useState<BoardData>(initialState);
+  const [currentCard, setCurrentCard] = useState<Card | null>(null);
 
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
-
   const cards = useSelector((state: RootState) => state.card.listCard);
 
   const location = useLocation();
@@ -39,6 +52,8 @@ export default function BoardTrello() {
           id: lanes[i].id,
           title: lanes[i].title,
           cards: [],
+          boardId: lanes[i].boardId,
+          order: lanes[i].order,
         };
 
         for (let j = 0; j < cards.length; j++) {
@@ -47,11 +62,15 @@ export default function BoardTrello() {
               id: cards[j].id,
               title: cards[j].title,
               draggable: true,
+              laneId: cards[j].laneId,
+              order: cards[j].order,
             };
             laneData.cards.push(cardData);
           }
         }
+        laneData.cards.sort((a: any, b: any) => a.order - b.order);
         arr.push(laneData);
+        arr.sort((a: any, b: any) => a.order - b.order);
       }
       setData({
         lanes: arr,
@@ -66,32 +85,36 @@ export default function BoardTrello() {
     // console.log(`laneId: ${laneId}`);
   };
 
-  const handleDragEnd = (cardId: any, sourceLaneId: any, targetLaneId: any) => {
-    const uCard = cards.find((card) => card.id === cardId);
-    if (uCard) {
-      const updatedCardData = {
-        ...uCard,
-        laneId: targetLaneId,
-      };
-      dispatch(cardSlice.updateCard(updatedCardData));
-    }
-  };
-  const handleAddCard = (cards: CardType) => {
-    dispatch(cardSlice.create(cards));
-  };
-
-  const handleClick = (cardId: any) => {
-    // const cardElement = document.getElementById(cardId);
-    // if (cardElement) {
-    //   cardElement.classList.add('btn btn-dark');
+  const handleDragEnd = (
+    cardId: any,
+    sourceLaneId: any,
+    targetLaneId: any,
+    index: any
+  ) => {
+    // const uCard = cards.find((card) => card.id === cardId);
+    // if (uCard) {
+    //   const updatedCardData = {
+    //     ...uCard,
+    //     laneId: targetLaneId,
+    //     order: index,
+    //   };
+    //   dispatch(cardSlice.updateCard(updatedCardData));
     // }
   };
 
-  const settings = {
-    editable: true,
-    canAddLanes: true,
-    editLaneTitle: true,
-    draggable: true,
+  const handleAddCard = (cards: CardType) => {
+    let cardArr = getCardsByLaneId(cards.laneId);
+    let card = {
+      id: cards.id,
+      title: cards.title,
+      order: cardArr.length,
+      laneId: cards.laneId,
+    };
+    dispatch(cardSlice.create(card));
+  };
+
+  const handleCardClick = (cardId: Card['id'], metadata: any, card: Card) => {
+    setCurrentCard(card);
   };
 
   const onLaneAdd = (params: Lane) => {
@@ -108,41 +131,129 @@ export default function BoardTrello() {
     dispatch(cardSlice.deleteCard(cardId));
   };
 
-  const onLaneDelete = (laneId: any) => {
-    dispatch(laneSlice.deleteLane(laneId));
+  const handleUpdateCard = (cardId: any, data: Card) => {
+    const card = cards.find((card) => card.id === cardId);
+    if (!card) return;
+
+    const updatedCard = {
+      ...card,
+      title: data.title,
+    };
+    dispatch(cardSlice.updateCard(updatedCard));
   };
 
-  const handleUpdateCard = (cardId: any, cardUp: Card) => {
-    const uCard = cards.find((card) => card.id === cardId);
-    if (uCard) {
-      const updatedCard = {
-        ...uCard,
-        title: cardUp.title,
-      };
-      dispatch(cardSlice.updateCard(updatedCard));
+  const move = (arr: Card[], old_index: number, new_index: number) => {
+    while (old_index < 0) {
+      old_index += arr.length;
     }
-    console.log(cardUp.name);
+    while (new_index < 0) {
+      new_index += arr.length;
+    }
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length;
+      while (k-- + 1) {
+        // arr.push();
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr;
+  };
+
+  const checkExit = (card: Card, cards: Card[]) => {
+    return cards.find((item) => card.id === item.id);
+  };
+
+  const getCardsByLaneId = (laneId: string): Card[] => {
+    let lane = data.lanes.find((lane) => lane.id === laneId);
+    if (!lane) return [];
+
+    return lane.cards || [];
+  };
+
+  const onCardMoveAcrossLanes = (
+    fromLaneId: string,
+    toLaneId: string,
+    cardId: string,
+    index: string
+  ) => {
+    let toLaneCards: Card[] = getCardsByLaneId(toLaneId);
+    if (!toLaneCards) return;
+    let fromLaneCards: Card[] = getCardsByLaneId(fromLaneId);
+    let selectCard = fromLaneCards.find((card) => card.id === cardId);
+    if (!selectCard) return;
+
+    selectCard.laneId = toLaneId;
+    if (checkExit(selectCard, toLaneCards)) {
+      move(toLaneCards, toLaneCards.indexOf(selectCard), parseInt(index));
+    } else {
+      toLaneCards.splice(parseInt(index), 0, selectCard);
+      fromLaneCards.splice(fromLaneCards.indexOf(selectCard), 1);
+    }
+
+    for (let i = 0; i < toLaneCards.length; i++) {
+      let laneId: number = Number(toLaneCards[i].laneId);
+      let card = {
+        id: toLaneCards[i].id,
+        title: toLaneCards[i].title,
+        order: i,
+        laneId: laneId,
+      };
+      dispatch(cardSlice.updateCard(card));
+    }
+  };
+
+  const handleLaneDragEnd = (removeIndex: number, addedIndex: number) => {
+    let dragLane = data.lanes[removeIndex];
+    let lane = {
+      id: dragLane.id,
+      title: dragLane.title,
+      boardId: dragLane.boardId,
+      order: addedIndex,
+    };
+    dispatch(laneSlice.updateLane(lane));
+    let beDraggedLane = data.lanes[addedIndex];
+    let beLane = {
+      id: beDraggedLane.id,
+      title: beDraggedLane.title,
+      boardId: beDraggedLane.boardId,
+      order: removeIndex,
+    };
+    dispatch(laneSlice.updateLane(beLane));
+  };
+
+  const closeModal = () => {
+    setCurrentCard(null);
   };
 
   return (
     <div className="w-100 board-trello">
       <HeaderProject />
       <Board
+        components={{
+          NewCardForm: CreateCard,
+          NewLaneForm: CreateLane,
+        }}
+        className="board"
+        data={data}
+        laneDraggable
+        cardDraggable
+        editable
+        canAddLanes
+        editLaneTitle
+        draggable
         onCardAdd={(card: any) => handleAddCard(card)}
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
+        handleLaneDragEnd={(removeIndex: any, addedIndex: any) =>
+          handleLaneDragEnd(removeIndex, addedIndex)
+        }
         onLaneAdd={(params: any) => onLaneAdd(params)}
         onCardDelete={onCardDelete}
-        onLaneDelete={() => onLaneDelete}
-        onCardUpdate={(cardId: any, data: any) =>
-          handleUpdateCard(cardId, data)
-        }
-        laneDraggable
-        cardDraggable
-        data={data}
-        {...settings}
-        onCardClick={handleClick}
+        onCardUpdate={handleUpdateCard}
+        onCardMoveAcrossLanes={onCardMoveAcrossLanes}
+        onCardClick={handleCardClick}
       />
+      {currentCard && <ModalCard card={currentCard} close={closeModal} />}
     </div>
   );
 }

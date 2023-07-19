@@ -13,7 +13,7 @@ export const CARD_PUT_SERVICE = async (data: any) => {
 };
 
 export const CARD_PATCH_SERVICE = async (data: any) => {
-  await intances.patch('cards/' + data.id, { laneId: data.laneId });
+  await intances.patch('cards/' + data.id, data);
 };
 
 export const CARD_DELETE_SERVICE = async (cardId: any) => {
