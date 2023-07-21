@@ -18,8 +18,8 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <div className="">
-      <div className="flex-shrink-0 p-3 sidebar border-end border-start border-secondary">
+    <div className="ms-5 pt-5">
+      <div className="flex-shrink-0 p-3 sidebar border-secondary">
         <ul className="list-unstyled ps-0">
           <NavLink to={'/home/contentBoard'} className="mb-1">
             <button

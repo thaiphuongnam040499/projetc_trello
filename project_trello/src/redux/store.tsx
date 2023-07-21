@@ -6,6 +6,8 @@ import cardSlice from './reducer/cardSlice';
 import workingSpaceSlice from './reducer/workingSpaceSlice';
 import boardSlice from './reducer/boardSlice';
 import laneSlice from './reducer/laneSlice';
+import listTaskSlice from './reducer/listTaskSlice';
+import taskSlice from './reducer/taskSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -15,6 +17,8 @@ const store = configureStore({
     lanes: laneSlice,
     workingSpace: workingSpaceSlice,
     board: boardSlice,
+    listTask: listTaskSlice,
+    task: taskSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

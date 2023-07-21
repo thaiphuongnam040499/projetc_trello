@@ -1,20 +1,42 @@
 import React from 'react';
 import { Card } from 'react-trello-ts/dist/types/Board';
+import CreateListTask from './CreateListTask';
+import ModalCardBody from './ModalCardBody';
+import { Lane } from '../../types/lanes.type';
 
 interface ModalCardProps {
-  card: Card | null;
+  cardId: string;
   close: () => void;
+  cards: Card[];
+  lanes: Lane[];
 }
 
-export default function ModalCard({ card, close }: ModalCardProps) {
+export default function ModalCard({
+  cardId,
+  close,
+  cards,
+  lanes,
+}: ModalCardProps) {
+  const cardDetail = cards.find((item) => item.id === cardId);
+
   return (
-    <div className={`${card ? 'on' : 'off'} showModal`}>
-      <div className="modal-dialog card-modal">
-        <div className="modal-content card-modal-content">
+    <div className="showModal">
+      <div className="modal-dialog card-modal ">
+        <div className="modal-content card-modal-content ">
           <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalLabel">
-              Lập kế hoạch dự án
-            </h5>
+            {lanes.map((lane) => {
+              if (lane.id === cardDetail?.laneId) {
+                return (
+                  <div key={lane.id}>
+                    <h5 className="modal-title" id="exampleModalLabel">
+                      {cardDetail?.title}
+                    </h5>
+                    <p>Trong danh sách {lane.title}</p>
+                  </div>
+                );
+              }
+            })}
+
             <button
               type="button"
               onClick={close}
@@ -23,49 +45,8 @@ export default function ModalCard({ card, close }: ModalCardProps) {
               aria-label="Close"
             />
           </div>
-          <div className="modal-body d-flex">
-            <form className="card-modal-body">
-              <div className="ms-3 ps-2 px-2 mb-2">
-                <p>Thông báo</p>
-                <button
-                  type="button"
-                  className="btn btn-light border rounded"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  <i className="bi bi-eye"></i>
-                  Theo dõi
-                </button>
-              </div>
-              <div className="ps-2 px-2 mb-2">
-                <div className="d-flex">
-                  <i className="bi bi-justify-left me-2"></i>
-                  <h6>Mô tả</h6>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-light border rounded w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  Thêm mô tả chi tiết hơn
-                </button>
-              </div>
-              <div className="ps-2 px-2 mb-2">
-                <div className="d-flex">
-                  <i className="bi bi-body-text me-2"></i>
-                  <h6>Hoạt động</h6>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-light border rounded w-100"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  Viết bình luận...
-                </button>
-              </div>
-            </form>
+          <div className="modal-body modal-body-board d-flex">
+            <ModalCardBody cardId={cardId} />
             <form className="create-tag">
               <div className="ms-3 ps-2 px-2 mb-2">
                 <p>Thêm vào thẻ</p>
@@ -101,70 +82,7 @@ export default function ModalCard({ card, close }: ModalCardProps) {
                     </li>
                   </ul>
                 </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-tag me-2"></i>
-                    Nhãn
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-check2-square me-2"></i>
-                    Việc cần làm
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                <CreateListTask cardId={cardId} />
                 <div className="dropdown">
                   <button
                     className="btn btn-light w-100 border rounded mb-2  text-start"
@@ -205,72 +123,8 @@ export default function ModalCard({ card, close }: ModalCardProps) {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i className="bi bi-paperclip me-2"></i>
-                    Đính kèm
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
                     <i className="bi bi-card-image me-2"></i>
                     Ảnh bìa
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-sliders me-2"></i>
-                    Trường tùy chỉnh
                   </button>
                   <ul
                     className="dropdown-menu"

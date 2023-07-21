@@ -51,9 +51,9 @@ export default function ContentBoard() {
       {listWorkingSpace &&
         listWorkingSpace.map((workingSpace: WorkingSpaceType) => {
           return (
-            <div key={workingSpace.id} className="history mt-5">
+            <div key={workingSpace.id} className="history mt-5 ">
               <h5>Không gian làm việc của {workingSpace.name}</h5>
-              <div className="d-flex">
+              <div className="d-flex flex-wrap">
                 {listBoard &&
                   listBoard.map((board: BoardType) => {
                     if (board.workingSpaceId === workingSpace.id) {
@@ -61,7 +61,7 @@ export default function ContentBoard() {
                         <div
                           onClick={() => handleClick(board.id)}
                           key={board.id}
-                          className="card bg-dark text-white me-2 board"
+                          className="card bg-dark text-white me-2 mb-2 board"
                         >
                           <div className="card-img-overlay">
                             <h5 className="card-title">{board.name}</h5>

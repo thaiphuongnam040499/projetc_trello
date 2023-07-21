@@ -10,9 +10,9 @@ export default function Main_layout() {
   const isHome =
     location.pathname === '/home' || location.pathname === '/home/contentBoard';
   return (
-    <div>
+    <div className="home">
       <Navbar />
-      <div className={`${isHome ? 'container' : ''} d-flex`}>
+      <div className={`${isHome ? 'container' : ''} d-flex `}>
         {isHome ? <Sidebar /> : <SidebarProject />}
         <Outlet />
       </div>

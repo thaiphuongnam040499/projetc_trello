@@ -13,6 +13,7 @@ import ModalCard from './ModalCard';
 import '../../assets/react-trello.css';
 import CreateCard from './CreateCard';
 import CreateLane from './CreateLane';
+import { url } from 'inspector';
 
 const initialState: BoardData = {
   lanes: [],
@@ -29,19 +30,14 @@ interface Promise<T> {
 
 export default function BoardTrello() {
   const [data, setData] = useState<BoardData>(initialState);
-  const [currentCard, setCurrentCard] = useState<Card | null>(null);
-
+  const [currentCard, setCurrentCard] = useState<Card['id'] | null>(null);
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const cards = useSelector((state: RootState) => state.card.listCard);
-
   const location = useLocation();
 
   useEffect(() => {
     dispatch(cardSlice.findAllCard());
-  }, []);
-
-  useEffect(() => {
-    dispatch(laneSlice.findAllList());
+    dispatch(laneSlice.findAllLane());
   }, []);
 
   useEffect(() => {
@@ -114,12 +110,12 @@ export default function BoardTrello() {
   };
 
   const handleCardClick = (cardId: Card['id'], metadata: any, card: Card) => {
-    setCurrentCard(card);
+    setCurrentCard(cardId);
   };
 
   const onLaneAdd = (params: Lane) => {
     dispatch(
-      laneSlice.createList({
+      laneSlice.createLane({
         id: params.id,
         title: params.title,
         boardId: location.state.boardId,
@@ -166,7 +162,6 @@ export default function BoardTrello() {
   const getCardsByLaneId = (laneId: string): Card[] => {
     let lane = data.lanes.find((lane) => lane.id === laneId);
     if (!lane) return [];
-
     return lane.cards || [];
   };
 
@@ -229,6 +224,9 @@ export default function BoardTrello() {
     <div className="w-100 board-trello">
       <HeaderProject />
       <Board
+        style={{
+          backgroundColor: 'transparent',
+        }}
         components={{
           NewCardForm: CreateCard,
           NewLaneForm: CreateLane,
@@ -253,7 +251,14 @@ export default function BoardTrello() {
         onCardMoveAcrossLanes={onCardMoveAcrossLanes}
         onCardClick={handleCardClick}
       />
-      {currentCard && <ModalCard card={currentCard} close={closeModal} />}
+      {currentCard && (
+        <ModalCard
+          cardId={currentCard}
+          close={closeModal}
+          cards={cards}
+          lanes={lanes}
+        />
+      )}
     </div>
   );
 }

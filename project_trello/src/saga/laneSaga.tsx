@@ -1,5 +1,4 @@
 import { call, put } from 'redux-saga/effects';
-import { getAllList } from '../redux/reducer/laneSlice';
 import {
   LANE_DELETE_SERVICE,
   LANE_PATCH_SERVICE,
@@ -7,11 +6,12 @@ import {
   LIST_POST_SERVICE,
   LIST_PUT_SERVICE,
 } from '../api/laneService';
+import { getAllLane } from '../redux/reducer/laneSlice';
 
 export function* LIST_SAGA_GET(): Generator<any, void, any> {
   try {
     let list = yield call(LIST_GET_SERVICE);
-    yield put(getAllList(list));
+    yield put(getAllLane(list));
   } catch (error) {
     console.log(error);
   }

@@ -1,5 +1,4 @@
 import { all, takeLatest } from 'redux-saga/effects';
-
 import * as userSaga from './userSaga';
 import * as userSlice from '../redux/reducer/userSlice';
 import * as cardSlice from '../redux/reducer/cardSlice';
@@ -10,6 +9,10 @@ import * as workingSpaceSlice from '../redux/reducer/workingSpaceSlice';
 import * as workingSpaceSaga from './workingSpaceSaga';
 import * as boardSlice from '../redux/reducer/boardSlice';
 import * as boardSaga from './boardSaga';
+import * as listTaskSlice from '../redux/reducer/listTaskSlice';
+import * as listTaskSaga from './listTaskSaga';
+import * as taskSlice from '../redux/reducer/taskSlice';
+import * as taskSaga from './taskSaga';
 
 export const rootSaga = function* () {
   yield all([
@@ -25,9 +28,9 @@ export const rootSaga = function* () {
 
     takeLatest(cardSlice.findAllCard.type, cardSaga.CARD_SAGA_GET),
 
-    takeLatest(laneSlice.createList.type, laneSaga.LIST_SAGA_POST),
+    takeLatest(laneSlice.createLane.type, laneSaga.LIST_SAGA_POST),
 
-    takeLatest(laneSlice.findAllList.type, laneSaga.LIST_SAGA_GET),
+    takeLatest(laneSlice.findAllLane.type, laneSaga.LIST_SAGA_GET),
 
     takeLatest(laneSlice.updateLane.type, laneSaga.LIST_SAGA_PUT),
 
@@ -50,5 +53,23 @@ export const rootSaga = function* () {
     takeLatest(boardSlice.createBoard.type, boardSaga.BOARD_SAGA_POST),
 
     takeLatest(boardSlice.findAllBoard.type, boardSaga.BOARD_SAGA_GET),
+
+    takeLatest(
+      listTaskSlice.findAllListTask.type,
+      listTaskSaga.LISTTASK_SAGA_GET
+    ),
+
+    takeLatest(
+      listTaskSlice.createListTask.type,
+      listTaskSaga.LISTTASK_SAGA_POST
+    ),
+
+    takeLatest(listTaskSlice.updateListTask.type, taskSaga.TASK_SAGA_PATCH),
+
+    takeLatest(taskSlice.findAllTask.type, taskSaga.TASK_SAGA_GET),
+
+    takeLatest(taskSlice.createTask.type, taskSaga.TASK_SAGA_POST),
+
+    takeLatest(taskSlice.updateTask.type, taskSaga.TASK_SAGA_PATCH),
   ]);
 };

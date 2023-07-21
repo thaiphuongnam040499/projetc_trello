@@ -3,7 +3,7 @@ import React from 'react';
 export default function SidebarProject() {
   return (
     <div>
-      <div className="flex-shrink-0 p-3 sidebar sidebar-project">
+      <div className="flex-shrink-0 p-3 sidebar sidebar-project border-end">
         <ul className="list-unstyled ps-0">
           <li>
             <p>Không gian làm việc của Phương Nam</p>

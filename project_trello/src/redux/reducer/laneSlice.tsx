@@ -13,9 +13,9 @@ export const listSlice = createSlice({
   name: 'lanes',
   initialState: initialState,
   reducers: {
-    createList: (state, action) => {},
-    findAllList: () => {},
-    getAllList: (state, action) => {
+    createLane: (state, action) => {},
+    findAllLane: () => {},
+    getAllLane: (state, action) => {
       state.lanes = action.payload;
     },
     updateLane: (state, action) => {},
@@ -23,5 +23,5 @@ export const listSlice = createSlice({
   },
 });
 export default listSlice.reducer;
-export const { createList, findAllList, getAllList, updateLane, deleteLane } =
+export const { createLane, findAllLane, getAllLane, updateLane, deleteLane } =
   listSlice.actions;
