@@ -13,3 +13,7 @@ export const TASK_POST_SERVICE = async (data: TaskType) => {
 export const TASK_PATCH_SERVICE = async (data: any) => {
   await intances.patch('tasks/' + data.id, data);
 };
+
+export const TASK_DELETE_SERVICE = async (id: any) => {
+  await intances.delete('tasks/' + id);
+};

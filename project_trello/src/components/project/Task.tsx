@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { updateListTask } from '../../redux/reducer/listTaskSlice';
+import TaskOption from './TaskOption';
 
 interface TaskProps {
   listTask: ListTask;
@@ -25,7 +26,26 @@ const initialState = {
 export default function Task({ listTask }: TaskProps) {
   const [isInputCreate, setIsInputCreate] = useState(false);
   const [task, setTask] = useState<TaskType>(initialState);
-  const [complete, setComplete] = useState(0);
+
+  useEffect(() => {
+    dispatch(findAllTask());
+  }, []);
+
+  useEffect(() => {
+    if (listTask.complete === 100) {
+      let uListTask = {
+        ...listTask,
+        status: true,
+      };
+      dispatch(updateListTask(uListTask));
+    } else {
+      let uListTask = {
+        ...listTask,
+        status: false,
+      };
+      dispatch(updateListTask(uListTask));
+    }
+  }, [listTask.complete]);
 
   const dispatch = useDispatch();
 
@@ -49,11 +69,7 @@ export default function Task({ listTask }: TaskProps) {
   };
   const tasks = useSelector((state: RootState) => state.task.tasks);
 
-  useEffect(() => {
-    dispatch(findAllTask());
-  }, []);
-
-  const handleCheckboxChange = (
+  const handleChangeStatus = (
     e: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => {
@@ -65,23 +81,62 @@ export default function Task({ listTask }: TaskProps) {
       status: newCheckedValue,
     };
     dispatch(updateTask(uTask));
+  };
+
+  const handleChangeComplete = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    const newCheckedValue = e.target.checked;
 
     let count = tasks.filter((task) => task.listTaskId === listTask.id).length;
     if (newCheckedValue) {
-      setComplete(complete + 100 / count);
+      let uListTask = {
+        ...listTask,
+        complete: listTask.complete + 100 / count,
+      };
+      dispatch(updateListTask(uListTask));
     } else {
-      setComplete(complete - 100 / count);
+      let uListTask = {
+        ...listTask,
+        complete: listTask.complete - 100 / count,
+      };
+      dispatch(updateListTask(uListTask));
     }
+  };
+
+  const handleChangeStatusListTask = () => {
+    if (listTask.complete === 100) {
+      let uListTask = {
+        ...listTask,
+        status: true,
+      };
+      dispatch(updateListTask(uListTask));
+    } else {
+      let uListTask = {
+        ...listTask,
+        status: false,
+      };
+      dispatch(updateListTask(uListTask));
+    }
+  };
+
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => {
+    handleChangeComplete(e, id);
+    handleChangeStatus(e, id);
   };
 
   return (
     <div className="ps-2 px-2 mb-2">
-      <span>{complete}%</span>
+      <span>{listTask.complete}%</span>
       <div className="progress mb-2">
         <div
           className="progress-bar bg-success"
           role="progressbar"
-          style={{ width: `${complete}%` }}
+          style={{ width: `${listTask.complete}%` }}
           aria-valuenow={0}
           aria-valuemin={0}
           aria-valuemax={100}
@@ -90,15 +145,18 @@ export default function Task({ listTask }: TaskProps) {
       {tasks.map((task) => {
         if (task.listTaskId === listTask.id) {
           return (
-            <div key={task.id} className="d-flex">
-              <input
-                type="checkbox"
-                name="agreement"
-                checked={task.status}
-                className="me-2"
-                onChange={(e) => handleCheckboxChange(e, task.id)}
-              />
-              <p className="">{task.name}</p>
+            <div key={task.id} className="d-flex justify-content-between tasks">
+              <div className="d-flex align-items-center">
+                <input
+                  type="checkbox"
+                  name="agreement"
+                  checked={task.status}
+                  className="me-2 ms-2"
+                  onChange={(e) => handleCheckboxChange(e, task.id)}
+                />
+                <p className="">{task.name}</p>
+              </div>
+              <TaskOption task={task} />
             </div>
           );
         }

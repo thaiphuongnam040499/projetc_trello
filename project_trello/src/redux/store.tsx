@@ -8,6 +8,7 @@ import boardSlice from './reducer/boardSlice';
 import laneSlice from './reducer/laneSlice';
 import listTaskSlice from './reducer/listTaskSlice';
 import taskSlice from './reducer/taskSlice';
+import dateTimeSlice from './reducer/dateTimeSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
     board: boardSlice,
     listTask: listTaskSlice,
     task: taskSlice,
+    dateTime: dateTimeSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

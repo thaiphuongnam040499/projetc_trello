@@ -19,8 +19,9 @@ export const taskSlice = createSlice({
     },
     findAllTask: () => {},
     updateTask: (state, action) => {},
+    deleteTask: (state, action) => {},
   },
 });
 export default taskSlice.reducer;
-export const { createTask, getAllTask, findAllTask, updateTask } =
+export const { createTask, getAllTask, findAllTask, updateTask, deleteTask } =
   taskSlice.actions;

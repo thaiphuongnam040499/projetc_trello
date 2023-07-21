@@ -19,6 +19,7 @@ export const listTaskSlice = createSlice({
       state.listTask = action.payload;
     },
     updateListTask: (state, action) => {},
+    deleteListTask: (state, action) => {},
   },
 });
 export default listTaskSlice.reducer;
@@ -27,4 +28,5 @@ export const {
   findAllListTask,
   getAllListTask,
   updateListTask,
+  deleteListTask,
 } = listTaskSlice.actions;

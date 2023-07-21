@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import {
+  TASK_DELETE_SERVICE,
   TASK_GET_SERVICE,
   TASK_PATCH_SERVICE,
   TASK_POST_SERVICE,
@@ -29,7 +30,19 @@ export const TASK_SAGA_POST = function* (action: any) {
 export const TASK_SAGA_PATCH = function* (action: PayloadAction<TaskType>) {
   try {
     yield call(TASK_PATCH_SERVICE, action.payload);
+    yield TASK_SAGA_GET();
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const TASK_SAGA_DELETE = function* (action: PayloadAction<string>) {
+  {
+    try {
+      yield call(TASK_DELETE_SERVICE, action.payload);
+      yield TASK_SAGA_GET();
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

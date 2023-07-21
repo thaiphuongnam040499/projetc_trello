@@ -13,6 +13,8 @@ import * as listTaskSlice from '../redux/reducer/listTaskSlice';
 import * as listTaskSaga from './listTaskSaga';
 import * as taskSlice from '../redux/reducer/taskSlice';
 import * as taskSaga from './taskSaga';
+import * as dateTimeSlice from '../redux/reducer/dateTimeSlice';
+import * as dateTimeSaga from './dateTimeSaga';
 
 export const rootSaga = function* () {
   yield all([
@@ -64,12 +66,42 @@ export const rootSaga = function* () {
       listTaskSaga.LISTTASK_SAGA_POST
     ),
 
-    takeLatest(listTaskSlice.updateListTask.type, taskSaga.TASK_SAGA_PATCH),
+    takeLatest(
+      listTaskSlice.updateListTask.type,
+      listTaskSaga.LISTTASK_SAGA_PATCH
+    ),
+
+    takeLatest(
+      listTaskSlice.deleteListTask.type,
+      listTaskSaga.LISTTASK_SAGA_DELETE
+    ),
 
     takeLatest(taskSlice.findAllTask.type, taskSaga.TASK_SAGA_GET),
 
     takeLatest(taskSlice.createTask.type, taskSaga.TASK_SAGA_POST),
 
     takeLatest(taskSlice.updateTask.type, taskSaga.TASK_SAGA_PATCH),
+
+    takeLatest(taskSlice.deleteTask.type, taskSaga.TASK_SAGA_DELETE),
+
+    takeLatest(
+      dateTimeSlice.findAllDateTime.type,
+      dateTimeSaga.DATETIME_SAGA_GET
+    ),
+
+    takeLatest(
+      dateTimeSlice.createDateTime.type,
+      dateTimeSaga.DATETIME_SAGA_POST
+    ),
+
+    takeLatest(
+      dateTimeSlice.updateDateTime.type,
+      dateTimeSaga.DATETIME_SAGA_PATCH
+    ),
+
+    takeLatest(
+      dateTimeSlice.deleteDateTime.type,
+      dateTimeSaga.DATETIME_SAGA_DELETE
+    ),
   ]);
 };

@@ -3,10 +3,18 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ListTask } from '../../types/listTask.type';
 import { useDispatch } from 'react-redux';
-import { findAllListTask } from '../../redux/reducer/listTaskSlice';
+import {
+  deleteListTask,
+  findAllListTask,
+} from '../../redux/reducer/listTaskSlice';
 import Task from './Task';
 import { createTask, findAllTask } from '../../redux/reducer/taskSlice';
 import { TaskType } from '../../types/task.type';
+import {
+  findAllDateTime,
+  updateDateTime,
+} from '../../redux/reducer/dateTimeSlice';
+import { DateTime } from '../../types/dateTime.type';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -22,6 +30,16 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowDis, setIsShowDis] = useState(false);
   const dispatch = useDispatch();
+  const listTask = useSelector((state: RootState) => state.listTask.listTask);
+  const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
+
+  useEffect(() => {
+    dispatch(findAllDateTime());
+  }, []);
+
+  useEffect(() => {
+    dispatch(findAllListTask());
+  }, []);
 
   const handleShowComment = () => {
     setIsShowComment(true);
@@ -31,25 +49,60 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
     setIsShowDis(true);
   };
 
-  useEffect(() => {
-    dispatch(findAllListTask());
-  }, []);
+  const handleDeleteListTask = (
+    e: React.FormEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    e.preventDefault();
+    dispatch(deleteListTask(id));
+  };
 
-  const listTask = useSelector((state: RootState) => state.listTask.listTask);
+  const handleChangeStatus = (
+    dateTime: DateTime,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newCheckedValue = e.target.checked;
+    let uDateTime = {
+      ...dateTime,
+      status: newCheckedValue,
+    };
+    dispatch(updateDateTime(uDateTime));
+  };
 
   return (
     <form className="card-modal-body">
-      <div className="ms-3 ps-2 px-2 mb-2">
-        <p>Thông báo</p>
-        <button
-          type="button"
-          className="btn btn-light border rounded"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          <i className="bi bi-eye"></i>
-          Theo dõi
-        </button>
+      <div className="ms-3 ps-2 px-2 mb-2 d-flex">
+        <div className="me-3">
+          <p>Thông báo</p>
+          <button type="button" className="btn btn-light border rounded">
+            <i className="bi bi-eye"></i>
+            Theo dõi
+          </button>
+        </div>
+        {dateTimes.map((dateTime: DateTime) => {
+          if (dateTime.cardId === cardId) {
+            let date = new Date(dateTime.expirationDate);
+            return (
+              <div>
+                <p>Ngày hết hạn</p>
+                <input
+                  type="checkbox"
+                  className="me-2"
+                  checked={dateTime.status}
+                  onChange={(e) => handleChangeStatus(dateTime, e)}
+                />
+                <button type="button" className="btn btn-light border rounded">
+                  {`${date.getDate()}/${date.getMonth()}/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
+                  {dateTime.status ? (
+                    <span className="bg-success ms-2 text-white">Hoàn tất</span>
+                  ) : (
+                    <p></p>
+                  )}
+                </button>
+              </div>
+            );
+          }
+        })}
       </div>
       <div className="ps-2 px-2 mb-2">
         <div className="d-flex">
@@ -96,7 +149,10 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
                       <button className="btn btn-light border rounded me-2">
                         Ẩn danh sách đã chọn
                       </button>
-                      <button className="btn btn-light border rounded">
+                      <button
+                        className="btn btn-light border rounded"
+                        onClick={(e) => handleDeleteListTask(e, listTask.id)}
+                      >
                         Xóa
                       </button>
                     </div>

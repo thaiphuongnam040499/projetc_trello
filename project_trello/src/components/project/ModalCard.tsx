@@ -3,6 +3,7 @@ import { Card } from 'react-trello-ts/dist/types/Board';
 import CreateListTask from './CreateListTask';
 import ModalCardBody from './ModalCardBody';
 import { Lane } from '../../types/lanes.type';
+import CreateDateTime from './CreateDateTime';
 
 interface ModalCardProps {
   cardId: string;
@@ -83,38 +84,7 @@ export default function ModalCard({
                   </ul>
                 </div>
                 <CreateListTask cardId={cardId} />
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-clock me-2"></i>
-                    Ngày
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                <CreateDateTime cardId={cardId} />
                 <div className="dropdown">
                   <button
                     className="btn btn-light w-100 border rounded mb-2  text-start"

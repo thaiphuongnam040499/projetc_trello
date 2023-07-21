@@ -278,3 +278,15 @@ p {
 .progress {
   height: 8px;
 }
+
+.tasks:hover {
+  cursor: pointer;
+  background-color: #091e4224;
+}
+
+.input-date {
+  height: 40px;
+}
+.date-time {
+  border-radius: 15px;
+}
