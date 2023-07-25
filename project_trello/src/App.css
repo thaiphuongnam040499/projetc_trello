@@ -244,6 +244,9 @@ p {
   position: relative;
   overflow: hidden;
   height: calc(100vh - 56px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
 }
 
 .input-create-card {
@@ -289,4 +292,68 @@ p {
 }
 .date-time {
   border-radius: 15px;
+}
+/* .table-project {
+  overflow: visible;
+} */
+/* .table-body {
+  width: 100% !important;
+  height: 660px;
+  overflow-y: scroll;
+} */
+.member-input {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.list-member {
+  border-radius: 15px;
+}
+.list-member-input {
+  height: 40px;
+  padding: 8px;
+}
+.form-select {
+  width: 150px;
+}
+
+.modal-share {
+  width: 600px;
+  left: -50px;
+  top: 230px;
+}
+.btn-background {
+  width: 60px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.btn-background:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+.board {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.member-list {
+  width: 300px;
+  border-radius: 15px;
+}
+.search-user {
+  position: relative;
+}
+.show-user-search {
+  display: block;
+  position: absolute;
+  top: 90px;
+  background-color: white;
+  padding: 10px;
+  width: 265px;
+  border-radius: 10px;
+}
+.boards {
+  overflow-y: scroll;
+  height: 330px;
 }

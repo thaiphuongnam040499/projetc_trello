@@ -11,8 +11,9 @@ import ContentBoard from './components/yourBoard/ContentBoard';
 import SignUp from './pages/auth/SignUp';
 import HomeTrello from './pages/HomeTrello';
 import Home from './pages/app/Home';
-import HomeProject from './pages/app/HomeProject';
+
 import BoardTrello from './components/project/BoardTrello';
+import TableProject from './components/project/TableProject';
 function App() {
   return (
     <div>
@@ -28,7 +29,7 @@ function App() {
             <Route path="contentBoard" element={<ContentBoard />} />
           </Route>
           <Route path="/project/:boardId" element={<BoardTrello />} />
-          {/* <Route path="/project" element={<HomeProject />} /> */}
+          <Route path="/table" element={<TableProject />} />
         </Route>
       </Routes>
     </div>

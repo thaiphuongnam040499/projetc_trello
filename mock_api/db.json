@@ -9,6 +9,17 @@
       "givenName": "Phương Nam",
       "familyName": "Thái",
       "id": 1
+    },
+    {
+      "id": 2,
+      "email": "nhan@gmail.com",
+      "password": "Nhantic123",
+      "googleId": "",
+      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
+      "name": "",
+      "emagivenNamel": "",
+      "familyName": "",
+      "createdAt": 1690253399064
     }
   ],
   "workingSpace": [
@@ -19,6 +30,14 @@
       "userId": 1,
       "createdAt": 1689134632305,
       "id": 1
+    },
+    {
+      "name": "Nhân tic",
+      "type": "3",
+      "description": "abc",
+      "userId": 1,
+      "createdAt": 1689134632305,
+      "id": 2
     }
   ],
   "boards": [
@@ -27,70 +46,112 @@
       "name": "a",
       "workingSpaceId": 1,
       "workingSpaceName": "Thái Nam",
-      "createdAt": 1689155244594
+      "createdAt": 1689155244594,
+      "backgroundId": 1
     },
     {
       "id": 2,
       "name": "Anh nhân tây hồ",
       "workingSpaceId": 1,
       "workingSpaceName": "Thái Nam",
-      "createdAt": 1689493328723
+      "createdAt": 1689493328723,
+      "backgroundId": 1
     },
     {
       "id": 3,
       "name": "abcd",
       "workingSpaceId": 1,
       "workingSpaceName": "Thái Nam",
-      "createdAt": 1689749832881
+      "createdAt": 1689749832881,
+      "backgroundId": 1
     },
     {
       "id": 4,
       "name": "aaaaaaa",
       "workingSpaceId": 1,
       "workingSpaceName": "Thái Nam",
-      "createdAt": 1689749842496
+      "createdAt": 1689749842496,
+      "backgroundId": 1
     },
     {
       "id": 5,
       "name": "aaaaaaa",
       "workingSpaceId": 1,
       "workingSpaceName": "Thái Nam",
-      "createdAt": 1689749845488
+      "createdAt": 1689749845488,
+      "backgroundId": 1
     },
     {
       "id": 6,
       "name": "Anh nhân tập bơi",
       "workingSpaceId": 2,
       "workingSpaceName": "Nhân Tíc",
-      "createdAt": 1689750089602
+      "createdAt": 1689750089602,
+      "backgroundId": 1
     },
     {
       "id": 7,
       "name": "Anh nhân đánh đàn",
       "workingSpaceId": 2,
       "workingSpaceName": "Nhân Tíc",
-      "createdAt": 1689750102016
+      "createdAt": 1689750102016,
+      "backgroundId": 1
     },
     {
       "id": 8,
       "name": "Anh nhân đi xe đạp",
       "workingSpaceId": 2,
       "workingSpaceName": "Nhân Tíc",
-      "createdAt": 1689750114869
+      "createdAt": 1689750114869,
+      "backgroundId": 1
     },
     {
       "id": 9,
       "name": "Anh nhân đạp xích lô",
       "workingSpaceId": 2,
       "workingSpaceName": "Nhân Tíc",
-      "createdAt": 1689750123543
+      "createdAt": 1689750123543,
+      "backgroundId": 1
     },
     {
       "id": 10,
       "name": "Anh nhân nhảy qua vòng lửa",
       "workingSpaceId": 2,
       "workingSpaceName": "Nhân Tíc",
-      "createdAt": 1689750155437
+      "createdAt": 1689750155437,
+      "backgroundId": 1
+    },
+    {
+      "id": 12,
+      "name": "xxxx",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Thái Nam",
+      "backgroundId": 1,
+      "createdAt": 1690194138273
+    },
+    {
+      "id": 13,
+      "name": "Anh nhân",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Thái Nam",
+      "backgroundId": 2,
+      "createdAt": 1690194750602
+    },
+    {
+      "id": 14,
+      "name": "Anh về đê",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Thái Nam",
+      "backgroundId": 3,
+      "createdAt": 1690194820428
+    },
+    {
+      "id": 15,
+      "name": "aa",
+      "workingSpaceId": 2,
+      "workingSpaceName": "Nhân tic",
+      "backgroundId": 2,
+      "createdAt": 1690194895270
     }
   ],
   "lanes": [
@@ -141,32 +202,49 @@
     {
       "id": "6723c450-248d-11ee-abec-bbcc81d8c35f",
       "title": "anh nhân đỉnh quá",
-      "order": 1,
+      "order": 0,
       "laneId": 3
     },
     {
       "id": "2be78b40-2520-11ee-b3a7-192cb2dfe57b",
       "title": "abcd",
       "order": 0,
-      "laneId": 1
+      "laneId": 1,
+      "description": ""
     },
     {
       "id": "425ae400-2523-11ee-a7c5-97f408e1c7e3",
       "title": "hihi",
       "order": 1,
-      "laneId": 1
+      "laneId": 1,
+      "description": ""
     },
     {
       "id": "2d333cf0-2553-11ee-8ca8-05de4906fa09",
       "title": "aaaaaaaaaa",
       "order": 2,
-      "laneId": 1
+      "laneId": 1,
+      "description": ""
     },
     {
       "id": "37b47270-2553-11ee-8ca8-05de4906fa09",
       "title": "1111",
-      "order": 3,
-      "laneId": 1
+      "order": 1,
+      "laneId": 3
+    },
+    {
+      "id": "adcf0480-29bc-11ee-bb8c-4f97d97d947c",
+      "title": "thái nam",
+      "order": 0,
+      "laneId": 2,
+      "createdAt": 1690160084245,
+      "description": ""
+    },
+    {
+      "id": "825fd3a0-29bd-11ee-bb8c-4f97d97d947c",
+      "title": "a nhân merge code",
+      "order": 2,
+      "laneId": 3
     }
   ],
   "listTask": [
@@ -175,33 +253,31 @@
       "cardId": "37b47270-2553-11ee-8ca8-05de4906fa09",
       "name": "Việc cần làm",
       "status": false,
-      "createdAt": 1689820424961,
-      "complete": 0
+      "createdAt": 1689820424961
     },
     {
       "id": 4,
       "cardId": "425ae400-2523-11ee-a7c5-97f408e1c7e3",
       "name": "anh nhân dỗi",
       "status": false,
-      "createdAt": 1689836094600,
-      "complete": 0
+      "createdAt": 1689836094600
     },
     {
       "id": 5,
       "cardId": "425ae400-2523-11ee-a7c5-97f408e1c7e3",
       "name": "Nhân rất dỗi",
       "status": false,
-      "createdAt": 1689837132753,
-      "complete": 0
+      "createdAt": 1689837132753
+    },
+    {
+      "id": 6,
+      "cardId": "2be78b40-2520-11ee-b3a7-192cb2dfe57b",
+      "name": "assss",
+      "status": false,
+      "createdAt": 1690094152278
     }
   ],
   "tasks": [
-    {
-      "id": 1,
-      "listTaskId": 1,
-      "name": "Học react",
-      "status": false
-    },
     {
       "id": 3,
       "listTaskId": 4,
@@ -215,24 +291,80 @@
       "name": "anh nhân giỏi quá",
       "status": false,
       "createdAt": 1689935795533
+    },
+    {
+      "id": 5,
+      "listTaskId": 1,
+      "name": "Nhân tây hồ",
+      "status": false,
+      "createdAt": 1690174122513
+    },
+    {
+      "id": 6,
+      "listTaskId": 1,
+      "name": "aaaa",
+      "status": false,
+      "createdAt": 1690180674365
+    },
+    {
+      "id": 7,
+      "listTaskId": 1,
+      "name": "aaa",
+      "status": false,
+      "createdAt": 1690180880943
+    },
+    {
+      "id": 8,
+      "listTaskId": 7,
+      "name": "aa",
+      "status": false,
+      "createdAt": 1690184433998
+    },
+    {
+      "id": 9,
+      "listTaskId": 7,
+      "name": "bbb",
+      "status": false,
+      "createdAt": 1690184452952
     }
   ],
   "datetime": [
     {
       "id": 1,
-      "startDay": "2023-07-21",
-      "expirationDate": "2023-07-23T16:44",
-      "cardId": "425ae400-2523-11ee-a7c5-97f408e1c7e3",
+      "startDay": "2023-07-25",
+      "expirationDate": "2023-07-27T15:36",
+      "cardId": "37b47270-2553-11ee-8ca8-05de4906fa09",
       "status": false,
-      "createdAt": 1689932957603
+      "createdAt": 1690187789434
+    }
+  ],
+  "members": [
+    {
+      "id": 1,
+      "name": "",
+      "email": "nhan@gmail.com",
+      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
+      "workingSpaceId": 1,
+      "role": "Thành viên",
+      "createdAt": 1690273967918
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": 1,
+      "url": "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1536x1920/86f928f97149a372dfedcd824923f82c/photo-1688673678101-15195a13a44a.jpg"
     },
     {
       "id": 2,
-      "startDay": "2023-07-21",
-      "expirationDate": "2023-07-23T17:18",
-      "cardId": "2be78b40-2520-11ee-b3a7-192cb2dfe57b",
-      "status": false,
-      "createdAt": 1689934731941
+      "url": "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2048x1152/6ffa604bbf915842e02da30bbd2ad964/photo-1688232542797-c3e762c7e3c3.jpg"
+    },
+    {
+      "id": 3,
+      "url": "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1438x1920/5c52999be6e9d59846fed8bda407851d/photo-1655679152783-f4d22c72264a.jpg"
+    },
+    {
+      "id": 4,
+      "url": "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/7daf479b602c4266e5de1d4745fa275b/photo-1689613188405-a216e5a53fe8.jpg"
     }
   ]
 }

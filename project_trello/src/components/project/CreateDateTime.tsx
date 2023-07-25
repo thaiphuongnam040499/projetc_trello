@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DateTime } from '../../types/dateTime.type';
 import { useDispatch } from 'react-redux';
-import {
-  createDateTime,
-  findAllDateTime,
-} from '../../redux/reducer/dateTimeSlice';
+import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -26,7 +23,7 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(findAllDateTime());
+    dispatch(dateTimeSlice.findAllDateTime());
   }, []);
 
   useEffect(() => {
@@ -38,15 +35,17 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
 
   const handleCreateDateTime = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (dateTimes.length != 0) {
-      for (let i = 0; i < dateTimes.length; i++) {
-        if (dateTime.cardId === dateTimes[i].cardId) {
-          alert('update nha a nhân');
-        }
-        dispatch(createDateTime(dateTime));
+    let datetime = dateTimes.find((item) => item.cardId === cardId);
+    if (datetime) {
+      if (datetime?.cardId === cardId) {
+        let uDateTime = {
+          ...datetime,
+          expirationDate: dateTime.expirationDate,
+        };
+        dispatch(dateTimeSlice.updateDateTime(uDateTime));
       }
     } else {
-      dispatch(createDateTime(dateTime));
+      dispatch(dateTimeSlice.createDateTime(dateTime));
     }
   };
 

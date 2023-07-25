@@ -13,20 +13,10 @@ import ModalCard from './ModalCard';
 import '../../assets/react-trello.css';
 import CreateCard from './CreateCard';
 import CreateLane from './CreateLane';
-import { url } from 'inspector';
 
 const initialState: BoardData = {
   lanes: [],
 };
-interface Promise<T> {
-  /**
-   * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-   * resolved value cannot be modified from the callback.
-   * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-   * @returns A Promise for the completion of the callback.
-   */
-  finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-}
 
 export default function BoardTrello() {
   const [data, setData] = useState<BoardData>(initialState);
@@ -105,6 +95,7 @@ export default function BoardTrello() {
       title: cards.title,
       order: cardArr.length,
       laneId: cards.laneId,
+      description: '',
     };
     dispatch(cardSlice.create(card));
   };
@@ -221,8 +212,11 @@ export default function BoardTrello() {
   };
 
   return (
-    <div className="w-100 board-trello">
-      <HeaderProject />
+    <div
+      className="w-100 board-trello"
+      style={{ backgroundImage: `url(${location.state.background.url})` }}
+    >
+      <HeaderProject workingSpaceId={location.state.workingSpaceId} />
       <Board
         style={{
           backgroundColor: 'transparent',

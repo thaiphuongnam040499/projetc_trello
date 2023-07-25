@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
+import { useDispatch } from 'react-redux';
+import { findAllBoard } from '../../redux/reducer/boardSlice';
 
 export default function SidebarProject() {
+  const boards = useSelector((state: RootState) => state.board.listBoard);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/table', {
+      state: { workingSpaceId: location.state.workingSpaceId },
+    });
+  };
+
+  useEffect(() => {
+    dispatch(findAllBoard());
+  }, []);
   return (
     <div>
       <div className="flex-shrink-0 p-3 sidebar sidebar-project border-end">
@@ -79,62 +97,37 @@ export default function SidebarProject() {
               data-bs-toggle="collapse"
               data-bs-target="#home-collapse"
               aria-expanded="false"
+              onClick={handleClick}
             >
               <i className="bi bi-table px-2"></i>
               Bảng
             </button>
           </li>
-          <li className="mb-1">
-            <button
-              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#dashboard-collapse"
-              aria-expanded="false"
-            >
-              <i className="bi bi-calendar px-2"></i>
-              Lịch
-            </button>
-            <div className="collapse" id="dashboard-collapse">
-              <ul className="btn-toggle w-100 text-start sidebar-btn-nav list-unstyled fw-normal pb-1 small">
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Overview
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Weekly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Monthly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Annually
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
         </ul>
-        <ul className="list-unstyled ps-0">
+        <ul className="list-unstyled ps-0 ">
           <li>
             <p>Các bảng của bạn</p>
           </li>
-          <li className="mb-1">
-            <button
-              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#home-collapse"
-              aria-expanded="false"
-            >
-              <i className="bi bi-trello px-2"></i>
-              Bảng
-            </button>
-          </li>
+          <div className="boards">
+            {boards.map((board) => {
+              if (board.workingSpaceId === location.state.workingSpaceId) {
+                return (
+                  <li key={board.id} className="mb-1 ">
+                    <button
+                      key={board.id}
+                      className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#home-collapse"
+                      aria-expanded="false"
+                    >
+                      <i className="bi bi-trello px-2"></i>
+                      {board.name}
+                    </button>
+                  </li>
+                );
+              }
+            })}
+          </div>
         </ul>
       </div>
     </div>

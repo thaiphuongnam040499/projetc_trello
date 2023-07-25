@@ -3,4 +3,5 @@ export interface CardType {
   id: string;
   laneId: string;
   order: string;
+  description: string;
 }

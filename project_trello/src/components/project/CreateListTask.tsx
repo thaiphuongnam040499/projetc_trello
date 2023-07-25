@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { CardType } from '../../types/card.type';
 import { ListTask } from '../../types/listTask.type';
 import { useDispatch } from 'react-redux';
 import { createListTask } from '../../redux/reducer/listTaskSlice';
@@ -13,7 +12,6 @@ const initialState = {
   cardId: '',
   name: '',
   status: false,
-  complete: 0,
 };
 
 export default function CreateListTask({ cardId }: CreateListTaskProps) {

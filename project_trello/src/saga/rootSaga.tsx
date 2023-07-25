@@ -15,10 +15,16 @@ import * as taskSlice from '../redux/reducer/taskSlice';
 import * as taskSaga from './taskSaga';
 import * as dateTimeSlice from '../redux/reducer/dateTimeSlice';
 import * as dateTimeSaga from './dateTimeSaga';
+import * as backgroundSlice from '../redux/reducer/backgroundSlice';
+import * as backgroundSaga from './backgroundSaga';
+import * as memberSlice from '../redux/reducer/memberSlice';
+import * as memberSaga from './memberSaga';
 
 export const rootSaga = function* () {
   yield all([
     takeLatest(userSlice.createUser.type, userSaga.USER_SAGA_POST),
+
+    takeLatest(userSlice.register.type, userSaga.USER_SAGA_REGISTER),
 
     takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
 
@@ -41,6 +47,8 @@ export const rootSaga = function* () {
     takeLatest(laneSlice.deleteLane.type, laneSaga.LANE_SAGA_DELETE),
 
     takeLatest(userSlice.login.type, userSaga.USER_SAGA_LOGIN),
+
+    takeLatest(userSlice.findUserByEmail.type, userSaga.USER_SAGA_GET_BY_EMAIL),
 
     takeLatest(
       workingSpaceSlice.createWorkingSpace.type,
@@ -103,5 +111,13 @@ export const rootSaga = function* () {
       dateTimeSlice.deleteDateTime.type,
       dateTimeSaga.DATETIME_SAGA_DELETE
     ),
+
+    takeLatest(
+      backgroundSlice.findAllBackground.type,
+      backgroundSaga.BG_SAGA_GET
+    ),
+
+    takeLatest(memberSlice.findAllMember.type, memberSaga.MEMBER_SAGA_GET),
+    takeLatest(memberSlice.createMember.type, memberSaga.MEMBER_SAGA_POST),
   ]);
 };

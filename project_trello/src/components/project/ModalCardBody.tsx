@@ -3,18 +3,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ListTask } from '../../types/listTask.type';
 import { useDispatch } from 'react-redux';
-import {
-  deleteListTask,
-  findAllListTask,
-} from '../../redux/reducer/listTaskSlice';
+import * as listTaskSlice from '../../redux/reducer/listTaskSlice';
 import Task from './Task';
-import { createTask, findAllTask } from '../../redux/reducer/taskSlice';
-import { TaskType } from '../../types/task.type';
-import {
-  findAllDateTime,
-  updateDateTime,
-} from '../../redux/reducer/dateTimeSlice';
+import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { DateTime } from '../../types/dateTime.type';
+
+import CreateDescription from './CreateDescription';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -32,13 +26,14 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
   const dispatch = useDispatch();
   const listTask = useSelector((state: RootState) => state.listTask.listTask);
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
+  const cards = useSelector((state: RootState) => state.card.listCard);
 
   useEffect(() => {
-    dispatch(findAllDateTime());
+    dispatch(dateTimeSlice.findAllDateTime());
   }, []);
 
   useEffect(() => {
-    dispatch(findAllListTask());
+    dispatch(listTaskSlice.findAllListTask());
   }, []);
 
   const handleShowComment = () => {
@@ -49,12 +44,16 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
     setIsShowDis(true);
   };
 
+  const handleOffShowDis = () => {
+    setIsShowDis(false);
+  };
+
   const handleDeleteListTask = (
     e: React.FormEvent<HTMLButtonElement>,
     id: string
   ) => {
     e.preventDefault();
-    dispatch(deleteListTask(id));
+    dispatch(listTaskSlice.deleteListTask(id));
   };
 
   const handleChangeStatus = (
@@ -66,7 +65,7 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
       ...dateTime,
       status: newCheckedValue,
     };
-    dispatch(updateDateTime(uDateTime));
+    dispatch(dateTimeSlice.updateDateTime(uDateTime));
   };
 
   return (
@@ -75,7 +74,7 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
         <div className="me-3">
           <p>Thông báo</p>
           <button type="button" className="btn btn-light border rounded">
-            <i className="bi bi-eye"></i>
+            <i className="bi bi-eye me-2"></i>
             Theo dõi
           </button>
         </div>
@@ -83,7 +82,7 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
           if (dateTime.cardId === cardId) {
             let date = new Date(dateTime.expirationDate);
             return (
-              <div>
+              <div key={dateTime.id}>
                 <p>Ngày hết hạn</p>
                 <input
                   type="checkbox"
@@ -92,7 +91,9 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
                   onChange={(e) => handleChangeStatus(dateTime, e)}
                 />
                 <button type="button" className="btn btn-light border rounded">
-                  {`${date.getDate()}/${date.getMonth()}/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
+                  {`${date.getDate()}/${
+                    date.getMonth() + 1
+                  }/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
                   {dateTime.status ? (
                     <span className="bg-success ms-2 text-white">Hoàn tất</span>
                   ) : (
@@ -109,23 +110,21 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
           <i className="bi bi-justify-left me-2"></i>
           <h6>Mô tả</h6>
         </div>
+        {cards.map((card) => {
+          if (card.id === cardId) {
+            return (
+              <p className="ms-5 mb-2" key={card.id}>
+                {card.description}
+              </p>
+            );
+          }
+        })}
+
         {isShowDis ? (
-          <div>
-            <input
-              type="text"
-              className="input-dis m-3"
-              placeholder="Thêm mô tả chi tiết hơn..."
-            />
-            <div className="d-flex ms-3 mb-3">
-              <button className="btn btn-primary me-2">Lưu</button>
-              <button
-                className="btn btn-light"
-                onClick={() => setIsShowDis(false)}
-              >
-                Hủy
-              </button>
-            </div>
-          </div>
+          <CreateDescription
+            handleOffShowDis={handleOffShowDis}
+            cardId={cardId}
+          />
         ) : (
           <button
             type="button"

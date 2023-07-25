@@ -3,4 +3,5 @@ export interface BoardType {
   name: string;
   workingSpaceId: string;
   workingSpaceName: string;
+  backgroundId: string;
 }

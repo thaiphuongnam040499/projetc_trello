@@ -3,27 +3,33 @@ import { BoardType } from '../../types/board.type';
 import { useDispatch } from 'react-redux';
 import { createBoard } from '../../redux/reducer/boardSlice';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { findAllBackground } from '../../redux/reducer/backgroundSlice';
+import { BgType } from '../../types/bg.type';
 
 const initialState: BoardType = {
   id: '',
   name: '',
   workingSpaceId: '',
   workingSpaceName: '',
+  backgroundId: '',
 };
 
 interface BoardProps {
   workingSpace: WorkingSpaceType;
+  backgrounds: BgType[];
 }
 
-export default function Board({ workingSpace }: BoardProps) {
+export default function Board({ workingSpace, backgrounds }: BoardProps) {
   const dispatch = useDispatch();
-
   const [board, setBoard] = useState<BoardType>(initialState);
 
   useEffect(() => {
     setBoard({
       ...board,
       workingSpaceId: workingSpace.id,
+      backgroundId: board.backgroundId,
     });
   }, [workingSpace]);
 
@@ -45,6 +51,24 @@ export default function Board({ workingSpace }: BoardProps) {
           alt=""
           className="img-create-board"
         />
+      </li>
+      <li>
+        <p>Phông nền</p>
+        <div className="d-flex">
+          {backgrounds.map((background) => {
+            return (
+              <input
+                key={background.id}
+                type="button"
+                onClick={() =>
+                  setBoard((prev) => ({ ...prev, backgroundId: background.id }))
+                }
+                className="btn-background ms-2 mb-2 mt-2 border rounded"
+                style={{ backgroundImage: `url(${background.url})` }}
+              />
+            );
+          })}
+        </div>
       </li>
       <li>
         <p className="mb-2">Tiêu đề bảng</p>

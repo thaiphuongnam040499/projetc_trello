@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { create } from '../../redux/reducer/cardSlice';
-import { Card } from '../../types/lanes.type';
-import { CardType } from '../../types/card.type';
 import { FormState } from 'react-trello-ts/dist/components/NewCardForm';
 const initialState = {
   title: '',

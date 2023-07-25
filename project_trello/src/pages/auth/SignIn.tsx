@@ -1,8 +1,31 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { ChangeEvent, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AuthSupport from './AuthSupport';
+import { useDispatch } from 'react-redux';
+import { getUserLogin } from '../../redux/reducer/userSlice';
 
 export default function SignIn() {
+  const [userLogin, setUserLogin] = useState({
+    email: '',
+    password: '',
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setUserLogin({
+      ...userLogin,
+      [name]: value,
+    });
+  };
+
+  const handleSignIn = () => {
+    dispatch(getUserLogin(userLogin));
+    navigate('/home');
+  };
+
   return (
     <div>
       <section className="vh-100" style={{ backgroundColor: '#fffff' }}>
@@ -23,13 +46,26 @@ export default function SignIn() {
                     <input
                       type="email"
                       id="typeEmailX-2"
+                      className="form-control form-control-lg mb-3"
+                      placeholder="Nhập email"
+                      value={userLogin.email}
+                      onChange={handleChange}
+                    />
+                    <input
+                      type="password"
                       className="form-control form-control-lg"
-                      placeholder="Nhập Email"
+                      placeholder="Nhập password"
+                      value={userLogin.password}
+                      onChange={handleChange}
                     />
                   </div>
 
                   {/* Checkbox */}
-                  <button type="button" className="btn btn-success w-100">
+                  <button
+                    type="button"
+                    className="btn btn-success w-100"
+                    onClick={handleSignIn}
+                  >
                     Tiếp tục
                   </button>
                   <p className="mt-4 mb-4">Hoặc</p>

@@ -1,25 +1,64 @@
-import { render } from '@testing-library/react';
-import { log } from 'console';
 import React, { ChangeEvent, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AuthSupport from './AuthSupport';
+import { useDispatch } from 'react-redux';
+import { register } from '../../redux/reducer/userSlice';
 export default function SignUp() {
   const [email, setEmail] = useState({
     email: '',
   });
+
+  const [password, setPassword] = useState({
+    password: '',
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const EMAIL_PATTERN = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
+  const PASS_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
     let value = e.target.value;
     setEmail({ ...email, [name]: value });
   };
+
+  const handleChangePass = (e: ChangeEvent<HTMLInputElement>) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setPassword({ ...password, [name]: value });
+  };
+
+  const handleCreateUser = () => {
+    dispatch(
+      register({
+        id: '',
+        email: email.email,
+        password: password.password,
+        googleId: '',
+        imageUrl:
+          'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78',
+        name: '',
+        emagivenNamel: '',
+        familyName: '',
+      })
+    );
+    navigate('/signIn');
+  };
+
   const changeButton = () => {
     if (EMAIL_PATTERN.test(email.email)) {
-      return (
-        <button type="button" className="btn btn-success w-100">
-          Tiếp tục
-        </button>
-      );
+      if (PASS_PATTERN.test(password.password)) {
+        return (
+          <button
+            type="button"
+            className="btn btn-success w-100"
+            onClick={handleCreateUser}
+          >
+            Tiếp tục
+          </button>
+        );
+      }
     }
     return (
       <button disabled type="button" className="btn btn-secondary w-100">
@@ -48,10 +87,18 @@ export default function SignUp() {
                       name="email"
                       type="email"
                       id="typeEmailX-2"
-                      className="form-control form-control-lg"
+                      className="form-control form-control-lg mb-2"
                       placeholder="Nhập Email"
                       value={email.email}
                       onChange={handleChange}
+                    />
+                    <input
+                      name="password"
+                      type="password"
+                      className="form-control form-control-lg"
+                      placeholder="Nhập password"
+                      value={password.password}
+                      onChange={handleChangePass}
                     />
                     <label
                       className="form-label mt-4"

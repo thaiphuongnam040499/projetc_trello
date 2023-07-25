@@ -3,22 +3,22 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { loadGapiInsideDOM } from 'gapi-script';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../redux/reducer/userSlice';
 export default function AuthSupport() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const clientId =
+    '125118453417-gamn15d8or66e8r6gttah5ubeu95q88g.apps.googleusercontent.com';
+
+  const userLogin = useSelector((state: any) => state.user).userLogin;
+
   useEffect(() => {
     (async () => {
       await loadGapiInsideDOM();
     })();
   });
-
-  const clientId =
-    '125118453417-gamn15d8or66e8r6gttah5ubeu95q88g.apps.googleusercontent.com';
-
-  const userLogin = useSelector((state: any) => state.user).userLogin;
 
   useEffect(() => {
     if (userLogin) {

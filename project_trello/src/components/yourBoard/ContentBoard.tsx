@@ -7,6 +7,8 @@ import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
 import { findAllBoard } from '../../redux/reducer/boardSlice';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { BoardType } from '../../types/board.type';
+import { findAllBackground } from '../../redux/reducer/backgroundSlice';
+import { BgType } from '../../types/bg.type';
 
 export default function ContentBoard() {
   const dispatch = useDispatch();
@@ -27,10 +29,24 @@ export default function ContentBoard() {
 
   const listBoard = useSelector((state: RootState) => state.board.listBoard);
 
-  const handleClick = (id: any) => {
+  const handleClick = (id: any, workingSpaceId: string, background: BgType) => {
     // navigate('/project', { state: { boardId: id } });
-    navigate(`/project/${id}`, { state: { boardId: id } });
+    navigate(`/project/${id}`, {
+      state: {
+        boardId: id,
+        background: background,
+        workingSpaceId: workingSpaceId,
+      },
+    });
   };
+
+  const backgrounds = useSelector(
+    (state: RootState) => state.backgrounds.backgrounds
+  );
+
+  useEffect(() => {
+    dispatch(findAllBackground());
+  }, []);
 
   return (
     <div className="ms-5 w-100">
@@ -57,17 +73,30 @@ export default function ContentBoard() {
                 {listBoard &&
                   listBoard.map((board: BoardType) => {
                     if (board.workingSpaceId === workingSpace.id) {
-                      return (
-                        <div
-                          onClick={() => handleClick(board.id)}
-                          key={board.id}
-                          className="card bg-dark text-white me-2 mb-2 board"
-                        >
-                          <div className="card-img-overlay">
-                            <h5 className="card-title">{board.name}</h5>
-                          </div>
-                        </div>
-                      );
+                      return backgrounds.map((background) => {
+                        if (background.id === board.backgroundId) {
+                          return (
+                            <div
+                              onClick={() =>
+                                handleClick(
+                                  board.id,
+                                  workingSpace.id,
+                                  background
+                                )
+                              }
+                              key={board.id}
+                              className="card text-white me-2 mb-2 board "
+                              style={{
+                                backgroundImage: `url(${background.url})`,
+                              }}
+                            >
+                              <div className="card-img-overlay">
+                                <h5 className="card-title">{board.name}</h5>
+                              </div>
+                            </div>
+                          );
+                        }
+                      });
                     }
                   })}
                 <div className="dropdown">
@@ -80,7 +109,10 @@ export default function ContentBoard() {
                   >
                     Tạo bảng mới
                   </button>
-                  <Board workingSpace={workingSpace} />
+                  <Board
+                    backgrounds={backgrounds}
+                    workingSpace={workingSpace}
+                  />
                 </div>
               </div>
             </div>
