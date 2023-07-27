@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'react-trello-ts/dist/types/Board';
 import CreateListTask from './CreateListTask';
 import ModalCardBody from './ModalCardBody';
 import { Lane } from '../../types/lanes.type';
 import CreateDateTime from './CreateDateTime';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { MemberId, MemberType } from '../../types/member.type';
+import { useDispatch } from 'react-redux';
+import { findAllBgColor } from '../../redux/reducer/backgroundSlice';
+import { updateMember } from '../../redux/reducer/memberSlice';
 
 interface ModalCardProps {
   cardId: string;
@@ -19,6 +25,29 @@ export default function ModalCard({
   lanes,
 }: ModalCardProps) {
   const cardDetail = cards.find((item) => item.id === cardId);
+  const members = useSelector((state: RootState) => state.members.members);
+  const [memberId, setMemberId] = useState('');
+  const bgColors = useSelector(
+    (state: RootState) => state.backgrounds.backgroundColors
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(findAllBgColor());
+  }, []);
+
+  const handleClick = (
+    e: React.FormEvent<HTMLButtonElement>,
+    member: MemberId
+  ) => {
+    e.preventDefault();
+    dispatch(
+      updateMember({
+        ...member,
+        cardId: cardId,
+      })
+    );
+  };
 
   return (
     <div className="showModal">
@@ -80,14 +109,22 @@ export default function ModalCard({
                       <p className="fs-6">Thành viên của bảng</p>
                     </li>
                     <li className="mb-2 mt-2">
-                      <div className="d-flex align-items-center">
-                        <img
-                          src="https://scontent.fhan1-1.fna.fbcdn.net/v/t39.30808-6/279907275_4922290994548164_1826307093755862115_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=2nuP9mxtn-EAX9I3szN&_nc_ht=scontent.fhan1-1.fna&oh=00_AfCTND7OFGoLy9fVnbBo37PVKERY2S642Jxo0gPcjijxiw&oe=64C3ECE4"
-                          alt=""
-                          className="member-input"
-                        />
-                        <p className="ms-2">Phương Nam Thái(phngnamthai)</p>
-                      </div>
+                      {members.map((member) => {
+                        return (
+                          <button
+                            key={member.id}
+                            className="d-flex align-items-center mb-2 btn btn-light w-100"
+                            onClick={(e) => handleClick(e, member)}
+                          >
+                            <img
+                              src={member.imageUrl}
+                              alt=""
+                              className="member-input"
+                            />
+                            <p className="ms-2">{member.email}</p>
+                          </button>
+                        );
+                      })}
                     </li>
                   </ul>
                 </div>
@@ -105,23 +142,46 @@ export default function ModalCard({
                     Nhãn
                   </button>
                   <ul
-                    className="dropdown-menu"
+                    className="dropdown-menu tag p-2 border "
                     aria-labelledby="dropdownMenuButton1"
                   >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
+                    <li className="mt-2 mb-2">
+                      <p className="text-center">Nhãn</p>
+                    </li>
+                    <li className="mb-2">
+                      <input
+                        type="text"
+                        placeholder="Tìm nhãn..."
+                        className="border rounded list-member-input w-100"
+                      />
+                    </li>
+                    <li className="mt-2 mb-2">
+                      <p>Nhãn</p>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
+                      <div className="">
+                        <div>
+                          {bgColors.map((bgColor) => {
+                            return (
+                              <div
+                                key={bgColor.id}
+                                className="d-flex align-items-center mt-2 mb-2"
+                              >
+                                <input type="checkbox" className="ms-2" />
+                                <button
+                                  style={{
+                                    backgroundColor: bgColor.backgroundColor,
+                                  }}
+                                  className="tag-item btn border rounded ms-2 me-2"
+                                ></button>
+                                <button className="btn btn-edit-tag">
+                                  <i className="bi bi-pen-fill pen-edit-tag "></i>
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>

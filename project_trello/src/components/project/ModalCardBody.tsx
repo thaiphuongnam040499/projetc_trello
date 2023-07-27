@@ -9,6 +9,7 @@ import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { DateTime } from '../../types/dateTime.type';
 
 import CreateDescription from './CreateDescription';
+import { MemberId, MemberType } from '../../types/member.type';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -27,6 +28,7 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
   const listTask = useSelector((state: RootState) => state.listTask.listTask);
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
   const cards = useSelector((state: RootState) => state.card.listCard);
+  const members = useSelector((state: RootState) => state.members.members);
 
   useEffect(() => {
     dispatch(dateTimeSlice.findAllDateTime());
@@ -72,11 +74,20 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
     <form className="card-modal-body">
       <div className="ms-3 ps-2 px-2 mb-2 d-flex">
         <div className="me-3">
-          <p>Thông báo</p>
-          <button type="button" className="btn btn-light border rounded">
-            <i className="bi bi-eye me-2"></i>
-            Theo dõi
-          </button>
+          <div>
+            <p>Thành viên</p>
+          </div>
+          <div className="d-flex">
+            {members.map((item) => {
+              if (item.cardId === cardId) {
+                return (
+                  <div key={item.id}>
+                    <img src={item.imageUrl} alt="" className="member-input" />
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
         {dateTimes.map((dateTime: DateTime) => {
           if (dateTime.cardId === cardId) {

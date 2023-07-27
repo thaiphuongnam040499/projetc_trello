@@ -20,6 +20,16 @@
       "emagivenNamel": "",
       "familyName": "",
       "createdAt": 1690253399064
+    },
+    {
+      "email": "thainamvinhuni@gmail.com",
+      "password": "$2a$10$vLZ4.TcHdC5rzQ6wiR6lpey.zFPzgtWX8tsJ3QP8.Zc5vSehAn6RK",
+      "googleId": "103391436507171043770",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtfa4uxIM2UKErYRyaGuSGXj31d4LvWO8RN4HE59xJ4JbQ=s96-c",
+      "name": "Nam Thái",
+      "givenName": "Nam",
+      "familyName": "Thái",
+      "id": 3
     }
   ],
   "workingSpace": [
@@ -293,27 +303,6 @@
       "createdAt": 1689935795533
     },
     {
-      "id": 5,
-      "listTaskId": 1,
-      "name": "Nhân tây hồ",
-      "status": false,
-      "createdAt": 1690174122513
-    },
-    {
-      "id": 6,
-      "listTaskId": 1,
-      "name": "aaaa",
-      "status": false,
-      "createdAt": 1690180674365
-    },
-    {
-      "id": 7,
-      "listTaskId": 1,
-      "name": "aaa",
-      "status": false,
-      "createdAt": 1690180880943
-    },
-    {
       "id": 8,
       "listTaskId": 7,
       "name": "aa",
@@ -332,23 +321,13 @@
     {
       "id": 1,
       "startDay": "2023-07-25",
-      "expirationDate": "2023-07-27T15:36",
+      "expirationDate": "2023-07-29T14:31",
       "cardId": "37b47270-2553-11ee-8ca8-05de4906fa09",
       "status": false,
       "createdAt": 1690187789434
     }
   ],
-  "members": [
-    {
-      "id": 1,
-      "name": "",
-      "email": "nhan@gmail.com",
-      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
-      "workingSpaceId": 1,
-      "role": "Thành viên",
-      "createdAt": 1690273967918
-    }
-  ],
+  "members": [],
   "backgrounds": [
     {
       "id": 1,
@@ -365,6 +344,38 @@
     {
       "id": 4,
       "url": "https://trello-backgrounds.s3.amazonaws.com/SharedBackground/1280x1920/7daf479b602c4266e5de1d4745fa275b/photo-1689613188405-a216e5a53fe8.jpg"
+    }
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "màu xanh lá cây",
+      "backgroundColor": "#4bce97"
+    },
+    {
+      "id": 2,
+      "name": "màu vàng",
+      "backgroundColor": "#e2b203"
+    },
+    {
+      "id": 3,
+      "name": "màu da cam",
+      "backgroundColor": "#faa53d"
+    },
+    {
+      "id": 4,
+      "name": "màu đỏ",
+      "backgroundColor": "#f87462"
+    },
+    {
+      "id": 5,
+      "name": "màu tím",
+      "backgroundColor": "#9f8fef"
+    },
+    {
+      "id": 6,
+      "name": "màu xanh lam",
+      "backgroundColor": "#579dff"
     }
   ]
 }

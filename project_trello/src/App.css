@@ -302,8 +302,8 @@ p {
   overflow-y: scroll;
 } */
 .member-input {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 }
 
@@ -347,7 +347,7 @@ p {
 .show-user-search {
   display: block;
   position: absolute;
-  top: 90px;
+  top: 124px;
   background-color: white;
   padding: 10px;
   width: 265px;
@@ -355,5 +355,45 @@ p {
 }
 .boards {
   overflow-y: scroll;
-  height: 330px;
+  height: 335px;
+}
+
+.admin-image {
+  position: relative;
+}
+.admin-icon {
+  position: absolute;
+  background-image: url(https://trello.com/assets/88a4454280d68a816b89.png);
+  width: 16px;
+  height: 18px;
+  right: 158px;
+  bottom: 10px;
+}
+.tag {
+  width: 300px;
+  border-radius: 15px;
+}
+.tag-item {
+  width: 100%;
+  height: 40px;
+}
+.btn-edit-tag {
+  font-size: 12px;
+}
+.search-user {
+  overflow-y: scroll;
+  height: 80px;
+  overflow-x: hidden;
+}
+
+.user-email-search {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
 }

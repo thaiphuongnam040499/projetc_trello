@@ -1,10 +1,15 @@
 import { Role } from '../enums/Role';
 
 export interface MemberType {
-  id: string;
   name: string;
   email: string;
   imageUrl: string;
   workingSpaceId: string;
+  boardId: string;
+  cardId: string;
+  taskId: string;
   role: Role;
+}
+export interface MemberId extends MemberType {
+  id: string;
 }

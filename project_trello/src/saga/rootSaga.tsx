@@ -117,7 +117,13 @@ export const rootSaga = function* () {
       backgroundSaga.BG_SAGA_GET
     ),
 
+    takeLatest(
+      backgroundSlice.findAllBgColor.type,
+      backgroundSaga.BGC_SAGA_GET
+    ),
+
     takeLatest(memberSlice.findAllMember.type, memberSaga.MEMBER_SAGA_GET),
     takeLatest(memberSlice.createMember.type, memberSaga.MEMBER_SAGA_POST),
+    takeLatest(memberSlice.updateMember.type, memberSaga.MEMBER_SAGA_PATCH),
   ]);
 };

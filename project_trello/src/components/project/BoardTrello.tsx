@@ -216,7 +216,10 @@ export default function BoardTrello() {
       className="w-100 board-trello"
       style={{ backgroundImage: `url(${location.state.background.url})` }}
     >
-      <HeaderProject workingSpaceId={location.state.workingSpaceId} />
+      <HeaderProject
+        workingSpaceId={location.state.workingSpaceId}
+        boardId={location.state.boardId}
+      />
       <Board
         style={{
           backgroundColor: 'transparent',

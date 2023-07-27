@@ -12,7 +12,10 @@ export default function SidebarProject() {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate('/table', {
-      state: { workingSpaceId: location.state.workingSpaceId },
+      state: {
+        workingSpaceId: location.state.workingSpaceId,
+        boardId: location.state.boardId,
+      },
     });
   };
 

@@ -50,7 +50,7 @@ export const USER_SAGA_LOGIN = function* (action: any): any {
 export const USER_SAGA_GET_BY_EMAIL = function* (action: any) {
   try {
     let userSearch: User[] = yield call(USER_GET_BY_EMAIL, action.payload);
-    console.log(userSearch);
+
     yield put(getUserByEmail(userSearch));
   } catch (error) {
     console.log(error);

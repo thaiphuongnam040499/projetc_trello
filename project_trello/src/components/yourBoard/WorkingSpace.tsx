@@ -3,6 +3,11 @@ import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { useDispatch } from 'react-redux';
 import { createWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
 import { User, UserId } from '../../types/user.type';
+import { MemberId, MemberType } from '../../types/member.type';
+import { createMember } from '../../redux/reducer/memberSlice';
+import { Role } from '../../enums/Role';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 interface Option {
   label: string;
@@ -45,6 +50,8 @@ export default function WorkingSpace() {
     id: '',
   });
 
+  const [member, setMember] = useState<MemberType>();
+
   const user = localStorage.getItem('userLogin');
   useEffect(() => {
     if (user) {
@@ -59,8 +66,27 @@ export default function WorkingSpace() {
     }
   }, [user]);
 
+  const workingSpaces = useSelector(
+    (state: RootState) => state.workingSpace.listWorkingSpace
+  );
+  const workingSpaceId = workingSpaces.find(
+    (ws) => ws.userId === userLogin.id
+  )?.id;
+
   const handleCreate = () => {
     dispatch(createWorkingSpace(workingSpace));
+    dispatch(
+      createMember({
+        name: userLogin.name,
+        email: userLogin.email,
+        imageUrl: userLogin.imageUrl,
+        workingSpaceId: workingSpaceId,
+        boardId: '',
+        cardId: '',
+        taskId: '',
+        role: Role.ADMIN,
+      })
+    );
   };
 
   return (

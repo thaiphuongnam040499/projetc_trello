@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
@@ -6,6 +6,7 @@ import { loadGapiInsideDOM } from 'gapi-script';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../redux/reducer/userSlice';
+import ClipLoader from 'react-spinners/ClipLoader';
 export default function AuthSupport() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

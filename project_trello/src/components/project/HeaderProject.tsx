@@ -5,29 +5,47 @@ import { useDispatch } from 'react-redux';
 import { findUserByEmail } from '../../redux/reducer/userSlice';
 import { MemberType } from '../../types/member.type';
 import { Role } from '../../enums/Role';
-import { User } from '../../types/user.type';
+import { User, UserId } from '../../types/user.type';
 import { createMember, findAllMember } from '../../redux/reducer/memberSlice';
+import { toast } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 interface HeaderProjectProps {
   workingSpaceId: string;
+  boardId: string;
 }
 
 const initialState: MemberType = {
-  id: '',
   name: '',
   email: '',
   imageUrl: '',
   workingSpaceId: '',
+  boardId: '',
+  cardId: '',
+  taskId: '',
   role: Role.MEMBER,
 };
 
-export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
+const roles = [Role.ADMIN, Role.MEMBER, Role.OBSERVER];
+
+export default function HeaderProject({
+  workingSpaceId,
+  boardId,
+}: HeaderProjectProps) {
   const listUser = useSelector((state: RootState) => state.user.listUser);
   const [userSearch, setUserSearch] = useState('');
   const [member, setMember] = useState<MemberType>(initialState);
+  const listMember = useSelector((state: RootState) => state.members.members);
+  const currentUser = localStorage.getItem('userLogin');
+  const [userLogin, setUserLogin] = useState<UserId>();
+  const [members, setMembers] = useState<MemberType[]>([]);
   const dispatch = useDispatch();
 
-  const listMember = useSelector((state: RootState) => state.members.members);
+  useEffect(() => {
+    if (currentUser) {
+      setUserLogin(JSON.parse(currentUser).user);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     dispatch(findUserByEmail(userSearch));
@@ -38,23 +56,56 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
   }, []);
 
   const handleAddMember = (user: User) => {
-    setMember({
-      id: '',
-      name: user.name,
-      email: user.email,
-      imageUrl: user.imageUrl,
-      workingSpaceId: workingSpaceId,
-      role: member.role,
-    });
+    if (!checkExits(user, members)) {
+      setMembers([
+        ...members,
+        {
+          name: user.name,
+          email: user.email,
+          imageUrl: user.imageUrl,
+          workingSpaceId: '',
+          boardId: boardId,
+          cardId: '',
+          taskId: '',
+          role: member.role,
+        },
+      ]);
+    }
   };
-  console.log(member);
+
+  const checkExits = (user: User, members: MemberType[]) => {
+    return members.find((item) => item.email === user.email);
+  };
 
   const handleCreateMember = () => {
-    dispatch(createMember(member));
+    const isExits = members.find((item) => item.email === member.email);
+    if (isExits) {
+      toast.error('Bạn đã thêm người này!!!');
+      return;
+    } else {
+      for (let i = 0; i < members.length; i++) {
+        dispatch(createMember(members[i]));
+      }
+    }
+    setUserSearch('');
   };
+
+  const handleShowTag = members.map((user) => {
+    return (
+      <div className="me-2">
+        <span className="d-flex align-items-center ">
+          <span>{user.email}</span>
+          <button className="bi bi-x btn btn-light "></button>
+        </span>
+      </div>
+    );
+  });
 
   return (
     <div>
+      <div>
+        <Toaster />
+      </div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom header-project">
         <div className="container-fluid">
           <a className="navbar-brand ms-2" href="#">
@@ -107,7 +158,21 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
                 </ul>
               </li>
             </ul>
-            <div>
+            <div className="d-flex">
+              <div className="d-flex align-items-center me-3">
+                {listMember.map((member) => {
+                  return (
+                    <div key={member.id}>
+                      <img
+                        src={member.imageUrl}
+                        alt=""
+                        className="member-input"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
               {/* Button trigger modal */}
               <button
                 type="button"
@@ -146,17 +211,22 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
             </div>
             <div className="modal-body">
               <div className="d-flex mt-2 mb-4">
-                <input
-                  type="text"
-                  placeholder="Địa chỉ email hoặc tên"
-                  className="w-50 p-3 border rounded search-user"
-                  onChange={(e) => setUserSearch(e.target.value)}
-                />
+                <div className="w-50 p-3 border search-user d-flex flex-wrap">
+                  {handleShowTag}
+                  <input
+                    type="text"
+                    placeholder="Địa chỉ email hoặc tên"
+                    className="border rounded "
+                    onChange={(e) => setUserSearch(e.target.value)}
+                  />
+                </div>
+
                 {userSearch ? (
                   <div className="show-user-search border rounded pb-2">
                     {listUser.map((user) => {
                       return (
                         <button
+                          key={user.googleId}
                           className="d-flex align-items-center btn btn-light w-100"
                           onClick={() => handleAddMember(user)}
                         >
@@ -165,8 +235,8 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
                             alt=""
                             className="member-input me-2"
                           />
-                          <div>
-                            <p className="fs-6">{user.email}</p>
+                          <div className="user-email-search">
+                            <p className="fs-6 ">{user.email}</p>
                           </div>
                         </button>
                       );
@@ -185,8 +255,9 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
                     }))
                   }
                 >
-                  <option value={Role.ADMIN}>Quản trị viên</option>
-                  <option value={Role.MEMBER}>Thành viên</option>
+                  <option selected value={Role.MEMBER}>
+                    Thành viên
+                  </option>
                   <option value={Role.OBSERVER}>Quan sát viên</option>
                 </select>
                 <button
@@ -198,7 +269,10 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
               </div>
               {listMember.map((member) => {
                 return (
-                  <div className="d-flex justify-content-between mb-3">
+                  <div
+                    key={member.id}
+                    className="d-flex justify-content-between mb-3"
+                  >
                     <div className="d-flex align-items-center">
                       <img
                         src={member.imageUrl}
@@ -214,10 +288,17 @@ export default function HeaderProject({ workingSpaceId }: HeaderProjectProps) {
                       className="form-select"
                       aria-label="Default select example"
                     >
-                      <option value={1}>Quản trị viên</option>
-                      <option value={2}>Thành viên</option>
-                      <option value={3}>Quan sát viên</option>
-                      <option value={4}>Xóa khỏi bảng</option>
+                      {roles.map((role) => {
+                        return (
+                          <option
+                            key={role}
+                            selected={member.role === role ? true : false}
+                            value={role}
+                          >
+                            {role}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 );

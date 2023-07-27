@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { MemberType } from '../../types/member.type';
+import { MemberId, MemberType } from '../../types/member.type';
 
 interface MemberState {
-  members: MemberType[];
+  members: MemberId[];
 }
 
 const initialState: MemberState = {
