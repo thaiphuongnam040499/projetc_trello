@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store';
 import TaskOption from './TaskOption';
 
 interface TaskProps {
+  boardId: string;
   listTask: ListTask;
 }
 
@@ -16,9 +17,10 @@ const initialState = {
   listTaskId: '',
   name: '',
   status: false,
+  memberId: '',
 };
 
-export default function Task({ listTask }: TaskProps) {
+export default function Task({ boardId, listTask }: TaskProps) {
   const [isInputCreate, setIsInputCreate] = useState(false);
   const [isShowInputUp, setIsShowInputUp] = useState({ id: '', stat: false });
   const [task, setTask] = useState<TaskType>(initialState);
@@ -59,6 +61,7 @@ export default function Task({ listTask }: TaskProps) {
       listTaskId: '',
       name: '',
       status: false,
+      memberId: '',
     });
   };
 
@@ -108,24 +111,27 @@ export default function Task({ listTask }: TaskProps) {
           aria-valuemax={100}
         />
       </div>
-      {tasks.map((task) => {
-        if (task.listTaskId === listTask.id) {
+      {tasks.map((taskItem) => {
+        if (taskItem.listTaskId === listTask.id) {
           return (
-            <div key={task.id} className="d-flex justify-content-between tasks">
+            <div
+              key={taskItem.id}
+              className="d-flex justify-content-between tasks"
+            >
               <div className="d-flex align-items-center">
                 <input
                   type="checkbox"
                   name="agreement"
-                  checked={task.status}
+                  checked={taskItem.status}
                   className="me-2 ms-2"
-                  onChange={(e) => handleCheckboxChange(e, task.id)}
+                  onChange={(e) => handleCheckboxChange(e, taskItem.id)}
                 />
-                {isShowInputUp.stat && isShowInputUp.id === task.id ? (
+                {isShowInputUp.stat && isShowInputUp.id === taskItem.id ? (
                   <div>
                     <input
                       type="text"
                       className="input-dis m-3"
-                      placeholder={task.name}
+                      placeholder={taskItem.name}
                       // value={task.name}
                       onChange={(e) =>
                         setTask((prev: TaskType) => ({
@@ -136,24 +142,26 @@ export default function Task({ listTask }: TaskProps) {
                     />
                     <div className="d-flex ms-3 mb-3">
                       <button
-                        onClick={(e) => handleUpdateTask(e, task)}
+                        onClick={(e) => handleUpdateTask(e, taskItem)}
                         className="btn btn-primary me-2"
                       >
                         Lưu
                       </button>
                       <button
                         className="btn btn-light"
-                        onClick={() => handleOffShowInputUp(task.id)}
+                        onClick={() => handleOffShowInputUp(taskItem.id)}
                       >
                         <i className="bi bi-x-lg"></i>
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <p onClick={() => handleShowInputUp(task.id)}>{task.name}</p>
+                  <p onClick={() => handleShowInputUp(taskItem.id)}>
+                    {taskItem.name}
+                  </p>
                 )}
               </div>
-              <TaskOption task={task} />
+              <TaskOption boardId={boardId} task={taskItem} />
             </div>
           );
         }

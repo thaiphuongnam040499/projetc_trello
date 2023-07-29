@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import WorkingSpace from '../yourBoard/WorkingSpace';
 import { useDispatch, useSelector } from 'react-redux';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { RootState } from '../../redux/store';
 import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
+import { UserId } from '../../types/user.type';
 
 export default function Sidebar() {
+  const user = localStorage.getItem('userLogin');
+  const [userLogin, setUserLogin] = useState<UserId>();
   const dispatch = useDispatch();
-
   const listWorkingSpace = useSelector(
     (state: RootState) => state.workingSpace.listWorkingSpace
   );
+
+  useEffect(() => {
+    if (user) {
+      setUserLogin(JSON.parse(user).user);
+    }
+  }, [user]);
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());
@@ -96,58 +104,60 @@ export default function Sidebar() {
             {listWorkingSpace &&
               listWorkingSpace.map(
                 (workingSpace: WorkingSpaceType, index: any) => {
-                  return (
-                    <div key={index}>
-                      <button
-                        className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed mb-3"
-                        data-bs-toggle="collapse"
-                        data-bs-target={`#account-collapse_${workingSpace.id}`}
-                        aria-expanded="false"
-                      >
-                        Không gian làm việc của {workingSpace.name}
-                      </button>
-                      <div
-                        className="collapse"
-                        id={`account-collapse_${workingSpace.id}`}
-                      >
-                        <ul className="btn-toggle w-100 text-start sidebar-btn-nav small">
-                          <li className="mb-3">
-                            <NavLink
-                              to={'/home/contentBoard'}
-                              className="link-dark rounded  text-decoration-none"
-                            >
-                              <i className="bi bi-table me-2"></i>
-                              Bảng
-                            </NavLink>
-                          </li>
-                          <li className="mb-3">
-                            <a className="link-dark rounded  text-decoration-none">
-                              <i className="bi bi-heart me-2"></i>
-                              Điểm nổi bật
-                            </a>
-                          </li>
-                          <li className="mb-3">
-                            <a className="link-dark rounded  text-decoration-none">
-                              <i className="bi bi-border-all me-2"></i>
-                              Hình
-                            </a>
-                          </li>
-                          <li className="mb-3">
-                            <a className="link-dark rounded  text-decoration-none">
-                              <i className="bi bi-people-fill me-2"></i>
-                              Thành viên
-                            </a>
-                          </li>
-                          <li className="mb-3">
-                            <a className="link-dark rounded  text-decoration-none">
-                              <i className="bi bi-gear-wide-connected me-2"></i>
-                              Cài đặt
-                            </a>
-                          </li>
-                        </ul>
+                  if (workingSpace.userId === userLogin?.id) {
+                    return (
+                      <div key={index}>
+                        <button
+                          className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed mb-3"
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#account-collapse_${workingSpace.id}`}
+                          aria-expanded="false"
+                        >
+                          Không gian làm việc của {workingSpace.name}
+                        </button>
+                        <div
+                          className="collapse"
+                          id={`account-collapse_${workingSpace.id}`}
+                        >
+                          <ul className="btn-toggle w-100 text-start sidebar-btn-nav small">
+                            <li className="mb-3">
+                              <NavLink
+                                to={'/home/contentBoard'}
+                                className="link-dark rounded  text-decoration-none"
+                              >
+                                <i className="bi bi-table me-2"></i>
+                                Bảng
+                              </NavLink>
+                            </li>
+                            <li className="mb-3">
+                              <a className="link-dark rounded  text-decoration-none">
+                                <i className="bi bi-heart me-2"></i>
+                                Điểm nổi bật
+                              </a>
+                            </li>
+                            <li className="mb-3">
+                              <a className="link-dark rounded  text-decoration-none">
+                                <i className="bi bi-border-all me-2"></i>
+                                Hình
+                              </a>
+                            </li>
+                            <li className="mb-3">
+                              <a className="link-dark rounded  text-decoration-none">
+                                <i className="bi bi-people-fill me-2"></i>
+                                Thành viên
+                              </a>
+                            </li>
+                            <li className="mb-3">
+                              <a className="link-dark rounded  text-decoration-none">
+                                <i className="bi bi-gear-wide-connected me-2"></i>
+                                Cài đặt
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  );
+                    );
+                  }
                 }
               )}
           </li>

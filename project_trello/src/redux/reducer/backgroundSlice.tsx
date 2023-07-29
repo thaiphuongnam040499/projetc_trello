@@ -24,6 +24,7 @@ const backgroundSlice = createSlice({
     getAllBgColor: (state, action) => {
       state.backgroundColors = action.payload;
     },
+    updateBgColor: (state, action) => {},
   },
 });
 export default backgroundSlice.reducer;
@@ -32,4 +33,5 @@ export const {
   getAllBackground,
   findAllBgColor,
   getAllBgColor,
+  updateBgColor,
 } = backgroundSlice.actions;

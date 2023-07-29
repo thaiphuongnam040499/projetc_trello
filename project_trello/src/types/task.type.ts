@@ -3,4 +3,5 @@ export interface TaskType {
   listTaskId: string;
   name: string;
   status: boolean;
+  memberId: string;
 }

@@ -3,10 +3,12 @@ import { BoardType } from '../../types/board.type';
 
 interface BoardState {
   listBoard: BoardType[];
+  board: BoardType | null;
 }
 
 const initialState: BoardState = {
   listBoard: [],
+  board: null,
 };
 
 const boardSlice = createSlice({
@@ -18,8 +20,20 @@ const boardSlice = createSlice({
     getAllBoard: (state, action) => {
       state.listBoard = action.payload;
     },
+    findCreateBoard: (state, action) => {
+      state.board = action.payload;
+    },
+    reset: (state) => {
+      state.board = null;
+    },
   },
 });
 
 export default boardSlice.reducer;
-export const { createBoard, findAllBoard, getAllBoard } = boardSlice.actions;
+export const {
+  reset,
+  createBoard,
+  findAllBoard,
+  getAllBoard,
+  findCreateBoard,
+} = boardSlice.actions;

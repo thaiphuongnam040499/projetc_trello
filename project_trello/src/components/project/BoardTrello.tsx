@@ -13,6 +13,10 @@ import ModalCard from './ModalCard';
 import '../../assets/react-trello.css';
 import CreateCard from './CreateCard';
 import CreateLane from './CreateLane';
+import { Role } from '../../enums/Role';
+import { createMember } from '../../redux/reducer/memberSlice';
+import { UserId } from '../../types/user.type';
+import { reset } from '../../redux/reducer/boardSlice';
 
 const initialState: BoardData = {
   lanes: [],
@@ -24,11 +28,23 @@ export default function BoardTrello() {
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const cards = useSelector((state: RootState) => state.card.listCard);
   const location = useLocation();
+  const user = localStorage.getItem('userLogin');
+
+  const [userLogin, setUserLogin] = useState<UserId>();
+  const currentCreateBoard = useSelector(
+    (state: RootState) => state.board
+  ).board;
 
   useEffect(() => {
     dispatch(cardSlice.findAllCard());
     dispatch(laneSlice.findAllLane());
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setUserLogin(JSON.parse(user).user);
+    }
+  }, [user]);
 
   useEffect(() => {
     let arr = [];
@@ -254,6 +270,7 @@ export default function BoardTrello() {
           close={closeModal}
           cards={cards}
           lanes={lanes}
+          boardId={location.state.boardId}
         />
       )}
     </div>

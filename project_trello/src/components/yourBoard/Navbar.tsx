@@ -174,30 +174,6 @@ export default function () {
                   </li>
                 </ul>
               </li>
-              <li>
-                <div className="dropdown">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Tạo mới
-                  </button>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Tạo bảng
-                      </a>
-                    </li>
-                    <hr className="my-2" />
-                  </ul>
-                </div>
-              </li>
             </ul>
             <form className="d-flex align-items-center">
               <input

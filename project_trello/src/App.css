@@ -101,7 +101,7 @@ p {
 }
 .sidebar-project {
   overflow: hidden;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 50px);
   background-color: #ece8f0;
   width: 280px;
   opacity: 0.9;
@@ -113,11 +113,15 @@ p {
   width: 100%; */
   background-color: hsla(206, 13.7%, 10%, 0.9);
   color: #ffff;
+  height: 50px;
 }
 .btn-create-board {
   position: relative;
   height: 100px;
   width: 200px;
+}
+.btn-create-board:hover {
+  background-color: #091e4224;
 }
 .btn-create-dropdown {
   position: absolute;
@@ -221,7 +225,7 @@ p {
 }
 .header-project {
   background-color: #ece8f0 !important;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 .showModal {
   z-index: 1000;
@@ -243,7 +247,7 @@ p {
 .board-trello {
   position: relative;
   overflow: hidden;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 50px);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50%;
@@ -396,4 +400,11 @@ p {
   justify-content: center;
   width: 100%;
   height: 100vh;
+}
+.btn-bgColor {
+  width: 50px;
+  height: 30px;
+}
+.btn-ws:hover {
+  background-color: #091e4224;
 }

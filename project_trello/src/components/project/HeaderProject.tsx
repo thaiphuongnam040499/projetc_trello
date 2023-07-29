@@ -22,7 +22,6 @@ const initialState: MemberType = {
   workingSpaceId: '',
   boardId: '',
   cardId: '',
-  taskId: '',
   role: Role.MEMBER,
 };
 
@@ -39,6 +38,7 @@ export default function HeaderProject({
   const currentUser = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
   const [members, setMembers] = useState<MemberType[]>([]);
+  const boards = useSelector((state: RootState) => state.board.listBoard);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,7 +66,6 @@ export default function HeaderProject({
           workingSpaceId: '',
           boardId: boardId,
           cardId: '',
-          taskId: '',
           role: member.role,
         },
       ]);
@@ -108,9 +107,16 @@ export default function HeaderProject({
       </div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom header-project">
         <div className="container-fluid">
-          <a className="navbar-brand ms-2" href="#">
-            project
-          </a>
+          {boards.map((board) => {
+            if (board.id === boardId) {
+              return (
+                <a className="navbar-brand ms-2" href="#">
+                  {board.name}
+                </a>
+              );
+            }
+          })}
+
           <button
             className="navbar-toggler"
             type="button"
@@ -123,53 +129,21 @@ export default function HeaderProject({
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
-              <li className="nav-item dropdown ">
-                <a
-                  className="nav-link fs-6"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Hiển thị trong không gian làm việc
-                </a>
-
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 "></ul>
             <div className="d-flex">
               <div className="d-flex align-items-center me-3">
                 {listMember.map((member) => {
-                  return (
-                    <div key={member.id}>
-                      <img
-                        src={member.imageUrl}
-                        alt=""
-                        className="member-input"
-                      />
-                    </div>
-                  );
+                  if (member.boardId === boardId) {
+                    return (
+                      <div key={member.id}>
+                        <img
+                          src={member.imageUrl}
+                          alt=""
+                          className="member-input"
+                        />
+                      </div>
+                    );
+                  }
                 })}
               </div>
 
@@ -268,40 +242,42 @@ export default function HeaderProject({
                 </button>
               </div>
               {listMember.map((member) => {
-                return (
-                  <div
-                    key={member.id}
-                    className="d-flex justify-content-between mb-3"
-                  >
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={member.imageUrl}
-                        alt=""
-                        className="member-input me-2"
-                      />
-                      <div>
-                        <p className="fs-6">{member.name}</p>
-                        <p className="fs-6">{member.email}</p>
-                      </div>
-                    </div>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
+                if (member.boardId === boardId) {
+                  return (
+                    <div
+                      key={member.id}
+                      className="d-flex justify-content-between mb-3"
                     >
-                      {roles.map((role) => {
-                        return (
-                          <option
-                            key={role}
-                            selected={member.role === role ? true : false}
-                            value={role}
-                          >
-                            {role}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                );
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={member.imageUrl}
+                          alt=""
+                          className="member-input me-2"
+                        />
+                        <div>
+                          <p className="fs-6">{member.name}</p>
+                          <p className="fs-6">{member.email}</p>
+                        </div>
+                      </div>
+                      <select
+                        className="form-select"
+                        aria-label="Default select example"
+                      >
+                        {roles.map((role) => {
+                          return (
+                            <option
+                              key={role}
+                              selected={member.role === role ? true : false}
+                              value={role}
+                            >
+                              {role}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  );
+                }
               })}
             </div>
             <div className="modal-footer"></div>

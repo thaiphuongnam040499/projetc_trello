@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { TaskType } from '../../types/task.type';
 import { useDispatch } from 'react-redux';
-import { deleteTask } from '../../redux/reducer/taskSlice';
+import { deleteTask, updateTask } from '../../redux/reducer/taskSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { findAllMember, updateMember } from '../../redux/reducer/memberSlice';
@@ -9,14 +9,15 @@ import { MemberId } from '../../types/member.type';
 
 interface TaskOptionProps {
   task: TaskType;
+  boardId: string;
 }
 
-export default function TaskOption({ task }: TaskOptionProps) {
+export default function TaskOption({ task, boardId }: TaskOptionProps) {
   const members = useSelector((state: RootState) => state.members.members);
   const dispatch = useDispatch();
 
   const memberItem: MemberId | undefined = members.find(
-    (member) => member.taskId === task.id
+    (member) => member.id === task.memberId
   );
 
   useEffect(() => {
@@ -28,11 +29,11 @@ export default function TaskOption({ task }: TaskOptionProps) {
     member: MemberId
   ) => {
     e.preventDefault();
-    if (member.taskId == '') {
+    if (task.memberId == '') {
       dispatch(
-        updateMember({
-          ...member,
-          taskId: task.id,
+        updateTask({
+          ...task,
+          memberId: member.id,
         })
       );
     }
@@ -43,6 +44,7 @@ export default function TaskOption({ task }: TaskOptionProps) {
     e: React.FormEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
+    console.log(id);
 
     dispatch(deleteTask(id));
   };
@@ -77,7 +79,7 @@ export default function TaskOption({ task }: TaskOptionProps) {
           </button>
         ) : (
           members.map((member) => {
-            if (member.taskId === task.id) {
+            if (member.id === task.memberId) {
               return (
                 <div key={member.id}>
                   <img src={member.imageUrl} alt="" className="member-input" />
@@ -103,22 +105,24 @@ export default function TaskOption({ task }: TaskOptionProps) {
           </li>
           <li className="mb-2 mt-2">
             {members.map((member) => {
-              return (
-                <div key={member.id}>
-                  <button
-                    key={member.id}
-                    className="d-flex align-items-center mb-2 btn btn-light w-100"
-                    onClick={(e) => handleClick(e, member)}
-                  >
-                    <img
-                      src={member.imageUrl}
-                      alt=""
-                      className="member-input"
-                    />
-                    <p className="ms-2">{member.email}</p>
-                  </button>
-                </div>
-              );
+              if (member.boardId === boardId) {
+                return (
+                  <div key={member.id}>
+                    <button
+                      key={member.id}
+                      className="d-flex align-items-center mb-2 btn btn-light w-100"
+                      onClick={(e) => handleClick(e, member)}
+                    >
+                      <img
+                        src={member.imageUrl}
+                        alt=""
+                        className="member-input"
+                      />
+                      <p className="ms-2">{member.email}</p>
+                    </button>
+                  </div>
+                );
+              }
             })}
           </li>
         </ul>

@@ -7,5 +7,11 @@ export const WORKINGSPACE_GET_SERVICE = async () => {
 };
 
 export const WORKINGSPACE_POST_SERVICE = async (data: WorkingSpaceType) => {
-  await intances.post('workingSpace', data);
+  let response = await intances.post('workingSpace', data);
+  return response.data;
+};
+
+export const FIND_WS_BY_USERID_SERVICE = async (id: string) => {
+  let response = await intances.get(`/workingSpace?userId=${id}`);
+  return response.data;
 };

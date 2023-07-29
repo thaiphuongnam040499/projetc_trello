@@ -7,7 +7,6 @@ export interface MemberType {
   workingSpaceId: string;
   boardId: string;
   cardId: string;
-  taskId: string;
   role: Role;
 }
 export interface MemberId extends MemberType {

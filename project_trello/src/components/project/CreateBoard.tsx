@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BoardType } from '../../types/board.type';
 import { useDispatch } from 'react-redux';
-import { createBoard } from '../../redux/reducer/boardSlice';
+import { createBoard, reset } from '../../redux/reducer/boardSlice';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
+import { BgType } from '../../types/bg.type';
+import { createMember, findAllMember } from '../../redux/reducer/memberSlice';
+import { User, UserId } from '../../types/user.type';
+import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { findAllBackground } from '../../redux/reducer/backgroundSlice';
-import { BgType } from '../../types/bg.type';
+import { WsContext } from '../yourBoard/WorkingSpaceBtn';
 
 const initialState: BoardType = {
   id: '',
@@ -17,24 +20,57 @@ const initialState: BoardType = {
 };
 
 interface BoardProps {
-  workingSpace: WorkingSpaceType;
   backgrounds: BgType[];
 }
 
-export default function Board({ workingSpace, backgrounds }: BoardProps) {
+export default function Board({ backgrounds }: BoardProps) {
   const dispatch = useDispatch();
   const [board, setBoard] = useState<BoardType>(initialState);
+  const user = localStorage.getItem('userLogin');
+  const [userLogin, setUserLogin] = useState<UserId>();
+  const currentCreateBoard = useSelector(
+    (state: RootState) => state.board
+  ).board;
+
+  const workingSpace = useContext(WsContext);
 
   useEffect(() => {
-    setBoard({
-      ...board,
-      workingSpaceId: workingSpace.id,
-      backgroundId: board.backgroundId,
-    });
-  }, [workingSpace]);
+    if (user) {
+      setUserLogin(JSON.parse(user).user);
+    }
+  }, [user]);
+
+  const createMemberAd = () => {
+    if (!userLogin) return;
+    if (!currentCreateBoard) return;
+    let member = {
+      name: userLogin.name,
+      email: userLogin.email,
+      imageUrl: userLogin.imageUrl,
+      workingSpaceId: '',
+      boardId: currentCreateBoard.id,
+      cardId: '',
+      taskId: '',
+      role: Role.ADMIN,
+    };
+    dispatch(createMember(member));
+  };
+
+  useEffect(() => {
+    console.log('hai anh nhân béo');
+
+    if (currentCreateBoard) {
+      setTimeout(() => {
+        createMemberAd();
+      }, 150);
+      dispatch(reset());
+    }
+  }, [currentCreateBoard]);
 
   const handleCreateBoard = () => {
+    if (!userLogin) return;
     dispatch(createBoard(board));
+    setBoard(initialState);
   };
 
   return (
@@ -77,6 +113,7 @@ export default function Board({ workingSpace, backgrounds }: BoardProps) {
             setBoard((prev: BoardType) => ({
               ...prev,
               name: e.target.value,
+              workingSpaceId: workingSpace.id,
             }))
           }
           value={board.name}
@@ -105,7 +142,10 @@ export default function Board({ workingSpace, backgrounds }: BoardProps) {
         </select>
       </li>
       <li>
-        <button onClick={handleCreateBoard} className="btn btn-primary w-100">
+        <button
+          onClick={() => handleCreateBoard()}
+          className="btn btn-primary w-100"
+        >
           Tạo bảng
         </button>
       </li>

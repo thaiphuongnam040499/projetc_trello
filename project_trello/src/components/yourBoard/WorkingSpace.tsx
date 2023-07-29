@@ -36,55 +36,50 @@ const initialState: WorkingSpaceType = {
 export default function WorkingSpace() {
   const [workingSpace, setWorkingSpace] =
     useState<WorkingSpaceType>(initialState);
-
   const dispatch = useDispatch();
-
-  const [userLogin, setUserLogin] = useState<UserId>({
-    email: '',
-    password: '',
-    googleId: '',
-    imageUrl: '',
-    name: '',
-    emagivenNamel: '',
-    familyName: '',
-    id: '',
-  });
-
-  const [member, setMember] = useState<MemberType>();
-
+  const [userLogin, setUserLogin] = useState<UserId>();
   const user = localStorage.getItem('userLogin');
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-      setWorkingSpace({
-        id: '',
-        name: '',
-        type: '',
-        description: '',
-        userId: userLogin.id,
-      });
-    }
-  }, [user]);
-
-  const workingSpaces = useSelector(
-    (state: RootState) => state.workingSpace.listWorkingSpace
+  const members = useSelector((state: RootState) => state.members.members);
+  const currentCreateWs = useSelector(
+    (state: RootState) => state.workingSpace.workingSpace
   );
-  const workingSpaceId = workingSpaces.find(
-    (ws) => ws.userId === userLogin.id
-  )?.id;
 
-  const handleCreate = () => {
-    dispatch(createWorkingSpace(workingSpace));
-    dispatch(
-      createMember({
-        name: userLogin.name,
-        email: userLogin.email,
-        imageUrl: userLogin.imageUrl,
-        workingSpaceId: workingSpaceId,
+  const memberFilter = members.filter((member) => member.role === Role.ADMIN);
+
+  const checkExist = (member: any) => {
+    return memberFilter.find(
+      (item) => item.workingSpaceId === member.workingSpaceId
+    );
+  };
+
+  useEffect(() => {
+    if (currentCreateWs) {
+      let member = {
+        name: userLogin?.name,
+        email: userLogin?.email,
+        imageUrl: userLogin?.imageUrl,
+        workingSpaceId: currentCreateWs.id,
         boardId: '',
         cardId: '',
         taskId: '',
         role: Role.ADMIN,
+      };
+      if (!checkExist(member)) {
+        dispatch(createMember(member));
+      }
+    }
+  }, [currentCreateWs]);
+  useEffect(() => {
+    if (user) {
+      setUserLogin(JSON.parse(user).user);
+    }
+  }, [user]);
+
+  const handleCreate = () => {
+    dispatch(
+      createWorkingSpace({
+        ...workingSpace,
+        userId: userLogin?.id,
       })
     );
   };

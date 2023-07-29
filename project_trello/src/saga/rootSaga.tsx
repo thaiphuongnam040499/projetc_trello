@@ -60,6 +60,11 @@ export const rootSaga = function* () {
       workingSpaceSaga.WORKINGSPACE_SAGA_GET
     ),
 
+    takeLatest(
+      workingSpaceSlice.findWsByUserId.type,
+      workingSpaceSaga.findProjectsByUserId
+    ),
+
     takeLatest(boardSlice.createBoard.type, boardSaga.BOARD_SAGA_POST),
 
     takeLatest(boardSlice.findAllBoard.type, boardSaga.BOARD_SAGA_GET),
@@ -116,10 +121,13 @@ export const rootSaga = function* () {
       backgroundSlice.findAllBackground.type,
       backgroundSaga.BG_SAGA_GET
     ),
-
     takeLatest(
       backgroundSlice.findAllBgColor.type,
       backgroundSaga.BGC_SAGA_GET
+    ),
+    takeLatest(
+      backgroundSlice.updateBgColor.type,
+      backgroundSaga.BGC_SAGA_PATCH
     ),
 
     takeLatest(memberSlice.findAllMember.type, memberSaga.MEMBER_SAGA_GET),

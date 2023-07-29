@@ -7,5 +7,6 @@ export const BOARD_GET_SERVICE = async () => {
 };
 
 export const BOARD_POST_SERVICE = async (data: BoardType) => {
-  await intances.post('boards', data);
+  let response = await intances.post('boards', data);
+  return response.data;
 };

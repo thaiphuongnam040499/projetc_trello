@@ -8,14 +8,19 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { MemberId, MemberType } from '../../types/member.type';
 import { useDispatch } from 'react-redux';
-import { findAllBgColor } from '../../redux/reducer/backgroundSlice';
+import {
+  findAllBgColor,
+  updateBgColor,
+} from '../../redux/reducer/backgroundSlice';
 import { updateMember } from '../../redux/reducer/memberSlice';
+import { BgColor } from '../../types/bColor.type';
 
 interface ModalCardProps {
   cardId: string;
   close: () => void;
   cards: Card[];
   lanes: Lane[];
+  boardId: string;
 }
 
 export default function ModalCard({
@@ -23,6 +28,7 @@ export default function ModalCard({
   close,
   cards,
   lanes,
+  boardId,
 }: ModalCardProps) {
   const cardDetail = cards.find((item) => item.id === cardId);
   const members = useSelector((state: RootState) => state.members.members);
@@ -45,6 +51,19 @@ export default function ModalCard({
       updateMember({
         ...member,
         cardId: cardId,
+      })
+    );
+  };
+
+  const handleChangeCheckbox = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    bgColor: BgColor
+  ) => {
+    const checkedValue = e.target.checked;
+    dispatch(
+      updateBgColor({
+        ...bgColor,
+        status: checkedValue,
       })
     );
   };
@@ -76,7 +95,11 @@ export default function ModalCard({
             />
           </div>
           <div className="modal-body modal-body-board d-flex">
-            <ModalCardBody cardId={cardId} />
+            <ModalCardBody
+              boardId={boardId}
+              bgColors={bgColors}
+              cardId={cardId}
+            />
             <form className="create-tag">
               <div className="ms-3 ps-2 px-2 mb-2">
                 <p>Thêm vào thẻ</p>
@@ -110,20 +133,22 @@ export default function ModalCard({
                     </li>
                     <li className="mb-2 mt-2">
                       {members.map((member) => {
-                        return (
-                          <button
-                            key={member.id}
-                            className="d-flex align-items-center mb-2 btn btn-light w-100"
-                            onClick={(e) => handleClick(e, member)}
-                          >
-                            <img
-                              src={member.imageUrl}
-                              alt=""
-                              className="member-input"
-                            />
-                            <p className="ms-2">{member.email}</p>
-                          </button>
-                        );
+                        if (member.boardId === boardId) {
+                          return (
+                            <button
+                              key={member.id}
+                              className="d-flex align-items-center mb-2 btn btn-light w-100"
+                              onClick={(e) => handleClick(e, member)}
+                            >
+                              <img
+                                src={member.imageUrl}
+                                alt=""
+                                className="member-input"
+                              />
+                              <p className="ms-2">{member.email}</p>
+                            </button>
+                          );
+                        }
                       })}
                     </li>
                   </ul>
@@ -167,7 +192,14 @@ export default function ModalCard({
                                 key={bgColor.id}
                                 className="d-flex align-items-center mt-2 mb-2"
                               >
-                                <input type="checkbox" className="ms-2" />
+                                <input
+                                  type="checkbox"
+                                  className="ms-2"
+                                  checked={bgColor.status}
+                                  onChange={(e) =>
+                                    handleChangeCheckbox(e, bgColor)
+                                  }
+                                />
                                 <button
                                   style={{
                                     backgroundColor: bgColor.backgroundColor,

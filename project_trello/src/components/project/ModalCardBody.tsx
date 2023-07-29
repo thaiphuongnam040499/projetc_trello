@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ListTask } from '../../types/listTask.type';
@@ -10,9 +10,12 @@ import { DateTime } from '../../types/dateTime.type';
 
 import CreateDescription from './CreateDescription';
 import { MemberId, MemberType } from '../../types/member.type';
+import { BgColor } from '../../types/bColor.type';
 
 interface ModalCardBodyProps {
   cardId: string;
+  bgColors: BgColor[];
+  boardId: string;
 }
 const initialState = {
   id: '',
@@ -21,7 +24,11 @@ const initialState = {
   status: false,
 };
 
-export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
+export default function ModalCardBody({
+  cardId,
+  bgColors,
+  boardId,
+}: ModalCardBodyProps) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowDis, setIsShowDis] = useState(false);
   const dispatch = useDispatch();
@@ -72,8 +79,8 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
 
   return (
     <form className="card-modal-body">
-      <div className="ms-3 ps-2 px-2 mb-2 d-flex">
-        <div className="me-3">
+      <div className="ms-3 ps-2 px-2 mb-2 d-flex flex-wrap">
+        <div className="me-3 mt-2 mb-2">
           <div>
             <p>Thành viên</p>
           </div>
@@ -89,11 +96,29 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
             })}
           </div>
         </div>
+
+        <div className="me-3 mt-2 mb-2">
+          <div>
+            <p>Nhãn</p>
+          </div>
+          <div className="d-flex">
+            {bgColors.map((bgColor) => {
+              if (bgColor.status === true) {
+                return (
+                  <button
+                    style={{ backgroundColor: bgColor.backgroundColor }}
+                    className="btn btn-bgColor me-1"
+                  ></button>
+                );
+              }
+            })}
+          </div>
+        </div>
         {dateTimes.map((dateTime: DateTime) => {
           if (dateTime.cardId === cardId) {
             let date = new Date(dateTime.expirationDate);
             return (
-              <div key={dateTime.id}>
+              <div className="mt-2 mb-2" key={dateTime.id}>
                 <p>Ngày hết hạn</p>
                 <input
                   type="checkbox"
@@ -168,7 +193,8 @@ export default function ModalCardBody({ cardId }: ModalCardBodyProps) {
                     </div>
                   </div>
                 </div>
-                <Task listTask={listTask} />
+
+                <Task boardId={boardId} listTask={listTask} />
               </div>
             );
           }
