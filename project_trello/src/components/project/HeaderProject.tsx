@@ -6,9 +6,14 @@ import { findUserByEmail } from '../../redux/reducer/userSlice';
 import { MemberType } from '../../types/member.type';
 import { Role } from '../../enums/Role';
 import { User, UserId } from '../../types/user.type';
-import { createMember, findAllMember } from '../../redux/reducer/memberSlice';
+import {
+  createMember,
+  findAllMember,
+  updateMember,
+} from '../../redux/reducer/memberSlice';
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
+import Filter from './Filter';
 
 interface HeaderProjectProps {
   workingSpaceId: string;
@@ -89,23 +94,43 @@ export default function HeaderProject({
     setUserSearch('');
   };
 
-  const handleShowTag = members.map((user) => {
+  const handleShowTag = members.map((user, index) => {
     return (
-      <div className="me-2">
+      <div className="me-2 force-overflow">
         <span className="d-flex align-items-center ">
           <span>{user.email}</span>
-          <button className="bi bi-x btn btn-light "></button>
+          <button
+            className="bi bi-x btn btn-light "
+            onClick={() => {
+              let arr = [...members];
+              arr.splice(index, 1);
+              setMembers(arr);
+            }}
+          ></button>
         </span>
       </div>
     );
   });
+
+  const changeUpdate = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    member: MemberType
+  ) => {
+    let changeRole = e.target.value;
+    dispatch(
+      updateMember({
+        ...member,
+        role: changeRole,
+      })
+    );
+  };
 
   return (
     <div>
       <div>
         <Toaster />
       </div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom header-project">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom header-project border-start">
         <div className="container-fluid">
           {boards.map((board) => {
             if (board.id === boardId) {
@@ -131,6 +156,7 @@ export default function HeaderProject({
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 "></ul>
             <div className="d-flex">
+              <Filter />
               <div className="d-flex align-items-center me-3">
                 {listMember.map((member) => {
                   if (member.boardId === boardId) {
@@ -185,14 +211,16 @@ export default function HeaderProject({
             </div>
             <div className="modal-body">
               <div className="d-flex mt-2 mb-4">
-                <div className="w-50 p-3 border search-user d-flex flex-wrap">
-                  {handleShowTag}
-                  <input
-                    type="text"
-                    placeholder="Địa chỉ email hoặc tên"
-                    className="border rounded "
-                    onChange={(e) => setUserSearch(e.target.value)}
-                  />
+                <div className="w-50 p-3 border search-user d-flex scrollbar scrollbar-indigo bordered-indigo thin">
+                  <div className="force-overflow">
+                    {handleShowTag}
+                    <input
+                      type="text"
+                      placeholder="Địa chỉ email hoặc tên"
+                      className="border rounded "
+                      onChange={(e) => setUserSearch(e.target.value)}
+                    />
+                  </div>
                 </div>
 
                 {userSearch ? (
@@ -262,6 +290,7 @@ export default function HeaderProject({
                       <select
                         className="form-select"
                         aria-label="Default select example"
+                        onChange={(e) => changeUpdate(e, member)}
                       >
                         {roles.map((role) => {
                           return (

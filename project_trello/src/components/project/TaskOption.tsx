@@ -46,8 +46,12 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
     }
   };
 
-  const handleDeleteTask = () => {
-    dispatch(deleteTask(task.id));
+  const handleDeleteTask = (
+    e: React.FormEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    e.preventDefault();
+    dispatch(deleteTask(id));
   };
 
   return (
@@ -151,7 +155,7 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
           <li className="p-2">
             <button
               className=" border rounded btn btn-light w-100"
-              onClick={handleDeleteTask}
+              onClick={(e) => handleDeleteTask(e, task.id)}
             >
               Xóa
             </button>

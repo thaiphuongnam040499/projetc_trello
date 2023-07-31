@@ -5,7 +5,7 @@ export const USER_POST_SERVICE = async (user: any) => {
 };
 
 export const create_user = async (user: any) => {
-  await intances.post('users', user);
+  await intances.post('/register', user);
 };
 
 export const USER_GET_SERVICE = async (data: any) => {

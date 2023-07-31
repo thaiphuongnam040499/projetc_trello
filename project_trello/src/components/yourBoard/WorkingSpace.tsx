@@ -61,7 +61,6 @@ export default function WorkingSpace() {
         workingSpaceId: currentCreateWs.id,
         boardId: '',
         cardId: '',
-        taskId: '',
         role: Role.ADMIN,
       };
       if (!checkExist(member)) {

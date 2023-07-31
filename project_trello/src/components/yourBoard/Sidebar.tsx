@@ -93,30 +93,7 @@ export default function Sidebar() {
               <i className="bi bi-box px-2"></i>
               Mẫu
             </button>
-            <div className="collapse" id="dashboard-collapse">
-              <ul className="btn-toggle w-100 text-start sidebar-btn-nav list-unstyled fw-normal pb-1 small">
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Overview
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Weekly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Monthly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Annually
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <div className="collapse" id="dashboard-collapse"></div>
           </li>
           <NavLink to={'/home'} className="mb-1">
             <button
@@ -171,43 +148,7 @@ export default function Sidebar() {
                         <div
                           className="collapse"
                           id={`account-collapse_${workingSpace.id}`}
-                        >
-                          <ul className="btn-toggle w-100 text-start sidebar-btn-nav small">
-                            <li className="mb-3">
-                              <NavLink
-                                to={'/home/contentBoard'}
-                                className="link-dark rounded  text-decoration-none"
-                              >
-                                <i className="bi bi-table me-2"></i>
-                                Bảng
-                              </NavLink>
-                            </li>
-                            <li className="mb-3">
-                              <a className="link-dark rounded  text-decoration-none">
-                                <i className="bi bi-heart me-2"></i>
-                                Điểm nổi bật
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a className="link-dark rounded  text-decoration-none">
-                                <i className="bi bi-border-all me-2"></i>
-                                Hình
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a className="link-dark rounded  text-decoration-none">
-                                <i className="bi bi-people-fill me-2"></i>
-                                Thành viên
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a className="link-dark rounded  text-decoration-none">
-                                <i className="bi bi-gear-wide-connected me-2"></i>
-                                Cài đặt
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
+                        ></div>
                       </div>
                     );
                   }

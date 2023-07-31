@@ -7,6 +7,7 @@ import {
   findUserByEmail,
   getUserByEmail,
   getUserLogin,
+  login,
 } from '../../redux/reducer/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -19,17 +20,14 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const users = useSelector((state: RootState) => state.user.listUser);
-  const userLogin = useSelector((state: RootState) => state.user.user);
+  const userLogin = useSelector((state: RootState) => state.user.userLogin);
+  console.log(userLogin);
+
   const [result, setResult] = useState('');
 
   useEffect(() => {
     dispatch(findAllUser());
   }, []);
-
-  useEffect(() => {
-    dispatch(findUserByEmail(user.email));
-  }, [user]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
@@ -40,27 +38,17 @@ export default function SignIn() {
     });
   };
 
-  useEffect(() => {
-    if (user.email) {
-      if (userLogin) {
-        localStorage.setItem('userLogin', JSON.stringify(userLogin));
-      }
-    }
-  }, [userLogin]);
-
   const handleSignIn = () => {
-    for (let i = 0; i < users.length; i++) {
-      if (
-        user.email === users[i].email &&
-        user.password === users[i].password
-      ) {
-        navigate('/home');
-        return;
-      } else {
-        setResult('Email hoặc password bạn nhập không chính xác!!!');
-      }
-    }
+    // navigate('/home');
+    dispatch(login({ email: user.email, password: user.password }));
+    setTimeout(() => {
+      dispatch(getUserLogin(null));
+    }, 1000);
   };
+
+  useEffect(() => {
+    if (userLogin) localStorage.setItem('userLogin', JSON.stringify(userLogin));
+  }, [userLogin]);
 
   return (
     <div>

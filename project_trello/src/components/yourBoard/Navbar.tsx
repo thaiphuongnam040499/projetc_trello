@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { UserId } from '../../types/user.type';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Nav } from 'react-bootstrap';
 
 export default function () {
   const user = localStorage.getItem('userLogin');
@@ -23,9 +24,9 @@ export default function () {
       <nav className="navbar navbar-dark navbar-expand-lg navbar-home">
         <div className="container-fluid">
           <i className="bi bi-trello"></i>
-          <a className="navbar-brand ms-2" href="#">
+          <NavLink className="navbar-brand ms-2" to={'/home/contentBoard'}>
             Trello
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -194,7 +195,7 @@ export default function () {
                   <div className="dropdown">
                     <img
                       src={userLogin.imageUrl}
-                      className="border rounded-circle w-50 h-50 ms-2 fs-5 profile-img"
+                      className="border rounded-circle ms-2 fs-5 profile-img"
                       id="dropdownMenuButton1"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"

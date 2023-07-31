@@ -14,6 +14,7 @@ import {
 } from '../../redux/reducer/backgroundSlice';
 import { updateMember } from '../../redux/reducer/memberSlice';
 import { BgColor } from '../../types/bColor.type';
+import CreateMember from './CreateMember';
 
 interface ModalCardProps {
   cardId: string;
@@ -103,7 +104,7 @@ export default function ModalCard({
               aria-label="Close"
             />
           </div>
-          <div className="modal-body modal-body-board d-flex">
+          <div className="modal-body modal-body-board d-flex scrollbar scrollbar-indigo bordered-indigo thin">
             <ModalCardBody
               boardId={boardId}
               bgColors={bgColors}
@@ -120,47 +121,14 @@ export default function ModalCard({
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i className="bi bi-person me-2"></i>
+                    <i className="bi bi-people me-2"></i>
                     Thành viên
                   </button>
-                  <ul
-                    className="dropdown-menu p-2 member-list"
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li>
-                      <p className="text-center">Thành viên</p>
-                    </li>
-                    <li className="mb-2 mt-2">
-                      <input
-                        type="text"
-                        className="w-100 border rounded list-member-input"
-                        placeholder="Tìm kiếm các thành viên"
-                      />
-                    </li>
-                    <li>
-                      <p className="fs-6">Thành viên của bảng</p>
-                    </li>
-                    <li className="mb-2 mt-2">
-                      {members.map((member) => {
-                        if (member.boardId === boardId) {
-                          return (
-                            <button
-                              key={member.id}
-                              className="d-flex align-items-center mb-2 btn btn-light w-100"
-                              onClick={(e) => handleClick(e, member)}
-                            >
-                              <img
-                                src={member.imageUrl}
-                                alt=""
-                                className="member-input"
-                              />
-                              <p className="ms-2">{member.email}</p>
-                            </button>
-                          );
-                        }
-                      })}
-                    </li>
-                  </ul>
+                  <CreateMember
+                    cards={cards}
+                    boardId={boardId}
+                    cardId={cardId}
+                  />
                 </div>
                 <CreateListTask cardId={cardId} />
                 <CreateDateTime cardId={cardId} />

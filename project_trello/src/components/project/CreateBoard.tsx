@@ -48,7 +48,6 @@ export default function Board({ workingSpace, backgrounds }: BoardProps) {
       workingSpaceId: '',
       boardId: currentCreateBoard.id,
       cardId: '',
-      taskId: '',
       role: Role.ADMIN,
     };
     dispatch(createMember(member));

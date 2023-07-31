@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Board from 'react-trello-ts';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import * as laneSlice from '../../redux/reducer/laneSlice';
@@ -17,6 +17,7 @@ import { Role } from '../../enums/Role';
 import { createMember } from '../../redux/reducer/memberSlice';
 import { UserId } from '../../types/user.type';
 import { reset } from '../../redux/reducer/boardSlice';
+import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 
 const initialState: BoardData = {
   lanes: [],
@@ -30,15 +31,18 @@ export default function BoardTrello() {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const { boardId } = useParams();
+
   useEffect(() => {
     dispatch(cardSlice.findAllCard());
     dispatch(laneSlice.findAllLane());
-  }, []);
+    dispatch(findAllBackground());
+  }, [boardId]);
 
   useEffect(() => {
     let arr = [];
     for (let i = 0; i < lanes.length; i++) {
-      if (location.state.boardId === lanes[i].boardId) {
+      if (location.state.board.id === lanes[i].boardId) {
         let laneData: any = {
           id: lanes[i].id,
           title: lanes[i].title,
@@ -99,7 +103,7 @@ export default function BoardTrello() {
       laneSlice.createLane({
         id: params.id,
         title: params.title,
-        boardId: location.state.boardId,
+        boardId: location.state.board.id,
       })
     );
   };
@@ -196,19 +200,23 @@ export default function BoardTrello() {
     };
     dispatch(laneSlice.updateLane(beLane));
   };
+  console.log(location.state.board.id);
 
   const closeModal = () => {
     setCurrentCard(null);
   };
+  const board = location.state.board;
+  const bgs = useSelector((state: RootState) => state.backgrounds).backgrounds;
+  const bg = bgs.find((bg) => bg.id === board.backgroundId);
 
   return (
     <div
       className="w-100 board-trello"
-      style={{ backgroundImage: `url(${location.state.background.url})` }}
+      style={{ backgroundImage: `url(${bg ? bg.url : ''})` }}
     >
       <HeaderProject
         workingSpaceId={location.state.workingSpaceId}
-        boardId={location.state.boardId}
+        boardId={location.state.board.id}
       />
       <Board
         style={{
@@ -244,7 +252,7 @@ export default function BoardTrello() {
           close={closeModal}
           cards={cards}
           lanes={lanes}
-          boardId={location.state.boardId}
+          boardId={location.state.board.id}
         />
       )}
     </div>

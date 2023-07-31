@@ -7,17 +7,21 @@ import { findAllCard } from '../../redux/reducer/cardSlice';
 import { findUserByEmail } from '../../redux/reducer/userSlice';
 import { useLocation } from 'react-router-dom';
 import { UserId } from '../../types/user.type';
+import CreateDateTime from './CreateDateTime';
+import CreateMember from './CreateMember';
+import { findAllDateTime } from '../../redux/reducer/dateTimeSlice';
 
 export default function TableProject() {
   const cards = useSelector((state: RootState) => state.card.listCard);
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const dispatch = useDispatch();
-  const member = useSelector((state: RootState) => state.members.members);
+  const members = useSelector((state: RootState) => state.members.members);
   const userSearch = useSelector((state: RootState) => state.user.listUser);
   const location = useLocation();
   const [memberSearch, setMemberSearch] = useState('');
   const currentUser = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
+  const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
 
   useEffect(() => {
     if (currentUser) {
@@ -31,6 +35,7 @@ export default function TableProject() {
 
   useEffect(() => {
     dispatch(findAllCard());
+    dispatch(findAllDateTime());
   }, []);
 
   useEffect(() => {
@@ -94,84 +99,67 @@ export default function TableProject() {
                         </div>
                       </td>
                       <td>
-                        <div className="dropdown">
-                          <button
-                            className="btn btn-light w-100 text-start"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i className="bi bi-plus-lg"></i>
-                          </button>
-                          <ul
-                            className="dropdown-menu p-2 list-member"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li>
-                              <p className="text-center">Thành viên</p>
-                            </li>
-                            <hr className="my-2 p-0" />
-                            <li className=" mt-2 mb-2">
-                              <input
-                                type="text"
-                                placeholder="Tìm kiếm các danh sách"
-                                className="list-member-input"
-                                onChange={(e) =>
-                                  setMemberSearch(e.target.value)
-                                }
-                              />
-                            </li>
-                            <li>
-                              <p>Thành viên của bảng</p>
-                            </li>
-                            <li className="d-flex align-items-center mt-2 mb-2 ms-2">
-                              <img
-                                src={userLogin?.imageUrl}
-                                alt=""
-                                className="member-input"
-                              />
-                              <p className="ms-2">{userLogin?.name}</p>
-                            </li>
-                          </ul>
+                        <div className="d-flex align-items-center justify-content-around">
+                          <div className="d-flex">
+                            {members.map((item) => {
+                              if (item.cardId === card.id) {
+                                return (
+                                  <div key={item.id}>
+                                    <img
+                                      src={item.imageUrl}
+                                      alt=""
+                                      className="member-input"
+                                    />
+                                  </div>
+                                );
+                              }
+                            })}
+                          </div>
+                          <div className="dropdown">
+                            <button
+                              className="btn btn-light w-100 border rounded mb-2 text-start"
+                              type="button"
+                              id="dropdownMenuButton1"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <i className="bi bi-plus"></i>
+                            </button>
+                            <CreateMember
+                              memberArr={members}
+                              cards={cards}
+                              cardId={card.id}
+                              boardId={location.state.boardId}
+                            />
+                          </div>
                         </div>
                       </td>
                       <td>
-                        <div className="dropdown">
-                          <button
-                            className="btn btn-light w-100 mb-2 text-start"
-                            type="button"
-                            id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <i className="bi bi-plus-lg"></i>
-                          </button>
-                          <ul
-                            className="dropdown-menu date-time"
-                            aria-labelledby="dropdownMenuButton1"
-                          >
-                            <li className="text-center">Ngày</li>
-                            <hr className="my-2" />
-                            <li className="p-2">
-                              <div>
-                                <p className="mb-2">Ngày hết hạn:</p>
-                                <input
-                                  type="datetime-local"
-                                  className="w-100 mb-2 input-date border rounded p-3"
-                                />
-                                <div>
-                                  <button className="btn btn-primary w-100 mb-2 mt-2">
-                                    Lưu
-                                  </button>
-                                  <button className="btn btn-secondary w-100">
-                                    Gỡ bỏ
-                                  </button>
-                                </div>
+                        {dateTimes.map((dateTime) => {
+                          if (dateTime.cardId === card.id) {
+                            let date = new Date(dateTime.expirationDate);
+                            return (
+                              <div className="mt-2 mb-2" key={dateTime.id}>
+                                <button
+                                  type="button"
+                                  className="btn btn-light border rounded"
+                                >
+                                  {`${date.getDate()}/${
+                                    date.getMonth() + 1
+                                  }/${date.getFullYear()}`}
+                                  {dateTime.status ? (
+                                    <span className="bg-success ms-2 text-white">
+                                      Hoàn tất
+                                    </span>
+                                  ) : (
+                                    <p></p>
+                                  )}
+                                </button>
                               </div>
-                            </li>
-                          </ul>
-                        </div>
+                            );
+                          }
+                        })}
+                        <CreateDateTime cardId={card.id} />
                       </td>
                     </tr>
                   );

@@ -37,16 +37,6 @@ export const USER_SAGA_REGISTER = function* (action: any) {
     yield call(create_user, action.payload.user);
   } catch (error) {
     console.log(error);
-  } finally {
-    if (action.payload.type === 'via3th') {
-      let fakeAction = {
-        payload: {
-          email: action.payload.user.email,
-          password: action.payload.user.password,
-        },
-      };
-      yield USER_SAGA_LOGIN(fakeAction);
-    }
   }
 };
 

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthSupport from './AuthSupport';
 import { useDispatch } from 'react-redux';
-import { register } from '../../redux/reducer/userSlice';
+import { createUser, register } from '../../redux/reducer/userSlice';
 export default function SignUp() {
   const [email, setEmail] = useState({
     email: '',
@@ -31,8 +31,8 @@ export default function SignUp() {
 
   const handleCreateUser = () => {
     dispatch(
-      register({
-        type: 'via3th',
+      createUser({
+        type: 'nomarl',
         user: {
           email: email.email,
           password: password.password,
