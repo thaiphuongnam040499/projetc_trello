@@ -32,7 +32,7 @@ export default function SidebarProject() {
           <hr className="my-3" />
           <li className="mb-1">
             <button
-              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
+              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed  "
               data-bs-toggle="collapse"
               data-bs-target="#home-collapse"
               aria-expanded="false"
@@ -43,7 +43,7 @@ export default function SidebarProject() {
           </li>
           <li className="mb-1">
             <button
-              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
+              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed "
               data-bs-toggle="collapse"
               data-bs-target="#dashboard-collapse"
               aria-expanded="false"
@@ -78,7 +78,7 @@ export default function SidebarProject() {
           </li>
           <li className="mb-1">
             <button
-              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
+              className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed "
               data-bs-toggle="collapse"
               data-bs-target="#orders-collapse"
               aria-expanded="false"

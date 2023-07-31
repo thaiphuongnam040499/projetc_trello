@@ -1,29 +1,65 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthSupport from './AuthSupport';
 import { useDispatch } from 'react-redux';
-import { getUserLogin } from '../../redux/reducer/userSlice';
+import {
+  findAllUser,
+  findUserByEmail,
+  getUserByEmail,
+  getUserLogin,
+} from '../../redux/reducer/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export default function SignIn() {
-  const [userLogin, setUserLogin] = useState({
+  const [user, setUser] = useState({
     email: '',
     password: '',
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const users = useSelector((state: RootState) => state.user.listUser);
+  const userLogin = useSelector((state: RootState) => state.user.user);
+  const [result, setResult] = useState('');
+
+  useEffect(() => {
+    dispatch(findAllUser());
+  }, []);
+
+  useEffect(() => {
+    dispatch(findUserByEmail(user.email));
+  }, [user]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
     let value = e.target.value;
-    setUserLogin({
-      ...userLogin,
+    setUser({
+      ...user,
       [name]: value,
     });
   };
 
+  useEffect(() => {
+    if (user.email) {
+      if (userLogin) {
+        localStorage.setItem('userLogin', JSON.stringify(userLogin));
+      }
+    }
+  }, [userLogin]);
+
   const handleSignIn = () => {
-    dispatch(getUserLogin(userLogin));
-    navigate('/home');
+    for (let i = 0; i < users.length; i++) {
+      if (
+        user.email === users[i].email &&
+        user.password === users[i].password
+      ) {
+        navigate('/home');
+        return;
+      } else {
+        setResult('Email hoặc password bạn nhập không chính xác!!!');
+      }
+    }
   };
 
   return (
@@ -48,16 +84,19 @@ export default function SignIn() {
                       id="typeEmailX-2"
                       className="form-control form-control-lg mb-3"
                       placeholder="Nhập email"
-                      value={userLogin.email}
+                      name="email"
+                      value={user.email}
                       onChange={handleChange}
                     />
                     <input
                       type="password"
                       className="form-control form-control-lg"
                       placeholder="Nhập password"
-                      value={userLogin.password}
+                      name="password"
+                      value={user.password}
                       onChange={handleChange}
                     />
+                    <p className="result mt-2">{result}</p>
                   </div>
 
                   {/* Checkbox */}

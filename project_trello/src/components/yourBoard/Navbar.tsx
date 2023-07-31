@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import Board from '../project/CreateBoard';
-import { User, UserId } from '../../types/user.type';
+import { useState, useEffect } from 'react';
+import { UserId } from '../../types/user.type';
 import { useNavigate } from 'react-router-dom';
 
 export default function () {

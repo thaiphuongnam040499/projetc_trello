@@ -4,10 +4,12 @@ import { User } from '../../types/user.type';
 interface UserState {
   listUser: User[];
   userLogin: null;
+  user: null;
 }
 const initialState: UserState = {
   userLogin: null,
   listUser: [],
+  user: null,
 };
 const userSlice = createSlice({
   name: 'user',
@@ -20,9 +22,13 @@ const userSlice = createSlice({
     },
     register: (state, action) => {},
     getUserByEmail: (state, action) => {
-      state.listUser = action.payload;
+      state.user = action.payload;
     },
     findUserByEmail: (state, action) => {},
+    getAllUser: (state, action) => {
+      state.listUser = action.payload;
+    },
+    findAllUser: () => {},
   },
 });
 
@@ -34,4 +40,6 @@ export const {
   register,
   getUserByEmail,
   findUserByEmail,
+  getAllUser,
+  findAllUser,
 } = userSlice.actions;

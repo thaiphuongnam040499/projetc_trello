@@ -6,6 +6,7 @@ import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { RootState } from '../../redux/store';
 import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
 import { UserId } from '../../types/user.type';
+import { match } from 'assert';
 
 export default function Sidebar() {
   const user = localStorage.getItem('userLogin');
@@ -14,6 +15,48 @@ export default function Sidebar() {
   const listWorkingSpace = useSelector(
     (state: RootState) => state.workingSpace.listWorkingSpace
   );
+
+  const colorCodes = [
+    '#FF5733',
+    '#4B0082',
+    '#00FF7F',
+    '#800080',
+    '#FFD700',
+    '#FF1493',
+    '#00BFFF',
+    '#FF4500',
+    '#008080',
+    '#FF6347',
+    '#4682B4',
+    '#FF69B4',
+    '#20B2AA',
+    '#EE82EE',
+    '#7B68EE',
+    '#CD5C5C',
+    '#00CED1',
+    '#9370DB',
+    '#8A2BE2',
+    '#F08080',
+    '#00FA9A',
+    '#C71585',
+    '#66CDAA',
+  ];
+  const [charColors, setCharColors] = React.useState<string[]>([]);
+
+  const getRandomCharColor = () => {
+    const randomIndex = Math.floor(Math.random() * colorCodes.length);
+    return colorCodes[randomIndex];
+  };
+
+  useEffect(() => {
+    const charColorsArray: string[] = [];
+    if (listWorkingSpace && listWorkingSpace.length > 0) {
+      listWorkingSpace.forEach((workingSpace: WorkingSpaceType) => {
+        charColorsArray.push(getRandomCharColor());
+      });
+    }
+    setCharColors(charColorsArray);
+  }, [listWorkingSpace]);
 
   useEffect(() => {
     if (user) {
@@ -89,7 +132,7 @@ export default function Sidebar() {
           </NavLink>
           <li className="border-top my-3" />
           <li className="mb-1">
-            <div className="d-flex justify-content-around align-items-center">
+            <div className="d-flex justify-content-around align-items-center mb-2">
               <p>Các không gian làm việc</p>
               {/* Button trigger modal */}
               <button
@@ -108,12 +151,22 @@ export default function Sidebar() {
                     return (
                       <div key={index}>
                         <button
-                          className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed mb-3"
+                          className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed mb-3 d-flex"
                           data-bs-toggle="collapse"
                           data-bs-target={`#account-collapse_${workingSpace.id}`}
                           aria-expanded="false"
                         >
-                          Không gian làm việc của {workingSpace.name}
+                          <div
+                            className="charAt"
+                            style={{
+                              backgroundColor: charColors[index],
+                            }}
+                          >
+                            <p className="text-center text-white">
+                              {workingSpace.name.charAt(0).toUpperCase()}
+                            </p>
+                          </div>
+                          <p className="ms-2">{workingSpace.name}</p>
                         </button>
                         <div
                           className="collapse"

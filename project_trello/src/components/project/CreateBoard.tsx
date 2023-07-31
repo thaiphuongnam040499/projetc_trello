@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BoardType } from '../../types/board.type';
 import { useDispatch } from 'react-redux';
 import { createBoard, reset } from '../../redux/reducer/boardSlice';
@@ -9,7 +9,6 @@ import { User, UserId } from '../../types/user.type';
 import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { WsContext } from '../yourBoard/WorkingSpaceBtn';
 
 const initialState: BoardType = {
   id: '',
@@ -21,9 +20,10 @@ const initialState: BoardType = {
 
 interface BoardProps {
   backgrounds: BgType[];
+  workingSpace: WorkingSpaceType | undefined;
 }
 
-export default function Board({ backgrounds }: BoardProps) {
+export default function Board({ workingSpace, backgrounds }: BoardProps) {
   const dispatch = useDispatch();
   const [board, setBoard] = useState<BoardType>(initialState);
   const user = localStorage.getItem('userLogin');
@@ -31,8 +31,6 @@ export default function Board({ backgrounds }: BoardProps) {
   const currentCreateBoard = useSelector(
     (state: RootState) => state.board
   ).board;
-
-  const workingSpace = useContext(WsContext);
 
   useEffect(() => {
     if (user) {
@@ -57,9 +55,7 @@ export default function Board({ backgrounds }: BoardProps) {
   };
 
   useEffect(() => {
-    console.log('hai anh nhân béo');
-
-    if (currentCreateBoard) {
+    if (currentCreateBoard && workingSpace?.id === currentCreateBoard.id) {
       setTimeout(() => {
         createMemberAd();
       }, 150);
@@ -68,15 +64,20 @@ export default function Board({ backgrounds }: BoardProps) {
   }, [currentCreateBoard]);
 
   const handleCreateBoard = () => {
-    if (!userLogin) return;
-    dispatch(createBoard(board));
+    dispatch(
+      createBoard({
+        ...board,
+        workingSpaceId: workingSpace?.id,
+        backgroundId: board.backgroundId,
+      })
+    );
     setBoard(initialState);
   };
 
   return (
     <ul
       className="dropdown-menu btn-create-dropdown p-3"
-      aria-labelledby="dropdownMenuButton1"
+      aria-labelledby={`dropdownMenuButton1${workingSpace?.id}`}
     >
       <li className="text-center mb-3">
         <p>Tạo bảng</p>
@@ -113,7 +114,6 @@ export default function Board({ backgrounds }: BoardProps) {
             setBoard((prev: BoardType) => ({
               ...prev,
               name: e.target.value,
-              workingSpaceId: workingSpace.id,
             }))
           }
           value={board.name}
@@ -134,10 +134,10 @@ export default function Board({ backgrounds }: BoardProps) {
         >
           <option value="">Chọn</option>
           <option
-            value={workingSpace.name}
+            value={workingSpace?.name}
             className="border rounded w-100 mb-2 create-board"
           >
-            Không gian làm việc của {workingSpace.name}
+            Không gian làm việc của {workingSpace?.name}
           </option>
         </select>
       </li>

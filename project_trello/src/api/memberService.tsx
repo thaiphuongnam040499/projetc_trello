@@ -14,5 +14,5 @@ export const MEMBER_PATCH_SERVICE = async (data: any) => {
 };
 
 export const MEMBER_DELETE_SERVICE = async (id: any) => {
-  await intances.delete('members/' + id);
+  await intances.delete(`/members/${id}`);
 };

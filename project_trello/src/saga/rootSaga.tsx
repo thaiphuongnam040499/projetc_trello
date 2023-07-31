@@ -26,6 +26,8 @@ export const rootSaga = function* () {
 
     takeLatest(userSlice.register.type, userSaga.USER_SAGA_REGISTER),
 
+    takeLatest(userSlice.findAllUser.type, userSaga.USER_SAGA_GET),
+
     takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
 
     takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PUT),

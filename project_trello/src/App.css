@@ -408,3 +408,21 @@ p {
 .btn-ws:hover {
   background-color: #091e4224;
 }
+.result {
+  color: red;
+}
+.charAt {
+  font-weight: 500;
+
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.font {
+  font-weight: 500;
+}
+.member-btn-task {
+  background-repeat: no-repeat;
+  background-size: cover;
+}

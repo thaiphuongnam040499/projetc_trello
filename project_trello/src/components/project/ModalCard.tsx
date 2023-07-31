@@ -47,12 +47,21 @@ export default function ModalCard({
     member: MemberId
   ) => {
     e.preventDefault();
-    dispatch(
-      updateMember({
-        ...member,
-        cardId: cardId,
-      })
-    );
+    if (member.cardId === '') {
+      dispatch(
+        updateMember({
+          ...member,
+          cardId: cardId,
+        })
+      );
+    } else {
+      dispatch(
+        updateMember({
+          ...member,
+          cardId: '',
+        })
+      );
+    }
   };
 
   const handleChangeCheckbox = (

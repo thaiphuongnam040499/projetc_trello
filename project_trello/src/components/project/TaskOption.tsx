@@ -36,17 +36,18 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
           memberId: member.id,
         })
       );
+    } else {
+      dispatch(
+        updateTask({
+          ...task,
+          memberId: '',
+        })
+      );
     }
   };
 
-  const handleDeleteTask = (
-    id: string,
-    e: React.FormEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-    console.log(id);
-
-    dispatch(deleteTask(id));
+  const handleDeleteTask = () => {
+    dispatch(deleteTask(task.id));
   };
 
   return (
@@ -81,9 +82,14 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
           members.map((member) => {
             if (member.id === task.memberId) {
               return (
-                <div key={member.id}>
-                  <img src={member.imageUrl} alt="" className="member-input" />
-                </div>
+                <button
+                  className="btn btn-light fs-6 m-1 member-input member-btn-task"
+                  type="button"
+                  style={{ backgroundImage: `url(${member.imageUrl})` }}
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></button>
               );
             }
           })
@@ -145,7 +151,7 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
           <li className="p-2">
             <button
               className=" border rounded btn btn-light w-100"
-              onClick={(e) => handleDeleteTask(task.id, e)}
+              onClick={handleDeleteTask}
             >
               Xóa
             </button>

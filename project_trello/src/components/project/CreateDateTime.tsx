@@ -22,6 +22,8 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
   const dispatch = useDispatch();
 
+  const dateTimeCurrent = dateTimes.find((item) => item.cardId === cardId);
+
   useEffect(() => {
     dispatch(dateTimeSlice.findAllDateTime());
   }, []);
@@ -47,6 +49,11 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
     } else {
       dispatch(dateTimeSlice.createDateTime(dateTime));
     }
+  };
+
+  const handleDeleteDateTime = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(dateTimeSlice.deleteDateTime(dateTimeCurrent?.id));
   };
 
   return (
@@ -97,7 +104,12 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
               >
                 Lưu
               </button>
-              <button className="btn btn-secondary w-100">Gỡ bỏ</button>
+              <button
+                onClick={handleDeleteDateTime}
+                className="btn btn-secondary w-100"
+              >
+                Gỡ bỏ
+              </button>
             </div>
           </div>
         </li>

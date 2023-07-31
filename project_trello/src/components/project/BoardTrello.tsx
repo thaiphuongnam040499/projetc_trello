@@ -28,23 +28,12 @@ export default function BoardTrello() {
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const cards = useSelector((state: RootState) => state.card.listCard);
   const location = useLocation();
-  const user = localStorage.getItem('userLogin');
-
-  const [userLogin, setUserLogin] = useState<UserId>();
-  const currentCreateBoard = useSelector(
-    (state: RootState) => state.board
-  ).board;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(cardSlice.findAllCard());
     dispatch(laneSlice.findAllLane());
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
 
   useEffect(() => {
     let arr = [];
@@ -80,29 +69,14 @@ export default function BoardTrello() {
     }
   }, [lanes, cards]);
 
-  const dispatch = useDispatch();
-  const handleDragStart = (cardId: any, laneId: any) => {
-    // console.log('drag started');
-    // console.log(`cardId: ${cardId}`);
-    // console.log(`laneId: ${laneId}`);
-  };
+  const handleDragStart = (cardId: any, laneId: any) => {};
 
   const handleDragEnd = (
     cardId: any,
     sourceLaneId: any,
     targetLaneId: any,
     index: any
-  ) => {
-    // const uCard = cards.find((card) => card.id === cardId);
-    // if (uCard) {
-    //   const updatedCardData = {
-    //     ...uCard,
-    //     laneId: targetLaneId,
-    //     order: index,
-    //   };
-    //   dispatch(cardSlice.updateCard(updatedCardData));
-    // }
-  };
+  ) => {};
 
   const handleAddCard = (cards: CardType) => {
     let cardArr = getCardsByLaneId(cards.laneId);

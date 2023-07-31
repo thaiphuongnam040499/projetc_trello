@@ -96,6 +96,10 @@ export default function Task({ boardId, listTask }: TaskProps) {
       name: task.name,
     };
     dispatch(taskSlice.updateTask(taskUp));
+    setIsShowInputUp({
+      id: taskUp.id,
+      stat: false,
+    });
   };
 
   return (

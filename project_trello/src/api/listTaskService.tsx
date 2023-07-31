@@ -15,5 +15,5 @@ export const LISTTASK_PATCH_SERVICE = async (data: ListTask) => {
 };
 
 export const LISTTASK_DELETE_SERVICE = async (id: any) => {
-  await intances.delete('listTask/' + id);
+  await intances.delete(`/listTask/${id}`);
 };

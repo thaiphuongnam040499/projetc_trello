@@ -17,3 +17,8 @@ export const USER_GET_BY_EMAIL = async (data: any) => {
   let response = await intances.get('/users?email_like=' + data);
   return response.data;
 };
+
+export const USER_GETALL_SERVICE = async () => {
+  let response = await intances.get('users');
+  return response.data;
+};

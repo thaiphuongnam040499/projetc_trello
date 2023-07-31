@@ -13,9 +13,9 @@ export default function SignUp() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const EMAIL_PATTERN = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
   const PASS_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  const [result, setResult] = useState('');
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
@@ -32,15 +32,17 @@ export default function SignUp() {
   const handleCreateUser = () => {
     dispatch(
       register({
-        id: '',
-        email: email.email,
-        password: password.password,
-        googleId: '',
-        imageUrl:
-          'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78',
-        name: '',
-        emagivenNamel: '',
-        familyName: '',
+        type: 'via3th',
+        user: {
+          email: email.email,
+          password: password.password,
+          googleId: '',
+          imageUrl:
+            'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78',
+          name: '',
+          emagivenNamel: '',
+          familyName: '',
+        },
       })
     );
     navigate('/signIn');
@@ -92,6 +94,7 @@ export default function SignUp() {
                       value={email.email}
                       onChange={handleChange}
                     />
+                    <p className="result mt-2">{result}</p>
                     <input
                       name="password"
                       type="password"
@@ -100,6 +103,7 @@ export default function SignUp() {
                       value={password.password}
                       onChange={handleChangePass}
                     />
+                    <p className="result mt-2">{result}</p>
                     <label
                       className="form-label mt-4"
                       htmlFor="typeEmailX-2"

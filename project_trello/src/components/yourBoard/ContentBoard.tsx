@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Board from '../project/CreateBoard';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,13 +9,16 @@ import { BoardType } from '../../types/board.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 import { BgType } from '../../types/bg.type';
 import { User, UserId } from '../../types/user.type';
-import WorkingSpaceBtn from './WorkingSpaceBtn';
+import { WorkingSpaceType } from '../../types/workingSpace.type';
 
 export default function ContentBoard() {
   const user = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentCreateBoard = useSelector(
+    (state: RootState) => state.board
+  ).board;
 
   useEffect(() => {
     if (user) {
@@ -56,17 +59,71 @@ export default function ContentBoard() {
     dispatch(findAllBackground());
   }, []);
 
+  const colorCodes = [
+    '#FF5733',
+    '#4B0082',
+    '#00FF7F',
+    '#800080',
+    '#FFD700',
+    '#FF1493',
+    '#00BFFF',
+    '#FF4500',
+    '#008080',
+    '#FF6347',
+    '#4682B4',
+    '#FF69B4',
+    '#20B2AA',
+    '#EE82EE',
+    '#7B68EE',
+    '#CD5C5C',
+    '#00CED1',
+    '#9370DB',
+    '#8A2BE2',
+    '#F08080',
+    '#00FA9A',
+    '#C71585',
+    '#66CDAA',
+  ];
+  const [charColors, setCharColors] = React.useState<any[]>([]);
+
+  const getRandomCharColor = () => {
+    const randomIndex = Math.floor(Math.random() * colorCodes.length);
+    return colorCodes[randomIndex];
+  };
+
+  useEffect(() => {
+    const charColorsArray: any[] = [];
+    if (listWorkingSpace && listWorkingSpace.length > 0) {
+      listWorkingSpace.forEach((workingSpace: WorkingSpaceType) => {
+        charColorsArray.push(getRandomCharColor());
+      });
+    }
+    setCharColors(charColorsArray);
+  }, [listWorkingSpace]);
+
   return (
     <div className="ms-5 w-100">
+      <h5 className="mt-5">Các không gian làm việc của bạn</h5>
       {listWorkingSpace &&
-        listWorkingSpace.map((workingSpace) => {
+        listWorkingSpace.map((workingSpace, index) => {
           if (workingSpace.userId === userLogin?.id) {
             return (
               <div key={workingSpace.id} className="history mt-5 ">
                 <div className="d-flex align-items-center justify-content-between">
-                  <p className="m-0 fs-5">
-                    Không gian làm việc của {workingSpace.name}
-                  </p>
+                  <div className="d-flex align-items-center">
+                    <div
+                      className="charAt me-2"
+                      style={{
+                        backgroundColor: charColors[index],
+                      }}
+                    >
+                      <p className="text-center text-white">
+                        {workingSpace.name.charAt(0).toUpperCase()}
+                      </p>
+                    </div>
+                    <p className="m-0 fs-5 font">{workingSpace.name}</p>
+                  </div>
+
                   <div>
                     <button className="btn btn-light border rounded me-2 btn-ws">
                       <i className="bi bi-kanban me-2 fs-6"></i>Bảng
@@ -114,11 +171,23 @@ export default function ContentBoard() {
                         });
                       }
                     })}
-
-                  <WorkingSpaceBtn
-                    backgrounds={backgrounds}
-                    workingSpace={workingSpace}
-                  />
+                  <React.Fragment>
+                    <div className="dropdown">
+                      <button
+                        className="btn btn-light btn-create-board "
+                        type="button"
+                        data-bs-target={`dropdownMenuButton1_${workingSpace.id}`}
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Tạo bảng mới
+                      </button>
+                      <Board
+                        backgrounds={backgrounds}
+                        workingSpace={workingSpace}
+                      />
+                    </div>
+                  </React.Fragment>
                 </div>
               </div>
             );

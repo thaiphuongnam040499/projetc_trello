@@ -14,6 +14,6 @@ export const TASK_PATCH_SERVICE = async (data: any) => {
   await intances.patch('tasks/' + data.id, data);
 };
 
-export const TASK_DELETE_SERVICE = async (id: any) => {
-  await intances.delete('tasks/' + id);
+export const TASK_DELETE_SERVICE = async (taskId: any) => {
+  await intances.delete(`/tasks/${taskId}`);
 };
