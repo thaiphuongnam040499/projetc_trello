@@ -108,7 +108,7 @@ export default function Guest() {
 
   return (
     <div>
-      <h5 className="mt-3">Các không gian làm việc của khách</h5>
+      {/* <h5 className="mt-3">Các không gian làm việc của khách</h5>
       {listWorkingSpace &&
         listWorkingSpace.map((workingSpace, index) => {
           if (workingSpace.userId === userLogin?.id) {
@@ -164,7 +164,7 @@ export default function Guest() {
               </div>
             );
           }
-        })}
+        })} */}
     </div>
   );
 }

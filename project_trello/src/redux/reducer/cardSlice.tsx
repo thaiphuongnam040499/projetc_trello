@@ -20,9 +20,26 @@ const cardSlice = createSlice({
     findAllCard: () => {},
     updateCard: (state, action) => {},
     deleteCard: (state, action) => {},
+    findCardByTitle: (state, action) => {},
+    getCardByTitle: (state, action) => {
+      state.listCard = action.payload;
+    },
+    findCardFilter: (state, action) => {},
+    getCardFilter: (state, action) => {
+      state.listCard = action.payload;
+    },
   },
 });
 
 export default cardSlice.reducer;
-export const { create, findAllCard, getAllCard, updateCard, deleteCard } =
-  cardSlice.actions;
+export const {
+  create,
+  findAllCard,
+  getAllCard,
+  updateCard,
+  deleteCard,
+  findCardByTitle,
+  getCardByTitle,
+  getCardFilter,
+  findCardFilter,
+} = cardSlice.actions;

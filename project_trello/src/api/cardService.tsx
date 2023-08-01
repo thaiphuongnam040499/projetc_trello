@@ -19,3 +19,8 @@ export const CARD_PATCH_SERVICE = async (data: any) => {
 export const CARD_DELETE_SERVICE = async (cardId: any) => {
   await intances.delete(`/cards/${cardId}`);
 };
+
+export const CARD_SEARCH_SERVICE = async (cardSearch: any) => {
+  let response = await intances.get('/cards?title_like=' + cardSearch);
+  return response.data;
+};

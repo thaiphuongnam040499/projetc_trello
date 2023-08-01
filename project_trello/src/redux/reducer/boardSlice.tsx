@@ -26,6 +26,7 @@ const boardSlice = createSlice({
     reset: (state) => {
       state.board = null;
     },
+    deleteBoard: (state, action) => {},
   },
 });
 
@@ -36,4 +37,5 @@ export const {
   findAllBoard,
   getAllBoard,
   findCreateBoard,
+  deleteBoard,
 } = boardSlice.actions;

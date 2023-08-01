@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Board from '../project/CreateBoard';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
+import {
+  deleteWs,
+  findAllWorkingSpace,
+} from '../../redux/reducer/workingSpaceSlice';
 import { findAllBoard } from '../../redux/reducer/boardSlice';
 import { BoardType } from '../../types/board.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
@@ -105,6 +108,14 @@ export default function ContentBoard() {
     setCharColors(charColorsArray);
   }, [listWorkingSpace]);
 
+  const handleDeleteWs = (
+    e: React.FormEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    e.preventDefault();
+    dispatch(deleteWs(id));
+  };
+
   return (
     <div className="ms-5 w-100">
       <div>
@@ -129,7 +140,7 @@ export default function ContentBoard() {
                       <p className="m-0 fs-5 font">{workingSpace.name}</p>
                     </div>
 
-                    <div>
+                    <div className="d-flex">
                       <button className="btn btn-light border rounded me-2 btn-ws">
                         <i className="bi bi-kanban me-2 fs-6"></i>Bảng
                       </button>
@@ -139,9 +150,37 @@ export default function ContentBoard() {
                       <button className="btn btn-light border rounded me-2 btn-ws">
                         <i className="bi bi-people me-2 fs-6"></i>Thành viên
                       </button>
-                      <button className="btn btn-light border rounded me-2 btn-ws">
-                        <i className="bi bi-gear-wide me-2 fs-6"></i>Cài đặt
-                      </button>
+
+                      <div className="dropdown">
+                        <button
+                          className="btn btn-light border rounded me-2 btn-ws"
+                          type="button"
+                          id="dropdownMenuButton1"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i className="bi bi-gear-wide me-2 fs-6"></i>Cài đặt
+                        </button>
+                        <ul
+                          className="dropdown-menu btn-delete-ws"
+                          aria-labelledby="dropdownMenuButton1"
+                        >
+                          <li className="text-center">
+                            <p>Xóa không gian làm việc</p>
+                          </li>
+                          <hr className="my-2" />
+                          <li className="p-2">
+                            <button
+                              className=" border rounded btn btn-danger w-100"
+                              onClick={(e) =>
+                                handleDeleteWs(e, workingSpace.id)
+                              }
+                            >
+                              Xóa
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
 

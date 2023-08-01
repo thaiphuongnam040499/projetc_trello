@@ -11,6 +11,7 @@ import taskSlice from './reducer/taskSlice';
 import dateTimeSlice from './reducer/dateTimeSlice';
 import backgroundSlice from './reducer/backgroundSlice';
 import memberSlice from './reducer/memberSlice';
+import memberCardSlice from './reducer/memberCardSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -25,6 +26,7 @@ const store = configureStore({
     dateTime: dateTimeSlice,
     backgrounds: backgroundSlice,
     members: memberSlice,
+    memberCards: memberCardSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

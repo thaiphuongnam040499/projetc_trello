@@ -5,8 +5,8 @@ import {
   MEMBER_PATCH_SERVICE,
   MEMBER_POST_SERVICE,
 } from '../api/memberService';
-import { MemberType } from '../types/member.type';
-import { getAllMember } from '../redux/reducer/memberSlice';
+import { MemberId, MemberType } from '../types/member.type';
+import { findCreateMember, getAllMember } from '../redux/reducer/memberSlice';
 
 export const MEMBER_SAGA_GET = function* () {
   try {
@@ -19,7 +19,8 @@ export const MEMBER_SAGA_GET = function* () {
 
 export const MEMBER_SAGA_POST = function* (action: any) {
   try {
-    yield call(MEMBER_POST_SERVICE, action.payload);
+    let member: MemberId = yield call(MEMBER_POST_SERVICE, action.payload);
+    yield put(findCreateMember(member));
     yield MEMBER_SAGA_GET();
   } catch (error) {
     console.log(error);

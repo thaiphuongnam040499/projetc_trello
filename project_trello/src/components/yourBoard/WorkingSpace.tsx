@@ -59,8 +59,6 @@ export default function WorkingSpace() {
         email: userLogin?.email,
         imageUrl: userLogin?.imageUrl,
         workingSpaceId: currentCreateWs.id,
-        boardId: '',
-        cardId: '',
         role: Role.ADMIN,
       };
       if (!checkExist(member)) {

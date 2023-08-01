@@ -29,6 +29,7 @@ export const workingSpaceSlice = createSlice({
     getWsByUserId: (state, action) => {
       state.listWorkingSpace = action.payload;
     },
+    deleteWs: (state, action) => {},
   },
 });
 export default workingSpaceSlice.reducer;
@@ -40,4 +41,5 @@ export const {
   findCreateWs,
   findWsByUserId,
   getWsByUserId,
+  deleteWs,
 } = workingSpaceSlice.actions;

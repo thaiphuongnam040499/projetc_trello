@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MemberId } from '../../types/member.type';
-import { updateMember } from '../../redux/reducer/memberSlice';
+import {
+  createMember,
+  deleteMember,
+  resetMember,
+} from '../../redux/reducer/memberSlice';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Card } from 'react-trello-ts/dist/types/Board';
+import {
+  createMemberCard,
+  deleteMemberCard,
+  findAllMemberCard,
+} from '../../redux/reducer/memberCardSlice';
 
 interface CreateMemberProps {
   cardId: string;
@@ -21,29 +30,46 @@ export default function CreateMember({
 }: CreateMemberProps) {
   const cardDetail = cards.find((item) => item.id === cardId);
   const members = useSelector((state: RootState) => state.members.members);
-  const [memberId, setMemberId] = useState('');
+  const memberCards = useSelector(
+    (state: RootState) => state.memberCards.listMemberCard
+  );
+
+  useEffect(() => {
+    dispatch(findAllMemberCard());
+  }, []);
 
   const dispatch = useDispatch();
+
+  const memberCardFilter = memberCards.filter(
+    (memberCard) => memberCard.cardId === cardId
+  );
 
   const handleClick = (
     e: React.FormEvent<HTMLButtonElement>,
     member: MemberId
   ) => {
     e.preventDefault();
-    if (member.cardId === '') {
+
+    let check = memberCardFilter.find((item) => item.email === member.email);
+    console.log(memberCardFilter);
+
+    if (!check) {
       dispatch(
-        updateMember({
-          ...member,
+        createMemberCard({
+          memberId: member.id,
+          name: member.name,
+          email: member.email,
+          imageUrl: member.imageUrl,
+          role: member.role,
           cardId: cardId,
         })
       );
     } else {
-      dispatch(
-        updateMember({
-          ...member,
-          cardId: '',
-        })
+      let memberItem = memberCardFilter.find(
+        (item) => item.memberId === member.id
       );
+      console.log(memberItem);
+      dispatch(deleteMemberCard(memberItem?.id));
     }
   };
 

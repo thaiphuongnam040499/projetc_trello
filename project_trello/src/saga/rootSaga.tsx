@@ -19,106 +19,99 @@ import * as backgroundSlice from '../redux/reducer/backgroundSlice';
 import * as backgroundSaga from './backgroundSaga';
 import * as memberSlice from '../redux/reducer/memberSlice';
 import * as memberSaga from './memberSaga';
+import * as memberCardSlice from '../redux/reducer/memberCardSlice';
+import * as memberCardSaga from './memberCardSaga';
 
 export const rootSaga = function* () {
   yield all([
+    // user
     takeLatest(userSlice.createUser.type, userSaga.USER_SAGA_POST),
-
     takeLatest(userSlice.register.type, userSaga.USER_SAGA_REGISTER),
-
     takeLatest(userSlice.findAllUser.type, userSaga.USER_SAGA_GET),
-
-    takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
-
-    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PUT),
-
-    takeLatest(cardSlice.deleteCard.type, cardSaga.CARD_SAGA_DELETE),
-
-    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PATCH),
-
-    takeLatest(cardSlice.findAllCard.type, cardSaga.CARD_SAGA_GET),
-
-    takeLatest(laneSlice.createLane.type, laneSaga.LIST_SAGA_POST),
-
-    takeLatest(laneSlice.findAllLane.type, laneSaga.LIST_SAGA_GET),
-
-    takeLatest(laneSlice.updateLane.type, laneSaga.LIST_SAGA_PUT),
-
-    takeLatest(laneSlice.updateLane.type, laneSaga.LANE_SAGA_PATCH),
-
-    takeLatest(laneSlice.deleteLane.type, laneSaga.LANE_SAGA_DELETE),
-
     takeLatest(userSlice.login.type, userSaga.USER_SAGA_LOGIN),
-
     takeLatest(userSlice.findUserByEmail.type, userSaga.USER_SAGA_GET_BY_EMAIL),
 
+    // card
+    takeLatest(cardSlice.create.type, cardSaga.CARD_SAGA_POST),
+    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PUT),
+    takeLatest(cardSlice.deleteCard.type, cardSaga.CARD_SAGA_DELETE),
+    takeLatest(cardSlice.updateCard.type, cardSaga.CARD_SAGA_PATCH),
+    takeLatest(cardSlice.findAllCard.type, cardSaga.CARD_SAGA_GET),
+    takeLatest(cardSlice.findCardByTitle.type, cardSaga.CARD_SAGA_SEARCH),
+
+    // Lane
+    takeLatest(laneSlice.createLane.type, laneSaga.LIST_SAGA_POST),
+    takeLatest(laneSlice.findAllLane.type, laneSaga.LIST_SAGA_GET),
+    takeLatest(laneSlice.updateLane.type, laneSaga.LIST_SAGA_PUT),
+    takeLatest(laneSlice.updateLane.type, laneSaga.LANE_SAGA_PATCH),
+    takeLatest(laneSlice.deleteLane.type, laneSaga.LANE_SAGA_DELETE),
+
+    // working space
     takeLatest(
       workingSpaceSlice.createWorkingSpace.type,
       workingSpaceSaga.WORKINGSPACE_SAGA_POST
     ),
-
     takeLatest(
       workingSpaceSlice.findAllWorkingSpace.type,
       workingSpaceSaga.WORKINGSPACE_SAGA_GET
     ),
-
     takeLatest(
       workingSpaceSlice.findWsByUserId.type,
       workingSpaceSaga.findProjectsByUserId
     ),
+    takeLatest(
+      workingSpaceSlice.deleteWs.type,
+      workingSpaceSaga.WORKINGSPACE_SAGA_DELETE
+    ),
 
+    // board
     takeLatest(boardSlice.createBoard.type, boardSaga.BOARD_SAGA_POST),
-
     takeLatest(boardSlice.findAllBoard.type, boardSaga.BOARD_SAGA_GET),
+    takeLatest(boardSlice.deleteBoard.type, boardSaga.BOARD_SAGA_DELETE),
 
+    // listTask
     takeLatest(
       listTaskSlice.findAllListTask.type,
       listTaskSaga.LISTTASK_SAGA_GET
     ),
-
     takeLatest(
       listTaskSlice.createListTask.type,
       listTaskSaga.LISTTASK_SAGA_POST
     ),
-
     takeLatest(
       listTaskSlice.updateListTask.type,
       listTaskSaga.LISTTASK_SAGA_PATCH
     ),
-
     takeLatest(
       listTaskSlice.deleteListTask.type,
       listTaskSaga.LISTTASK_SAGA_DELETE
     ),
 
+    // task
     takeLatest(taskSlice.findAllTask.type, taskSaga.TASK_SAGA_GET),
-
     takeLatest(taskSlice.createTask.type, taskSaga.TASK_SAGA_POST),
-
     takeLatest(taskSlice.updateTask.type, taskSaga.TASK_SAGA_PATCH),
-
     takeLatest(taskSlice.deleteTask.type, taskSaga.TASK_SAGA_DELETE),
 
+    // dateTime
     takeLatest(
       dateTimeSlice.findAllDateTime.type,
       dateTimeSaga.DATETIME_SAGA_GET
     ),
-
     takeLatest(
       dateTimeSlice.createDateTime.type,
       dateTimeSaga.DATETIME_SAGA_POST
     ),
-
     takeLatest(
       dateTimeSlice.updateDateTime.type,
       dateTimeSaga.DATETIME_SAGA_PATCH
     ),
-
     takeLatest(
       dateTimeSlice.deleteDateTime.type,
       dateTimeSaga.DATETIME_SAGA_DELETE
     ),
 
+    // background
     takeLatest(
       backgroundSlice.findAllBackground.type,
       backgroundSaga.BG_SAGA_GET
@@ -132,8 +125,24 @@ export const rootSaga = function* () {
       backgroundSaga.BGC_SAGA_PATCH
     ),
 
+    // member
     takeLatest(memberSlice.findAllMember.type, memberSaga.MEMBER_SAGA_GET),
     takeLatest(memberSlice.createMember.type, memberSaga.MEMBER_SAGA_POST),
     takeLatest(memberSlice.updateMember.type, memberSaga.MEMBER_SAGA_PATCH),
+    takeLatest(memberSlice.deleteMember, memberSaga.MEMBER_SAGA_DELETE),
+
+    //memberCard
+    takeLatest(
+      memberCardSlice.findAllMemberCard.type,
+      memberCardSaga.MEMBERCARD_SAGA_GET
+    ),
+    takeLatest(
+      memberCardSlice.createMemberCard.type,
+      memberCardSaga.MEMBERCARD_SAGA_POST
+    ),
+    takeLatest(
+      memberCardSlice.deleteMemberCard.type,
+      memberCardSaga.MEMBERCARD_SAGA_DELETE
+    ),
   ]);
 };

@@ -11,6 +11,7 @@ import { DateTime } from '../../types/dateTime.type';
 import CreateDescription from './CreateDescription';
 import { MemberId, MemberType } from '../../types/member.type';
 import { BgColor } from '../../types/bColor.type';
+import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -35,10 +36,13 @@ export default function ModalCardBody({
   const listTask = useSelector((state: RootState) => state.listTask.listTask);
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
   const cards = useSelector((state: RootState) => state.card.listCard);
-  const members = useSelector((state: RootState) => state.members.members);
+  const members = useSelector(
+    (state: RootState) => state.memberCards.listMemberCard
+  );
 
   useEffect(() => {
     dispatch(dateTimeSlice.findAllDateTime());
+    dispatch(findAllMemberCard());
   }, []);
 
   useEffect(() => {

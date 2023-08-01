@@ -3,10 +3,12 @@ import { MemberId, MemberType } from '../../types/member.type';
 
 interface MemberState {
   members: MemberId[];
+  member: MemberId | null;
 }
 
 const initialState: MemberState = {
   members: [],
+  member: null,
 };
 
 export const memberSlice = createSlice({
@@ -20,6 +22,12 @@ export const memberSlice = createSlice({
     createMember: (state, action) => {},
     updateMember: (state, action) => {},
     deleteMember: (state, action) => {},
+    findCreateMember: (state, action) => {
+      state.member = action.payload;
+    },
+    resetMember: (state) => {
+      state.member = null;
+    },
   },
 });
 export default memberSlice.reducer;
@@ -29,4 +37,6 @@ export const {
   createMember,
   updateMember,
   deleteMember,
+  findCreateMember,
+  resetMember,
 } = memberSlice.actions;

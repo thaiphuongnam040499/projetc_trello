@@ -200,7 +200,6 @@ export default function BoardTrello() {
     };
     dispatch(laneSlice.updateLane(beLane));
   };
-  console.log(location.state.board.id);
 
   const closeModal = () => {
     setCurrentCard(null);

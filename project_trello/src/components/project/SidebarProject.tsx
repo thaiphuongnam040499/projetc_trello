@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { useDispatch } from 'react-redux';
-import { findAllBoard } from '../../redux/reducer/boardSlice';
+import { deleteBoard, findAllBoard } from '../../redux/reducer/boardSlice';
 import { BoardType } from '../../types/board.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 
@@ -46,6 +46,14 @@ export default function SidebarProject() {
   useEffect(() => {
     dispatch(findAllBoard());
   }, []);
+
+  const handleDeleteBoard = (
+    e: React.FormEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    e.preventDefault();
+    dispatch(deleteBoard(id));
+  };
   return (
     <div>
       <div className="flex-shrink-0 p-3 sidebar sidebar-project border-end">
@@ -145,14 +153,51 @@ export default function SidebarProject() {
                       if (bg.id === board.backgroundId) {
                         return (
                           <button
-                            className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
+                            className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed d-flex justify-content-between"
                             data-bs-toggle="collapse"
                             data-bs-target="#home-collapse"
                             aria-expanded="false"
                             onClick={(e) => handleClickBtn(e, board)}
                           >
-                            <img src={bg.url} alt="" className="image-board" />
-                            {board.name}
+                            <div>
+                              <img
+                                src={bg.url}
+                                alt=""
+                                className="image-board"
+                              />
+                              {board.name}
+                            </div>
+
+                            <div className="dropdown">
+                              <button
+                                className="btn btn-ligth me-2 btn-ws"
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              >
+                                <i className="bi bi-three-dots"></i>
+                              </button>
+                              <ul
+                                className="dropdown-menu btn-delete-ws"
+                                aria-labelledby="dropdownMenuButton1"
+                              >
+                                <li className="text-center">
+                                  <p>Xóa không gian làm việc</p>
+                                </li>
+                                <hr className="my-2" />
+                                <li className="p-2">
+                                  <button
+                                    className=" border rounded btn btn-light w-100"
+                                    onClick={(e) =>
+                                      handleDeleteBoard(e, board.id)
+                                    }
+                                  >
+                                    Xóa
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
                           </button>
                         );
                       }

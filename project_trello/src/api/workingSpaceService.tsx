@@ -15,3 +15,7 @@ export const FIND_WS_BY_USERID_SERVICE = async (id: string) => {
   let response = await intances.get(`/workingSpace?userId=${id}`);
   return response.data;
 };
+
+export const WORKINGSPACE_DELETE_SERVICE = async (id: string) => {
+  await intances.delete('workingSpace/' + id);
+};

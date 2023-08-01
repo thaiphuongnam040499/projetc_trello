@@ -68,9 +68,7 @@ export default function HeaderProject({
           name: user.name,
           email: user.email,
           imageUrl: user.imageUrl,
-          workingSpaceId: '',
           boardId: boardId,
-          cardId: '',
           role: member.role,
         },
       ]);
@@ -89,14 +87,17 @@ export default function HeaderProject({
     } else {
       for (let i = 0; i < members.length; i++) {
         dispatch(createMember(members[i]));
+        toast.success('thêm mới thành công');
+        setUserSearch('');
+        setMembers([]);
       }
     }
-    setUserSearch('');
   };
 
   const handleShowTag = members.map((user, index) => {
     return (
       <div className="me-2 force-overflow">
+        <Toaster />
         <span className="d-flex align-items-center ">
           <span>{user.email}</span>
           <button
@@ -123,6 +124,7 @@ export default function HeaderProject({
         role: changeRole,
       })
     );
+    toast.success('Thay đổi trạng thái thành công');
   };
 
   return (
@@ -156,7 +158,7 @@ export default function HeaderProject({
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 "></ul>
             <div className="d-flex">
-              <Filter />
+              <Filter listMember={listMember} boardId={boardId} />
               <div className="d-flex align-items-center me-3">
                 {listMember.map((member) => {
                   if (member.boardId === boardId) {

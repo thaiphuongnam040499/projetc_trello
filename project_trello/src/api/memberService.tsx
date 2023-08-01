@@ -6,7 +6,8 @@ export const MEMBER_GET_SERVICE = async () => {
 };
 
 export const MEMBER_POST_SERVICE = async (data: any) => {
-  await intances.post('members', data);
+  let response = await intances.post('members', data);
+  return response.data;
 };
 
 export const MEMBER_PATCH_SERVICE = async (data: any) => {

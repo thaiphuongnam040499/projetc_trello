@@ -459,7 +459,34 @@ p {
 }
 .select-filter {
   width: 100% !important;
-  height: 35px;
+  position: relative;
+}
+.icon-select {
+  position: absolute;
+  top: 14px;
+  right: 30px;
+}
+.btn-show-member {
+  position: relative;
+}
+.member-filter-input {
+  position: absolute;
+  bottom: 68px;
+  right: 12px;
+  background-color: white;
+  border-radius: 15px;
+  width: 335px;
+}
+.member-name {
+  cursor: pointer;
+  text-overflow: clip !important;
+}
+.input-member-cursor:hover {
+  cursor: pointer;
+}
+.btn-delete-ws {
+  width: 200px;
+  border-radius: 15px;
 }
 
 /* scrool */

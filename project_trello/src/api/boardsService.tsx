@@ -10,3 +10,7 @@ export const BOARD_POST_SERVICE = async (data: BoardType) => {
   let response = await intances.post('boards', data);
   return response.data;
 };
+
+export const BOARD_DELETE_SERVICE = async (id: string) => {
+  await intances.delete('boards/' + id);
+};

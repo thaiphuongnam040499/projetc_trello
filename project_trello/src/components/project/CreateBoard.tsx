@@ -45,9 +45,7 @@ export default function Board({ workingSpace, backgrounds }: BoardProps) {
       name: userLogin.name,
       email: userLogin.email,
       imageUrl: userLogin.imageUrl,
-      workingSpaceId: '',
       boardId: currentCreateBoard.id,
-      cardId: '',
       role: Role.ADMIN,
     };
     dispatch(createMember(member));
