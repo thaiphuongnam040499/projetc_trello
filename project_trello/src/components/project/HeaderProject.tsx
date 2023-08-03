@@ -26,7 +26,6 @@ const initialState: MemberType = {
   name: '',
   email: '',
   imageUrl: '',
-  workingSpaceId: '',
   boardId: '',
   cardId: '',
   role: Role.MEMBER,

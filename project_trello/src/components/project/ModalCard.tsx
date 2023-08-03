@@ -15,6 +15,11 @@ import {
 import { updateMember } from '../../redux/reducer/memberSlice';
 import { BgColor } from '../../types/bColor.type';
 import CreateMember from './CreateMember';
+import {
+  createCardTag,
+  deleteCardTag,
+  findAllCardTag,
+} from '../../redux/reducer/cardTagSlice';
 
 interface ModalCardProps {
   cardId: string;
@@ -37,45 +42,37 @@ export default function ModalCard({
   const bgColors = useSelector(
     (state: RootState) => state.backgrounds.backgroundColors
   );
+  const cardTags = useSelector((state: RootState) => state.cardTags.cardTags);
+
+  const cardTagFilter = cardTags.filter((cardTag) => cardTag.cardId === cardId);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(findAllBgColor());
+    dispatch(findAllCardTag());
   }, []);
-
-  const handleClick = (
-    e: React.FormEvent<HTMLButtonElement>,
-    member: MemberId
-  ) => {
-    e.preventDefault();
-    if (member.cardId === '') {
-      dispatch(
-        updateMember({
-          ...member,
-          cardId: cardId,
-        })
-      );
-    } else {
-      dispatch(
-        updateMember({
-          ...member,
-          cardId: '',
-        })
-      );
-    }
-  };
 
   const handleChangeCheckbox = (
     e: React.ChangeEvent<HTMLInputElement>,
     bgColor: BgColor
   ) => {
     const checkedValue = e.target.checked;
-    dispatch(
-      updateBgColor({
-        ...bgColor,
-        status: checkedValue,
-      })
-    );
+    let check = cardTagFilter.find((cardTag) => cardTag.tagId === bgColor.id);
+    if (!check && checkedValue) {
+      dispatch(
+        createCardTag({
+          cardId: cardId,
+          tagId: bgColor.id,
+          backgroundColor: bgColor.backgroundColor,
+        })
+      );
+    } else {
+      let cardTagItem = cardTagFilter.find(
+        (cardTag) => cardTag.tagId === bgColor.id
+      );
+      dispatch(deleteCardTag(cardTagItem?.id));
+    }
   };
 
   return (
@@ -105,11 +102,7 @@ export default function ModalCard({
             />
           </div>
           <div className="modal-body modal-body-board d-flex scrollbar scrollbar-indigo bordered-indigo thin">
-            <ModalCardBody
-              boardId={boardId}
-              bgColors={bgColors}
-              cardId={cardId}
-            />
+            <ModalCardBody boardId={boardId} cardId={cardId} />
             <form className="create-tag">
               <div className="ms-3 ps-2 px-2 mb-2">
                 <p>Thêm vào thẻ</p>

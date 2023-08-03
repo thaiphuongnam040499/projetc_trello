@@ -12,10 +12,11 @@ import CreateDescription from './CreateDescription';
 import { MemberId, MemberType } from '../../types/member.type';
 import { BgColor } from '../../types/bColor.type';
 import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
+import { CardTagType } from '../../types/cardTag.type';
+import { findAllCardTag } from '../../redux/reducer/cardTagSlice';
 
 interface ModalCardBodyProps {
   cardId: string;
-  bgColors: BgColor[];
   boardId: string;
 }
 const initialState = {
@@ -25,11 +26,7 @@ const initialState = {
   status: false,
 };
 
-export default function ModalCardBody({
-  cardId,
-  bgColors,
-  boardId,
-}: ModalCardBodyProps) {
+export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowDis, setIsShowDis] = useState(false);
   const dispatch = useDispatch();
@@ -39,10 +36,12 @@ export default function ModalCardBody({
   const members = useSelector(
     (state: RootState) => state.memberCards.listMemberCard
   );
+  const bgColors = useSelector((state: RootState) => state.cardTags.cardTags);
 
   useEffect(() => {
     dispatch(dateTimeSlice.findAllDateTime());
     dispatch(findAllMemberCard());
+    dispatch(findAllCardTag());
   }, []);
 
   useEffect(() => {
@@ -107,9 +106,10 @@ export default function ModalCardBody({
           </div>
           <div className="d-flex">
             {bgColors.map((bgColor) => {
-              if (bgColor.status === true) {
+              if (bgColor.cardId === cardId) {
                 return (
                   <button
+                    key={bgColor.id}
                     style={{ backgroundColor: bgColor.backgroundColor }}
                     className="btn btn-bgColor me-1"
                   ></button>
