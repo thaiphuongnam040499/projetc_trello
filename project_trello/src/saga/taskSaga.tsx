@@ -27,7 +27,7 @@ export const TASK_SAGA_POST = function* (action: any) {
   }
 };
 
-export const TASK_SAGA_PATCH = function* (action: PayloadAction<TaskType>) {
+export const TASK_SAGA_PATCH = function* (action: any) {
   try {
     yield call(TASK_PATCH_SERVICE, action.payload);
     yield TASK_SAGA_GET();
@@ -36,7 +36,7 @@ export const TASK_SAGA_PATCH = function* (action: PayloadAction<TaskType>) {
   }
 };
 
-export const TASK_SAGA_DELETE = function* (action: PayloadAction<string>) {
+export const TASK_SAGA_DELETE = function* (action: any) {
   {
     try {
       yield call(TASK_DELETE_SERVICE, action.payload);

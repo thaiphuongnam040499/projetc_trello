@@ -12,6 +12,7 @@ const initialState = {
   cardId: '',
   name: '',
   status: false,
+  complete: 0,
 };
 
 export default function CreateListTask({ cardId }: CreateListTaskProps) {
@@ -19,16 +20,14 @@ export default function CreateListTask({ cardId }: CreateListTaskProps) {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setListTask({
-      ...listTask,
-      cardId: cardId,
-    });
-  }, []);
-
   const handleAddList = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(createListTask(listTask));
+    dispatch(
+      createListTask({
+        ...listTask,
+        cardId: cardId,
+      })
+    );
   };
   return (
     <div className="dropdown">

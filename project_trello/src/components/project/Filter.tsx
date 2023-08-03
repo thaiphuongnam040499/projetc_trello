@@ -11,6 +11,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { MemberId, MemberType } from '../../types/member.type';
 import { Role } from '../../enums/Role';
+import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
+import { Card } from '../../types/lanes.type';
+import { User } from '../../types/user.type';
+import { MemberCardType } from '../../types/memberCard.type';
 
 interface FilterProps {
   listMember: MemberId[];
@@ -18,75 +22,88 @@ interface FilterProps {
 }
 
 export default function Filter({ listMember, boardId }: FilterProps) {
+  const userLocal = localStorage.getItem('userLogin');
+  const currentUser = userLocal ? JSON.parse(userLocal) : null;
+
   const dispatch = useDispatch();
   const cards = useSelector((state: RootState) => state.card.listCard);
-  const member = listMember.find((item) => item.boardId === boardId);
+  const memberCards = useSelector(
+    (state: RootState) => state.memberCards.listMemberCard
+  );
   const [isCheckedMemberMe, setIsCheckedMemberMe] = useState(false);
-  const [isCheckedMember, setIsCheckedMember] = useState(false);
-
-  const [check, setCheck] = useState(false);
+  const [isCheckedMember, setIsCheckedMember] = useState<MemberId | null>(null);
+  const [memberCardFilter, setMemberCardFilter] = useState<MemberId[]>([]);
   const [isCheckedNoMember, setIsCheckedNoMember] = useState(false);
   const [isShowMember, setIsShowMember] = useState(false);
-  const members = listMember.filter((item) => item.boardId === boardId);
-
   useEffect(() => {
-    let cardFilter = [];
-    if (isCheckedMember) {
-      for (let i = 0; i < members.length; i++) {
-        if (members[i].cardId) {
-          let card = cards.find((item) => item.id === members[i].cardId);
-          cardFilter.push(card);
-        }
-      }
-      console.log(cardFilter);
+    dispatch(findAllMemberCard());
+  }, []);
 
-      dispatch(getCardFilter(cardFilter));
+  // Không có thành viên
+  useEffect(() => {
+    if (isCheckedNoMember) {
+      let cardArr = [...cards];
+      for (let i = 0; i < memberCards.length; i++) {
+        let card = cards.find((card) => card.id === memberCards[i].cardId);
+        if (!card) return;
+        removeFromArr(cardArr, card);
+      }
+      dispatch(getCardFilter(cardArr));
     } else {
       dispatch(findAllCard());
     }
-  }, [isCheckedMember]);
+  }, [isCheckedNoMember]);
 
+  const removeFromArr = (arr: Card[], card: Card) => {
+    let index = arr.indexOf(card);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
+  };
+
+  // Các card của tôi
   useEffect(() => {
-    let cardFilter = [];
+    if (!currentUser) return;
     if (isCheckedMemberMe) {
-      for (let i = 0; i < cards.length; i++) {
-        if (cards[i].id === member?.cardId) {
-          let cardFind = {
-            title: cards[i].title,
-            id: cards[i].id,
-            laneId: cards[i].laneId,
-            order: cards[i].order,
-            description: cards[i].description,
-          };
-          cardFilter.push(cardFind);
+      let cardArr = [];
+      for (let i = 0; i < memberCards.length; i++) {
+        let card = cards.find(
+          (card) =>
+            card.id === memberCards[i].cardId &&
+            memberCards[i].email === currentUser.user.email
+        );
+        if (
+          card?.id === memberCards[i].cardId &&
+          memberCards[i].email === currentUser.user.email
+        ) {
+          cardArr.push(card);
         }
       }
-      dispatch(getCardFilter(cardFilter));
+      dispatch(getCardFilter(cardArr));
     } else {
       dispatch(findAllCard());
     }
   }, [isCheckedMemberMe]);
 
+  // các card của thành viên
   useEffect(() => {
-    let cardFilter = [];
-    if (isCheckedNoMember) {
-      for (let i = 0; i < cards.length; i++) {
-        if (cards[i].id != member?.cardId) {
-          let cardNoMember = {
-            title: cards[i].title,
-            id: cards[i].id,
-            laneId: cards[i].laneId,
-            order: cards[i].order,
-            description: cards[i].description,
-          };
-          cardFilter.push(cardNoMember);
-        }
+    let arrMemberFilter: any[] = [];
+    if (isCheckedMember) {
+      const members = memberCards.filter(
+        (item) => item.email === isCheckedMember?.email
+      );
+      console.log(members);
+
+      for (let i = 0; i < members.length; i++) {
+        let card = cards.find((item) => item.id === members[i].cardId);
+        arrMemberFilter.push(card);
       }
-      dispatch(getCardFilter(cardFilter));
+      dispatch(getCardFilter(arrMemberFilter));
     } else {
       dispatch(findAllCard());
     }
-  }, [isCheckedNoMember]);
+  }, [isCheckedMember]);
 
   const handleChangeSearchCard = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(findCardByTitle(e.target.value));
@@ -197,13 +214,14 @@ export default function Filter({ listMember, boardId }: FilterProps) {
                         <input
                           type="checkbox"
                           className="me-3"
-                          // checked={
-                          //   isCheckedMember.stat &&
-                          //   isCheckedMember.id === member.id
-                          //     ? true
-                          //     : false
-                          // }
-                          onChange={(e) => setIsCheckedMember(e.target.checked)}
+                          // checked={selectedMemberId === member.id}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setIsCheckedMember(member);
+                            } else {
+                              setIsCheckedMember(null);
+                            }
+                          }}
                         />
                         <div className="d-flex ">
                           <img

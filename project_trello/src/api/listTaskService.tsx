@@ -6,11 +6,11 @@ export const LISTTASK_GET_SERVICE = async (): Promise<ListTask> => {
   return response.data;
 };
 
-export const LISTTASK_POST_SERVICE = async (data: ListTask) => {
+export const LISTTASK_POST_SERVICE = async (data: any) => {
   await intances.post('listTask', data);
 };
 
-export const LISTTASK_PATCH_SERVICE = async (data: ListTask) => {
+export const LISTTASK_PATCH_SERVICE = async (data: any) => {
   await intances.patch('listTask/' + data.id, data);
 };
 

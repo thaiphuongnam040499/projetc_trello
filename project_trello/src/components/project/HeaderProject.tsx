@@ -14,10 +14,12 @@ import {
 import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Filter from './Filter';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface HeaderProjectProps {
   workingSpaceId: string;
   boardId: string;
+  setTypeView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialState: MemberType = {
@@ -35,6 +37,7 @@ const roles = [Role.ADMIN, Role.MEMBER, Role.OBSERVER];
 export default function HeaderProject({
   workingSpaceId,
   boardId,
+  setTypeView,
 }: HeaderProjectProps) {
   const listUser = useSelector((state: RootState) => state.user.listUser);
   const [userSearch, setUserSearch] = useState('');
@@ -45,6 +48,8 @@ export default function HeaderProject({
   const [members, setMembers] = useState<MemberType[]>([]);
   const boards = useSelector((state: RootState) => state.board.listBoard);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (currentUser) {
@@ -127,6 +132,18 @@ export default function HeaderProject({
     toast.success('Thay đổi trạng thái thành công');
   };
 
+  const handleClick = () => {
+    setTypeView((pre) => !pre);
+
+    // navigate('/table', {
+    //   state: {
+    //     workingSpaceId: location.state.workingSpaceId,
+    //     boardId: location.state.board.id,
+
+    //   },
+    // });
+  };
+
   return (
     <div>
       <div>
@@ -137,7 +154,7 @@ export default function HeaderProject({
           {boards.map((board) => {
             if (board.id === boardId) {
               return (
-                <a className="navbar-brand ms-2" href="#">
+                <a key={board.id} className="navbar-brand ms-2" href="#">
                   {board.name}
                 </a>
               );
@@ -158,6 +175,20 @@ export default function HeaderProject({
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 "></ul>
             <div className="d-flex">
+              <div className="me-2">
+                <li className="mb-1">
+                  <button
+                    className="btn btn-light w-100 text-start sidebar-btn align-items-center rounded collapsed"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#home-collapse"
+                    aria-expanded="false"
+                    onClick={handleClick}
+                  >
+                    <i className="bi bi-table px-2"></i>
+                    Bảng
+                  </button>
+                </li>
+              </div>
               <Filter listMember={listMember} boardId={boardId} />
               <div className="d-flex align-items-center me-3">
                 {listMember.map((member) => {

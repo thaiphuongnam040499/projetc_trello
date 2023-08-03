@@ -20,15 +20,6 @@ export default function SidebarProject() {
     dispatch(findAllBackground());
   }, []);
 
-  const handleClick = () => {
-    navigate('/table', {
-      state: {
-        workingSpaceId: location.state.workingSpaceId,
-        boardId: location.state.board.id,
-      },
-    });
-  };
-
   const handleClickBtn = (
     e: React.FormEvent<HTMLButtonElement>,
     board: BoardType
@@ -38,6 +29,15 @@ export default function SidebarProject() {
       state: {
         board: board,
 
+        workingSpaceId: location.state.workingSpaceId,
+      },
+    });
+  };
+
+  const handleClickChart = () => {
+    navigate(`chart`, {
+      state: {
+        board: location.state.board,
         workingSpaceId: location.state.workingSpaceId,
       },
     });
@@ -126,16 +126,14 @@ export default function SidebarProject() {
           <li>
             <p>Dạng xem không gian làm việc</p>
           </li>
-          <li className="mb-1">
+
+          <li className="list-unstyled ps-0">
             <button
+              onClick={handleClickChart}
               className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#home-collapse"
-              aria-expanded="false"
-              onClick={handleClick}
             >
-              <i className="bi bi-table px-2"></i>
-              Bảng
+              <i className="bi bi-bar-chart px-2"></i>
+              Chart
             </button>
           </li>
         </ul>
@@ -143,7 +141,6 @@ export default function SidebarProject() {
           <li>
             <p>Các bảng của bạn</p>
           </li>
-
           <div className="boards scrollbar scrollbar-indigo bordered-black thin">
             {boards.map((board) => {
               if (board.workingSpaceId === location.state.workingSpaceId) {
@@ -153,19 +150,20 @@ export default function SidebarProject() {
                       if (bg.id === board.backgroundId) {
                         return (
                           <button
+                            key={bg.id}
                             className="btn btn-toggle w-100 text-start sidebar-btn align-items-center rounded collapsed d-flex justify-content-between"
                             data-bs-toggle="collapse"
                             data-bs-target="#home-collapse"
                             aria-expanded="false"
                             onClick={(e) => handleClickBtn(e, board)}
                           >
-                            <div>
+                            <div className="d-flex align-items-center">
                               <img
                                 src={bg.url}
                                 alt=""
                                 className="image-board"
                               />
-                              {board.name}
+                              <div className="board-name">{board.name}</div>
                             </div>
 
                             <div className="dropdown">

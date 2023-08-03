@@ -301,9 +301,12 @@ p {
 .date-time {
   border-radius: 15px;
 }
-/* .table-project {
-  overflow: visible;
-} */
+.table-project {
+  border-radius: 15px;
+  padding: 12px;
+  width: 1220px;
+  margin: 20px;
+}
 /* .table-body {
   width: 100% !important;
   height: 660px;
@@ -487,6 +490,16 @@ p {
 .btn-delete-ws {
   width: 200px;
   border-radius: 15px;
+}
+.board-name {
+  width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chart {
+  width: 500px !important;
+  height: 500px !important;
 }
 
 /* scrool */

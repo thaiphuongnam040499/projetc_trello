@@ -174,7 +174,7 @@ export default function ModalCardBody({
             Thêm mô tả chi tiết hơn
           </button>
         )}
-        {listTask.map((listTask: ListTask) => {
+        {listTask.map((listTask) => {
           if (listTask.cardId === cardId) {
             return (
               <div key={listTask.id}>

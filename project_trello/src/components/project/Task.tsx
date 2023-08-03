@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import TaskOption from './TaskOption';
+import { updateListTask } from '../../redux/reducer/listTaskSlice';
 
 interface TaskProps {
   boardId: string;
@@ -56,13 +57,7 @@ export default function Task({ boardId, listTask }: TaskProps) {
   const handleCreateTask = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(taskSlice.createTask(task));
-    setTask({
-      id: '',
-      listTaskId: '',
-      name: '',
-      status: false,
-      memberId: '',
-    });
+    setTask(initialState);
   };
 
   const handleChangeComplete = () => {
@@ -71,6 +66,15 @@ export default function Task({ boardId, listTask }: TaskProps) {
     let complete = (tasksTrue.length / task.length) * 100;
     return complete;
   };
+
+  useEffect(() => {
+    dispatch(
+      updateListTask({
+        ...listTask,
+        complete: handleChangeComplete(),
+      })
+    );
+  }, [handleChangeComplete()]);
 
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -99,6 +103,14 @@ export default function Task({ boardId, listTask }: TaskProps) {
     setIsShowInputUp({
       id: taskUp.id,
       stat: false,
+    });
+  };
+
+  const handleChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTask({
+      ...task,
+      name: e.target.value,
+      listTaskId: listTask.id,
     });
   };
 
@@ -176,13 +188,7 @@ export default function Task({ boardId, listTask }: TaskProps) {
             type="text"
             className="input-dis m-3"
             placeholder="Thêm mục mới..."
-            onChange={(e) =>
-              setTask((prev) => ({
-                ...prev,
-                name: e.target.value,
-                listTaskId: listTask.id,
-              }))
-            }
+            onChange={handleChangeTask}
             value={task.name}
           />
           <div className="d-flex ms-3 mb-3">

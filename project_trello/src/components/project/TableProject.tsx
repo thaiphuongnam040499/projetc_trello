@@ -11,11 +11,21 @@ import CreateDateTime from './CreateDateTime';
 import CreateMember from './CreateMember';
 import { findAllDateTime } from '../../redux/reducer/dateTimeSlice';
 
-export default function TableProject() {
+interface TableProjectProps {
+  workingSpaceId: string;
+  boardId: string;
+}
+
+export default function TableProject({
+  workingSpaceId,
+  boardId,
+}: TableProjectProps) {
   const cards = useSelector((state: RootState) => state.card.listCard);
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const dispatch = useDispatch();
-  const members = useSelector((state: RootState) => state.members.members);
+  const members = useSelector(
+    (state: RootState) => state.memberCards.listMemberCard
+  );
   const userSearch = useSelector((state: RootState) => state.user.listUser);
   const location = useLocation();
   const [memberSearch, setMemberSearch] = useState('');
@@ -43,8 +53,7 @@ export default function TableProject() {
   }, [memberSearch]);
 
   return (
-    <div className="w-100 ms-3 table-project ">
-      <h3 className="ms-3 mt-2">Bảng</h3>
+    <div className=" table-project bg-white">
       <table className="table ">
         <thead>
           <tr className="text-center">
@@ -57,7 +66,7 @@ export default function TableProject() {
 
         <tbody className="">
           {lanes.map((lane) => {
-            if (lane.boardId === location.state.boardId) {
+            if (lane.boardId === boardId) {
               return cards.map((card) => {
                 if (lane.id === card.laneId) {
                   return (
@@ -115,23 +124,6 @@ export default function TableProject() {
                               }
                             })}
                           </div>
-                          <div className="dropdown">
-                            <button
-                              className="btn btn-light w-100 border rounded mb-2 text-start"
-                              type="button"
-                              id="dropdownMenuButton1"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <i className="bi bi-plus"></i>
-                            </button>
-                            <CreateMember
-                              memberArr={members}
-                              cards={cards}
-                              cardId={card.id}
-                              boardId={location.state.boardId}
-                            />
-                          </div>
                         </div>
                       </td>
                       <td>
@@ -139,27 +131,24 @@ export default function TableProject() {
                           if (dateTime.cardId === card.id) {
                             let date = new Date(dateTime.expirationDate);
                             return (
-                              <div className="mt-2 mb-2" key={dateTime.id}>
-                                <button
-                                  type="button"
-                                  className="btn btn-light border rounded"
-                                >
-                                  {`${date.getDate()}/${
-                                    date.getMonth() + 1
-                                  }/${date.getFullYear()}`}
-                                  {dateTime.status ? (
-                                    <span className="bg-success ms-2 text-white">
-                                      Hoàn tất
-                                    </span>
-                                  ) : (
-                                    <p></p>
-                                  )}
-                                </button>
+                              <div
+                                className="mt-2 mb-2 text-success text-center"
+                                key={dateTime.id}
+                              >
+                                {`Ngày ${date.getDate()} tháng ${
+                                  date.getMonth() + 1
+                                } năm ${date.getFullYear()}`}
+                                {dateTime.status ? (
+                                  <span className="bg-success ms-2 text-white">
+                                    Hoàn tất
+                                  </span>
+                                ) : (
+                                  <p></p>
+                                )}
                               </div>
                             );
                           }
                         })}
-                        <CreateDateTime cardId={card.id} />
                       </td>
                     </tr>
                   );

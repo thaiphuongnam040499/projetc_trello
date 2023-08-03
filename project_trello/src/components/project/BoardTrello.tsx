@@ -18,6 +18,7 @@ import { createMember } from '../../redux/reducer/memberSlice';
 import { UserId } from '../../types/user.type';
 import { reset } from '../../redux/reducer/boardSlice';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
+import TableProject from './TableProject';
 
 const initialState: BoardData = {
   lanes: [],
@@ -28,6 +29,7 @@ export default function BoardTrello() {
   const [currentCard, setCurrentCard] = useState<Card['id'] | null>(null);
   const lanes = useSelector((state: RootState) => state.lanes.lanes);
   const cards = useSelector((state: RootState) => state.card.listCard);
+  const [typeView, setTypeView] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -216,35 +218,44 @@ export default function BoardTrello() {
       <HeaderProject
         workingSpaceId={location.state.workingSpaceId}
         boardId={location.state.board.id}
+        setTypeView={setTypeView}
       />
-      <Board
-        style={{
-          backgroundColor: 'transparent',
-        }}
-        components={{
-          NewCardForm: CreateCard,
-          NewLaneForm: CreateLane,
-        }}
-        className="board"
-        data={data}
-        laneDraggable
-        cardDraggable
-        editable
-        canAddLanes
-        editLaneTitle
-        draggable
-        onCardAdd={(card: any) => handleAddCard(card)}
-        handleDragStart={handleDragStart}
-        handleDragEnd={handleDragEnd}
-        handleLaneDragEnd={(removeIndex: any, addedIndex: any) =>
-          handleLaneDragEnd(removeIndex, addedIndex)
-        }
-        onLaneAdd={(params: any) => onLaneAdd(params)}
-        onCardDelete={onCardDelete}
-        onCardUpdate={handleUpdateCard}
-        onCardMoveAcrossLanes={onCardMoveAcrossLanes}
-        onCardClick={handleCardClick}
-      />
+      {!typeView ? (
+        <Board
+          style={{
+            backgroundColor: 'transparent',
+          }}
+          components={{
+            NewCardForm: CreateCard,
+            NewLaneForm: CreateLane,
+          }}
+          className="board"
+          data={data}
+          laneDraggable
+          cardDraggable
+          editable
+          canAddLanes
+          editLaneTitle
+          draggable
+          onCardAdd={(card: any) => handleAddCard(card)}
+          handleDragStart={handleDragStart}
+          handleDragEnd={handleDragEnd}
+          handleLaneDragEnd={(removeIndex: any, addedIndex: any) =>
+            handleLaneDragEnd(removeIndex, addedIndex)
+          }
+          onLaneAdd={(params: any) => onLaneAdd(params)}
+          onCardDelete={onCardDelete}
+          onCardUpdate={handleUpdateCard}
+          onCardMoveAcrossLanes={onCardMoveAcrossLanes}
+          onCardClick={handleCardClick}
+        />
+      ) : (
+        <TableProject
+          workingSpaceId={location.state.workingSpaceId}
+          boardId={location.state.board.id}
+        />
+      )}
+
       {currentCard && (
         <ModalCard
           cardId={currentCard}

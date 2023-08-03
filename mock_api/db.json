@@ -102,9 +102,67 @@
       "createdAt": 1690883844240
     }
   ],
-  "listTask": [],
+  "listTask": [
+    {
+      "id": 1,
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "name": "Anh nhân kiếm tiền",
+      "status": false,
+      "complete": 50,
+      "createdAt": 1691030856528
+    },
+    {
+      "id": 2,
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "name": "Anh nhân Mua xe đạp",
+      "status": false,
+      "complete": 66.66666666666666,
+      "createdAt": 1691030881635
+    }
+  ],
   "datetime": [],
-  "tasks": [],
+  "tasks": [
+    {
+      "id": 1,
+      "listTaskId": 1,
+      "name": "Ngày đầu 500k",
+      "status": true,
+      "memberId": "",
+      "createdAt": 1691030865175
+    },
+    {
+      "id": 2,
+      "listTaskId": 1,
+      "name": "Ngày hai 1 cụ",
+      "status": false,
+      "memberId": "",
+      "createdAt": 1691030872849
+    },
+    {
+      "id": 3,
+      "listTaskId": 2,
+      "name": "Ngày đầu xem xe",
+      "status": true,
+      "memberId": "",
+      "createdAt": 1691030890813
+    },
+    {
+      "id": 4,
+      "listTaskId": 2,
+      "name": "Ngày hai ký hợp đồng",
+      "status": true,
+      "memberId": "",
+      "createdAt": 1691030907342
+    },
+    {
+      "id": 5,
+      "listTaskId": 2,
+      "name": "Ngày ba đi xe về nhà",
+      "status": false,
+      "memberId": "",
+      "createdAt": 1691030920846
+    }
+  ],
   "members": [
     {
       "name": "Phương Nam Thái",

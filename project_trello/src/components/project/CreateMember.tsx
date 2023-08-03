@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MemberId } from '../../types/member.type';
-import {
-  createMember,
-  deleteMember,
-  resetMember,
-} from '../../redux/reducer/memberSlice';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Card } from 'react-trello-ts/dist/types/Board';
@@ -49,10 +44,7 @@ export default function CreateMember({
     member: MemberId
   ) => {
     e.preventDefault();
-
     let check = memberCardFilter.find((item) => item.email === member.email);
-    console.log(memberCardFilter);
-
     if (!check) {
       dispatch(
         createMemberCard({
@@ -68,7 +60,6 @@ export default function CreateMember({
       let memberItem = memberCardFilter.find(
         (item) => item.memberId === member.id
       );
-      console.log(memberItem);
       dispatch(deleteMemberCard(memberItem?.id));
     }
   };

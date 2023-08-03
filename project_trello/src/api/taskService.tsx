@@ -6,7 +6,7 @@ export const TASK_GET_SERVICE = async (): Promise<TaskType> => {
   return response.data;
 };
 
-export const TASK_POST_SERVICE = async (data: TaskType) => {
+export const TASK_POST_SERVICE = async (data: any) => {
   await intances.post('tasks', data);
 };
 

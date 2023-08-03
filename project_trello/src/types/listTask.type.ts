@@ -3,4 +3,5 @@ export interface ListTask {
   cardId: string;
   name: string;
   status: boolean;
+  complete: number;
 }
