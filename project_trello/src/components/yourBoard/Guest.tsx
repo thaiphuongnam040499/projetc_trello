@@ -10,17 +10,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { UserId } from '../../types/user.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
+import { Role } from '../../enums/Role';
+import { findAllMemberWs } from '../../redux/reducer/memberWsSlice';
 
 export default function Guest() {
   const user = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentCreateBoard = useSelector(
-    (state: RootState) => state.board
-  ).board;
 
-  const members = useSelector((state: RootState) => state.members.members);
+  const members = useSelector((state: RootState) => state.memberWs.memberWs);
+
+  const member = members.find((member) => member.email === userLogin?.email);
 
   useEffect(() => {
     if (user) {
@@ -30,6 +31,7 @@ export default function Guest() {
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());
+    dispatch(findAllMemberWs());
   }, []);
 
   const listWorkingSpace = useSelector((state: RootState) => {
@@ -108,63 +110,71 @@ export default function Guest() {
 
   return (
     <div>
-      {/* <h5 className="mt-3">Các không gian làm việc của khách</h5>
       {listWorkingSpace &&
         listWorkingSpace.map((workingSpace, index) => {
-          if (workingSpace.userId === userLogin?.id) {
+          if (
+            workingSpace.id === member?.workingSpaceId &&
+            member.role === Role.MEMBER
+          ) {
             return (
-              <div key={workingSpace.id} className="history mt-4 ">
-                <div className="d-flex align-items-center justify-content-between">
-                  <div className="d-flex align-items-center">
-                    <div
-                      className="charAt me-2"
-                      style={{
-                        backgroundColor: charColors[index],
-                      }}
-                    >
-                      <p className="text-center text-white">
-                        {workingSpace.name.charAt(0).toUpperCase()}
-                      </p>
+              <div>
+                <h5 className="mt-3">Các không gian làm việc của khách</h5>
+                <div key={workingSpace.id} className="history mt-4 ">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center">
+                      <div
+                        className="charAt me-2"
+                        style={{
+                          backgroundColor: charColors[index],
+                        }}
+                      >
+                        <p className="text-center text-white">
+                          {workingSpace.name.charAt(0).toUpperCase()}
+                        </p>
+                      </div>
+                      <p className="m-0 fs-5 font">{workingSpace.name}</p>
                     </div>
-                    <p className="m-0 fs-5 font">{workingSpace.name}</p>
                   </div>
-                </div>
 
-                <div className="d-flex flex-wrap mt-3">
-                  {listBoard &&
-                    listBoard.map((board: BoardType) => {
-                      if (board.workingSpaceId === workingSpace.id) {
-                        return backgrounds.map((background) => {
-                          if (background.id === board.backgroundId) {
-                            return (
-                              <div
-                                onClick={() =>
-                                  handleClick(
-                                    board,
-                                    workingSpace.id,
-                                    background
-                                  )
-                                }
-                                key={board.id}
-                                className="card text-white me-2 mb-2 board "
-                                style={{
-                                  backgroundImage: `url(${background.url})`,
-                                }}
-                              >
-                                <div className="card-img-overlay">
-                                  <h5 className="card-title">{board.name}</h5>
+                  <div className="d-flex flex-wrap mt-3">
+                    {listBoard &&
+                      listBoard.map((board: BoardType) => {
+                        if (
+                          board.workingSpaceId === workingSpace.id &&
+                          member.role === Role.MEMBER
+                        ) {
+                          return backgrounds.map((background) => {
+                            if (background.id === board.backgroundId) {
+                              return (
+                                <div
+                                  onClick={() =>
+                                    handleClick(
+                                      board,
+                                      workingSpace.id,
+                                      background
+                                    )
+                                  }
+                                  key={board.id}
+                                  className="card text-white me-2 mb-2 board "
+                                  style={{
+                                    backgroundImage: `url(${background.url})`,
+                                  }}
+                                >
+                                  <div className="card-img-overlay">
+                                    <h5 className="card-title">{board.name}</h5>
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          }
-                        });
-                      }
-                    })}
+                              );
+                            }
+                          });
+                        }
+                      })}
+                  </div>
                 </div>
               </div>
             );
           }
-        })} */}
+        })}
     </div>
   );
 }

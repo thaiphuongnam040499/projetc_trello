@@ -15,6 +15,9 @@ import { User, UserId } from '../../types/user.type';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import Guest from './Guest';
 
+import { Toaster, toast } from 'react-hot-toast';
+import CreateMemberWs from '../project/CreateMemberWs';
+
 export default function ContentBoard() {
   const user = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
@@ -114,10 +117,12 @@ export default function ContentBoard() {
   ) => {
     e.preventDefault();
     dispatch(deleteWs(id));
+    toast.success('Xóa thành công');
   };
 
   return (
     <div className="ms-5 w-100">
+      <Toaster />
       <div>
         <h5 className="mt-5">Các không gian làm việc của bạn</h5>
         {listWorkingSpace &&
@@ -147,10 +152,7 @@ export default function ContentBoard() {
                       <button className="btn btn-light border rounded me-2 btn-ws">
                         <i className="bi bi-columns-gap me-2 fs-6"></i>Dạng xem
                       </button>
-                      <button className="btn btn-light border rounded me-2 btn-ws">
-                        <i className="bi bi-people me-2 fs-6"></i>Thành viên
-                      </button>
-
+                      <CreateMemberWs workingSpaceId={workingSpace.id} />
                       <div className="dropdown">
                         <button
                           className="btn btn-light border rounded me-2 btn-ws"

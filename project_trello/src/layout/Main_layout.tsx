@@ -16,7 +16,7 @@ export default function Main_layout() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
   return (
     <div className="home">

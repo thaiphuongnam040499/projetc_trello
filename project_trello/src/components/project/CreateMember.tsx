@@ -9,6 +9,7 @@ import {
   deleteMemberCard,
   findAllMemberCard,
 } from '../../redux/reducer/memberCardSlice';
+import { toast } from 'react-hot-toast';
 
 interface CreateMemberProps {
   cardId: string;
@@ -56,11 +57,13 @@ export default function CreateMember({
           cardId: cardId,
         })
       );
+      toast.success('Thêm mới thành công');
     } else {
       let memberItem = memberCardFilter.find(
         (item) => item.memberId === member.id
       );
       dispatch(deleteMemberCard(memberItem?.id));
+      toast.success('Gỡ bỏ thành công');
     }
   };
 

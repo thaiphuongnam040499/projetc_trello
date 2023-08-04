@@ -19,6 +19,7 @@ import { UserId } from '../../types/user.type';
 import { reset } from '../../redux/reducer/boardSlice';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 import TableProject from './TableProject';
+import { toast } from 'react-hot-toast';
 
 const initialState: BoardData = {
   lanes: [],
@@ -94,6 +95,7 @@ export default function BoardTrello() {
       description: '',
     };
     dispatch(cardSlice.create(card));
+    toast.success('Thêm mới thành công');
   };
 
   const handleCardClick = (cardId: Card['id'], metadata: any, card: Card) => {
@@ -108,6 +110,7 @@ export default function BoardTrello() {
         boardId: location.state.board.id,
       })
     );
+    toast.success('Thêm mới thành công');
   };
 
   const onCardDelete = (cardId: any, laneId: any) => {

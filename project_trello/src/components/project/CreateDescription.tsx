@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useDispatch } from 'react-redux';
 import { findAllCard, updateCard } from '../../redux/reducer/cardSlice';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface CreateDiscriptionProps {
   cardId: string;
@@ -30,10 +31,12 @@ export default function CreateDescription({
       description: description,
     };
     dispatch(updateCard(uCard));
+    toast.success('Thêm mới thành công');
   };
 
   return (
     <div>
+      <Toaster />
       <input
         type="text"
         className="input-dis m-3"

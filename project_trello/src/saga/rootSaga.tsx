@@ -23,6 +23,8 @@ import * as memberCardSlice from '../redux/reducer/memberCardSlice';
 import * as memberCardSaga from './memberCardSaga';
 import * as cardTagSlice from '../redux/reducer/cardTagSlice';
 import * as cardTagSaga from './cardTagSaga';
+import * as memberWsSlice from '../redux/reducer/memberWsSlice';
+import * as memberWsSaga from './memberWsSaga';
 
 export const rootSaga = function* () {
   yield all([
@@ -153,6 +155,24 @@ export const rootSaga = function* () {
     takeLatest(
       cardTagSlice.deleteCardTag.type,
       cardTagSaga.CARDTAGS_SAGA_DELETE
+    ),
+    takeLatest(
+      cardTagSlice.updateCardTag.type,
+      cardTagSaga.CARDTAGS_SAGA_PATCH
+    ),
+
+    // memberWs
+    takeLatest(
+      memberWsSlice.findAllMemberWs.type,
+      memberWsSaga.MEMBERWS_SAGA_GET
+    ),
+    takeLatest(
+      memberWsSlice.createMemberWs.type,
+      memberWsSaga.MEMBERWS_SAGA_POST
+    ),
+    takeLatest(
+      memberWsSlice.deleteMemberWs.type,
+      memberWsSaga.MEMBERWS_SAGA_DELETE
     ),
   ]);
 };

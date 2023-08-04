@@ -307,7 +307,7 @@ p {
   width: 1220px;
   margin: 20px;
 }
-/* .table-body {
+/* .table-body {  
   width: 100% !important;
   height: 660px;
   overflow-y: scroll;
@@ -316,6 +316,24 @@ p {
   width: 30px;
   height: 30px;
   border-radius: 50%;
+}
+
+.create-workingSpace {
+  width: 300px;
+  border-radius: 15px;
+}
+
+.update-tag {
+  position: absolute;
+  left: -132px;
+}
+.input-update-tag {
+  width: 100%;
+  height: 35px;
+  margin-bottom: 12px;
+}
+.tag-title {
+  margin-left: 83px !important;
 }
 
 .list-member {
@@ -414,8 +432,8 @@ p {
   left: 800px;
 }
 .btn-bgColor {
-  width: 50px;
-  height: 30px;
+  width: 55px;
+  height: 37px;
 }
 .btn-ws:hover {
   background-color: #091e4224;
@@ -500,6 +518,9 @@ p {
 .chart {
   width: 500px !important;
   height: 500px !important;
+}
+.search-user-ws {
+  height: 35px;
 }
 
 /* scrool */

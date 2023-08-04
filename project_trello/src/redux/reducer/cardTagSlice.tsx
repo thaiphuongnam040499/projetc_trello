@@ -19,9 +19,15 @@ const cardTagSlice = createSlice({
     findAllCardTag: () => {},
     createCardTag: (state, action) => {},
     deleteCardTag: (state, action) => {},
+    updateCardTag: (state, action) => {},
   },
 });
 
 export default cardTagSlice.reducer;
-export const { getAllCardTag, findAllCardTag, createCardTag, deleteCardTag } =
-  cardTagSlice.actions;
+export const {
+  getAllCardTag,
+  findAllCardTag,
+  createCardTag,
+  deleteCardTag,
+  updateCardTag,
+} = cardTagSlice.actions;

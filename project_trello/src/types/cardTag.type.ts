@@ -3,4 +3,5 @@ export interface CardTagType {
   tagId: string;
   id: string;
   backgroundColor: string;
+  name?: string;
 }

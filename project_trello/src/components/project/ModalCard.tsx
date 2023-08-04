@@ -4,22 +4,8 @@ import CreateListTask from './CreateListTask';
 import ModalCardBody from './ModalCardBody';
 import { Lane } from '../../types/lanes.type';
 import CreateDateTime from './CreateDateTime';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { MemberId, MemberType } from '../../types/member.type';
-import { useDispatch } from 'react-redux';
-import {
-  findAllBgColor,
-  updateBgColor,
-} from '../../redux/reducer/backgroundSlice';
-import { updateMember } from '../../redux/reducer/memberSlice';
-import { BgColor } from '../../types/bColor.type';
+import CreateTag from './CreateTag';
 import CreateMember from './CreateMember';
-import {
-  createCardTag,
-  deleteCardTag,
-  findAllCardTag,
-} from '../../redux/reducer/cardTagSlice';
 
 interface ModalCardProps {
   cardId: string;
@@ -37,43 +23,6 @@ export default function ModalCard({
   boardId,
 }: ModalCardProps) {
   const cardDetail = cards.find((item) => item.id === cardId);
-  const members = useSelector((state: RootState) => state.members.members);
-  const [memberId, setMemberId] = useState('');
-  const bgColors = useSelector(
-    (state: RootState) => state.backgrounds.backgroundColors
-  );
-  const cardTags = useSelector((state: RootState) => state.cardTags.cardTags);
-
-  const cardTagFilter = cardTags.filter((cardTag) => cardTag.cardId === cardId);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(findAllBgColor());
-    dispatch(findAllCardTag());
-  }, []);
-
-  const handleChangeCheckbox = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    bgColor: BgColor
-  ) => {
-    const checkedValue = e.target.checked;
-    let check = cardTagFilter.find((cardTag) => cardTag.tagId === bgColor.id);
-    if (!check && checkedValue) {
-      dispatch(
-        createCardTag({
-          cardId: cardId,
-          tagId: bgColor.id,
-          backgroundColor: bgColor.backgroundColor,
-        })
-      );
-    } else {
-      let cardTagItem = cardTagFilter.find(
-        (cardTag) => cardTag.tagId === bgColor.id
-      );
-      dispatch(deleteCardTag(cardTagItem?.id));
-    }
-  };
 
   return (
     <div className="showModal">
@@ -125,68 +74,7 @@ export default function ModalCard({
                 </div>
                 <CreateListTask cardId={cardId} />
                 <CreateDateTime cardId={cardId} />
-                <div className="dropdown">
-                  <button
-                    className="btn btn-light w-100 border rounded mb-2  text-start"
-                    type="button"
-                    id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <i className="bi bi-tags me-2"></i>
-                    Nhãn
-                  </button>
-                  <ul
-                    className="dropdown-menu tag p-2 border "
-                    aria-labelledby="dropdownMenuButton1"
-                  >
-                    <li className="mt-2 mb-2">
-                      <p className="text-center">Nhãn</p>
-                    </li>
-                    <li className="mb-2">
-                      <input
-                        type="text"
-                        placeholder="Tìm nhãn..."
-                        className="border rounded list-member-input w-100"
-                      />
-                    </li>
-                    <li className="mt-2 mb-2">
-                      <p>Nhãn</p>
-                    </li>
-                    <li>
-                      <div className="">
-                        <div>
-                          {bgColors.map((bgColor) => {
-                            return (
-                              <div
-                                key={bgColor.id}
-                                className="d-flex align-items-center mt-2 mb-2"
-                              >
-                                <input
-                                  type="checkbox"
-                                  className="ms-2"
-                                  checked={bgColor.status}
-                                  onChange={(e) =>
-                                    handleChangeCheckbox(e, bgColor)
-                                  }
-                                />
-                                <button
-                                  style={{
-                                    backgroundColor: bgColor.backgroundColor,
-                                  }}
-                                  className="tag-item btn border rounded ms-2 me-2"
-                                ></button>
-                                <button className="btn btn-edit-tag">
-                                  <i className="bi bi-pen-fill pen-edit-tag "></i>
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                <CreateTag cards={cards} cardId={cardId} />
               </div>
             </form>
           </div>

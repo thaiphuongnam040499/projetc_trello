@@ -9,6 +9,7 @@ import { User, UserId } from '../../types/user.type';
 import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { toast } from 'react-hot-toast';
 
 const initialState: BoardType = {
   id: '',
@@ -69,6 +70,7 @@ export default function Board({ workingSpace, backgrounds }: BoardProps) {
       })
     );
     setBoard(initialState);
+    toast.success('Thêm mới thành công');
   };
 
   return (

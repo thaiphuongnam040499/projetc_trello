@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { toast } from 'react-hot-toast';
 
 interface CreateDateTimeProps {
   cardId: string;
@@ -45,15 +46,18 @@ export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
           expirationDate: dateTime.expirationDate,
         };
         dispatch(dateTimeSlice.updateDateTime(uDateTime));
+        toast.success('Sửa thành công');
       }
     } else {
       dispatch(dateTimeSlice.createDateTime(dateTime));
+      toast.success('Thêm mới thành công');
     }
   };
 
   const handleDeleteDateTime = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(dateTimeSlice.deleteDateTime(dateTimeCurrent?.id));
+    toast.success('Xóa thành công');
   };
 
   return (

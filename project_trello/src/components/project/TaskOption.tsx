@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { findAllMember, updateMember } from '../../redux/reducer/memberSlice';
 import { MemberId } from '../../types/member.type';
+import { toast } from 'react-hot-toast';
 
 interface TaskOptionProps {
   task: TaskType;
@@ -17,7 +18,7 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
   const dispatch = useDispatch();
 
   const memberItem: MemberId | undefined = members.find(
-    (member) => member.id === task.memberId
+    (member) => member.id === task.member
   );
 
   useEffect(() => {
@@ -29,21 +30,12 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
     member: MemberId
   ) => {
     e.preventDefault();
-    if (task.memberId == '') {
-      dispatch(
-        updateTask({
-          ...task,
-          memberId: member.id,
-        })
-      );
-    } else {
-      dispatch(
-        updateTask({
-          ...task,
-          memberId: '',
-        })
-      );
-    }
+    let taskUpdate = {
+      member: member.id === task.member ? null : member.id,
+      id: task.id,
+    };
+    dispatch(updateTask(taskUpdate));
+    toast.success('Thêm mới thành công');
   };
 
   const handleDeleteTask = (
@@ -52,6 +44,7 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
   ) => {
     e.preventDefault();
     dispatch(deleteTask(id));
+    toast.success('Xóa thành công');
   };
 
   return (
@@ -84,7 +77,7 @@ export default function TaskOption({ task, boardId }: TaskOptionProps) {
           </button>
         ) : (
           members.map((member) => {
-            if (member.id === task.memberId) {
+            if (member.id === task.member) {
               return (
                 <button
                   className="btn btn-light fs-6 m-1 member-input member-btn-task"

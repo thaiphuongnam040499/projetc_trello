@@ -13,6 +13,7 @@ import backgroundSlice from './reducer/backgroundSlice';
 import memberSlice from './reducer/memberSlice';
 import memberCardSlice from './reducer/memberCardSlice';
 import cardTagSlice from './reducer/cardTagSlice';
+import memberWsSlice from './reducer/memberWsSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -29,6 +30,7 @@ const store = configureStore({
     members: memberSlice,
     memberCards: memberCardSlice,
     cardTags: cardTagSlice,
+    memberWs: memberWsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

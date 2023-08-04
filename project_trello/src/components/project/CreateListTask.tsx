@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ListTask } from '../../types/listTask.type';
 import { useDispatch } from 'react-redux';
 import { createListTask } from '../../redux/reducer/listTaskSlice';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface CreateListTaskProps {
   cardId: string;
@@ -28,9 +29,11 @@ export default function CreateListTask({ cardId }: CreateListTaskProps) {
         cardId: cardId,
       })
     );
+    toast.success('Thêm mới thành công');
   };
   return (
     <div className="dropdown">
+      <Toaster />
       <button
         className="btn btn-light w-100 border rounded mb-2 text-start "
         type="button"

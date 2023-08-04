@@ -8,6 +8,7 @@ import { createMember } from '../../redux/reducer/memberSlice';
 import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { toast } from 'react-hot-toast';
 
 interface Option {
   label: string;
@@ -79,6 +80,7 @@ export default function WorkingSpace() {
         userId: userLogin?.id,
       })
     );
+    toast.success('Thêm mới thành công');
   };
 
   return (

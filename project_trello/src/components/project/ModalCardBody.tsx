@@ -14,6 +14,9 @@ import { BgColor } from '../../types/bColor.type';
 import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
 import { CardTagType } from '../../types/cardTag.type';
 import { findAllCardTag } from '../../redux/reducer/cardTagSlice';
+import { toast } from 'react-hot-toast';
+import { updateCard } from '../../redux/reducer/cardSlice';
+import { Card } from '../../types/lanes.type';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -29,6 +32,8 @@ const initialState = {
 export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
   const [isShowComment, setIsShowComment] = useState(false);
   const [isShowDis, setIsShowDis] = useState(false);
+  const [isShowDisUp, setIsShowDisUp] = useState(false);
+  const [disUp, setDisUp] = useState('');
   const dispatch = useDispatch();
   const listTask = useSelector((state: RootState) => state.listTask.listTask);
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
@@ -36,7 +41,11 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
   const members = useSelector(
     (state: RootState) => state.memberCards.listMemberCard
   );
+  const member = members.find((item) => item.cardId === cardId);
+  const card = cards.find((item) => item.description != '');
+
   const bgColors = useSelector((state: RootState) => state.cardTags.cardTags);
+  const bgColor = bgColors.find((item) => item.cardId === cardId);
 
   useEffect(() => {
     dispatch(dateTimeSlice.findAllDateTime());
@@ -50,6 +59,14 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
 
   const handleShowComment = () => {
     setIsShowComment(true);
+  };
+
+  const handleShowDisUp = () => {
+    setIsShowDisUp(true);
+  };
+
+  const handleOffDisUp = () => {
+    setIsShowDisUp(false);
   };
 
   const handleShowDis = () => {
@@ -66,6 +83,7 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
   ) => {
     e.preventDefault();
     dispatch(listTaskSlice.deleteListTask(id));
+    toast.success('Xóa thành công');
   };
 
   const handleChangeStatus = (
@@ -80,44 +98,79 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
     dispatch(dateTimeSlice.updateDateTime(uDateTime));
   };
 
+  const handleUpdateDes = (
+    e: React.FormEvent<HTMLButtonElement>,
+    card: Card
+  ) => {
+    e.preventDefault();
+    dispatch(
+      updateCard({
+        ...card,
+        description: disUp,
+      })
+    );
+    handleOffShowDis();
+  };
+
   return (
     <form className="card-modal-body">
       <div className="ms-3 ps-2 px-2 mb-2 d-flex flex-wrap">
-        <div className="me-3 mt-2 mb-2">
-          <div>
-            <p>Thành viên</p>
+        {member ? (
+          <div className="me-3 mt-2 mb-2">
+            <div>
+              <p>Thành viên</p>
+            </div>
+            <div className="d-flex">
+              {members.map((item) => {
+                if (item.cardId === cardId) {
+                  return (
+                    <div key={item.id}>
+                      <img
+                        src={item.imageUrl}
+                        alt=""
+                        className="member-input"
+                      />
+                    </div>
+                  );
+                }
+              })}
+            </div>
           </div>
-          <div className="d-flex">
-            {members.map((item) => {
-              if (item.cardId === cardId) {
-                return (
-                  <div key={item.id}>
-                    <img src={item.imageUrl} alt="" className="member-input" />
-                  </div>
-                );
-              }
-            })}
-          </div>
-        </div>
+        ) : (
+          ''
+        )}
 
-        <div className="me-3 mt-2 mb-2">
-          <div>
-            <p>Nhãn</p>
+        {bgColor ? (
+          <div className="me-3 mt-2 mb-2">
+            <div>
+              <p>Nhãn</p>
+            </div>
+            <div className="d-flex">
+              {bgColors.map((bgColor) => {
+                if (bgColor.cardId === cardId) {
+                  return (
+                    <div
+                      key={bgColor.id}
+                      className={`${
+                        bgColor.name === ''
+                          ? 'btn btn-bgColor me-1'
+                          : 'btn me-1'
+                      }`}
+                      style={{ backgroundColor: bgColor.backgroundColor }}
+                    >
+                      <div>
+                        <p className="text-white">{bgColor.name}</p>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
           </div>
-          <div className="d-flex">
-            {bgColors.map((bgColor) => {
-              if (bgColor.cardId === cardId) {
-                return (
-                  <button
-                    key={bgColor.id}
-                    style={{ backgroundColor: bgColor.backgroundColor }}
-                    className="btn btn-bgColor me-1"
-                  ></button>
-                );
-              }
-            })}
-          </div>
-        </div>
+        ) : (
+          ''
+        )}
+
         {dateTimes.map((dateTime: DateTime) => {
           if (dateTime.cardId === cardId) {
             let date = new Date(dateTime.expirationDate);
@@ -150,30 +203,70 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
           <i className="bi bi-justify-left me-2"></i>
           <h6>Mô tả</h6>
         </div>
-        {cards.map((card) => {
-          if (card.id === cardId) {
-            return (
-              <p className="ms-5 mb-2" key={card.id}>
-                {card.description}
-              </p>
-            );
-          }
-        })}
-
-        {isShowDis ? (
-          <CreateDescription
-            handleOffShowDis={handleOffShowDis}
-            cardId={cardId}
-          />
+        {card?.description ? (
+          <div>
+            {cards.map((card) => {
+              if (card.id === cardId) {
+                return (
+                  <div className="d-flex justify-content-between align-items-center">
+                    <p className="ms-5 mb-2" key={card.id}>
+                      {card.description}
+                    </p>
+                    {isShowDisUp ? (
+                      <div>
+                        <input
+                          type="text"
+                          className="input-dis m-3"
+                          placeholder="Thêm mô tả chi tiết hơn..."
+                          onChange={(e) => setDisUp(e.target.value)}
+                        />
+                        <div className="d-flex ms-3 mb-3">
+                          <button
+                            className="btn btn-primary me-2"
+                            onClick={(e) => handleUpdateDes(e, card)}
+                          >
+                            Lưu
+                          </button>
+                          <button
+                            className="btn btn-light"
+                            onClick={handleOffDisUp}
+                          >
+                            Hủy
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={handleShowDisUp}
+                        className="btn btn-light border rounded"
+                      >
+                        Chỉnh sửa
+                      </button>
+                    )}
+                  </div>
+                );
+              }
+            })}
+          </div>
         ) : (
-          <button
-            type="button"
-            onClick={handleShowDis}
-            className="btn btn-light border rounded w-100 mb-3"
-          >
-            Thêm mô tả chi tiết hơn
-          </button>
+          <div>
+            {isShowDis ? (
+              <CreateDescription
+                handleOffShowDis={handleOffShowDis}
+                cardId={cardId}
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={handleShowDis}
+                className="btn btn-light border rounded w-100 mb-3"
+              >
+                Thêm mô tả chi tiết hơn
+              </button>
+            )}
+          </div>
         )}
+
         {listTask.map((listTask) => {
           if (listTask.cardId === cardId) {
             return (

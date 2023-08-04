@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import TaskOption from './TaskOption';
 import { updateListTask } from '../../redux/reducer/listTaskSlice';
+import { toast } from 'react-hot-toast';
 
 interface TaskProps {
   boardId: string;
@@ -18,7 +19,6 @@ const initialState = {
   listTaskId: '',
   name: '',
   status: false,
-  memberId: '',
 };
 
 export default function Task({ boardId, listTask }: TaskProps) {
@@ -57,6 +57,7 @@ export default function Task({ boardId, listTask }: TaskProps) {
   const handleCreateTask = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(taskSlice.createTask(task));
+    toast.success('Thêm mới thành công');
     setTask(initialState);
   };
 

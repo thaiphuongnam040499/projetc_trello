@@ -9,6 +9,10 @@ export const CARDTAGS_POST_SERVICE = async (data: any) => {
   await intances.post('cardTags', data);
 };
 
+export const CARDTAGS_PATCH_SERVICE = async (data: any) => {
+  await intances.patch('cardTags/' + data.id, data);
+};
+
 export const CARDTAGS_DELETE_SERVICE = async (id: string) => {
   await intances.delete('cardTags/' + id);
 };

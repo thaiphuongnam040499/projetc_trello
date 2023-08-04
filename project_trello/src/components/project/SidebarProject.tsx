@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { deleteBoard, findAllBoard } from '../../redux/reducer/boardSlice';
 import { BoardType } from '../../types/board.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
+import { toast } from 'react-hot-toast';
 
 export default function SidebarProject() {
   const boards = useSelector((state: RootState) => state.board.listBoard);
@@ -53,6 +54,7 @@ export default function SidebarProject() {
   ) => {
     e.preventDefault();
     dispatch(deleteBoard(id));
+    toast.success('Xóa thành công');
   };
   return (
     <div>
