@@ -20,7 +20,7 @@ const initialState = {
   workingSpaceId: '',
 };
 
-export default function CreateMemberWs({
+export default function FormCreateMemberWs({
   workingSpaceId,
 }: CreateMemberWsProps) {
   const users = useSelector((state: RootState) => state.user.listUser);

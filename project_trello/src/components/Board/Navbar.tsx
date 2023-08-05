@@ -2,17 +2,11 @@ import { useState, useEffect } from 'react';
 import { UserId } from '../../types/user.type';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import useCutomeHook from '../../customeHooks/useCutomeHook';
 
 export default function () {
-  const user = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
+  const { userLogin } = useCutomeHook();
 
   const handleSignOut = () => {
     localStorage.removeItem('userLogin');

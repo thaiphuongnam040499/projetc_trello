@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Board from '../project/CreateBoard';
+import Board from '../project/FormCreateBoard';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
@@ -16,22 +16,18 @@ import { WorkingSpaceType } from '../../types/workingSpace.type';
 import Guest from './Guest';
 
 import { Toaster, toast } from 'react-hot-toast';
-import CreateMemberWs from '../project/CreateMemberWs';
+import CreateMemberWs from '../project/FormCreateMemberWs';
+import FormCreateBoard from '../project/FormCreateBoard';
+import FormCreateMemberWs from '../project/FormCreateMemberWs';
+import useCutomeHook from '../../customeHooks/useCutomeHook';
 
 export default function ContentBoard() {
-  const user = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
+  const { userLogin } = useCutomeHook();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentCreateBoard = useSelector(
     (state: RootState) => state.board
   ).board;
-
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());
@@ -152,7 +148,7 @@ export default function ContentBoard() {
                       <button className="btn btn-light border rounded me-2 btn-ws">
                         <i className="bi bi-columns-gap me-2 fs-6"></i>Dạng xem
                       </button>
-                      <CreateMemberWs workingSpaceId={workingSpace.id} />
+                      <FormCreateMemberWs workingSpaceId={workingSpace.id} />
                       <div className="dropdown">
                         <button
                           className="btn btn-light border rounded me-2 btn-ws"
@@ -227,7 +223,7 @@ export default function ContentBoard() {
                         >
                           Tạo bảng mới
                         </button>
-                        <Board
+                        <FormCreateBoard
                           backgrounds={backgrounds}
                           workingSpace={workingSpace}
                         />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/yourBoard/Navbar';
+import Navbar from '../components/Board/Navbar';
 import { Outlet, useLocation } from 'react-router-dom';
-import Sidebar from '../components/yourBoard/Sidebar';
+import Sidebar from '../components/Board/Sidebar';
 import SidebarProject from '../components/project/SidebarProject';
 import { useSelector } from 'react-redux';
 import { ClipLoader } from 'react-spinners';

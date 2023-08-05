@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { toast } from 'react-hot-toast';
 
+import useCutomeHook from '../../customeHooks/useCutomeHook';
+
 const initialState: BoardType = {
   id: '',
   name: '',
@@ -24,20 +26,18 @@ interface BoardProps {
   workingSpace: WorkingSpaceType | undefined;
 }
 
-export default function Board({ workingSpace, backgrounds }: BoardProps) {
+export default function FormCreateBoard({
+  workingSpace,
+  backgrounds,
+}: BoardProps) {
   const dispatch = useDispatch();
   const [board, setBoard] = useState<BoardType>(initialState);
-  const user = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
+
   const currentCreateBoard = useSelector(
     (state: RootState) => state.board
   ).board;
 
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
+  const { userLogin } = useCutomeHook();
 
   const createMemberAd = () => {
     if (!userLogin) return;

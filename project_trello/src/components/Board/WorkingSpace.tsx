@@ -9,6 +9,7 @@ import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { toast } from 'react-hot-toast';
+import useCutomeHook from '../../customeHooks/useCutomeHook';
 
 interface Option {
   label: string;
@@ -38,8 +39,6 @@ export default function WorkingSpace() {
   const [workingSpace, setWorkingSpace] =
     useState<WorkingSpaceType>(initialState);
   const dispatch = useDispatch();
-  const [userLogin, setUserLogin] = useState<UserId>();
-  const user = localStorage.getItem('userLogin');
   const members = useSelector((state: RootState) => state.members.members);
   const currentCreateWs = useSelector(
     (state: RootState) => state.workingSpace.workingSpace
@@ -52,6 +51,7 @@ export default function WorkingSpace() {
       (item) => item.workingSpaceId === member.workingSpaceId
     );
   };
+  const { userLogin } = useCutomeHook();
 
   useEffect(() => {
     if (currentCreateWs) {
@@ -67,11 +67,6 @@ export default function WorkingSpace() {
       }
     }
   }, [currentCreateWs]);
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
 
   const handleCreate = () => {
     dispatch(

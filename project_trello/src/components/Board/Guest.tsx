@@ -12,26 +12,24 @@ import { UserId } from '../../types/user.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 import { Role } from '../../enums/Role';
 import { findAllMemberWs } from '../../redux/reducer/memberWsSlice';
+import { findAllMember } from '../../redux/reducer/memberSlice';
+import useCutomeHook from '../../customeHooks/useCutomeHook';
 
 export default function Guest() {
-  const user = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
   const dispatch = useDispatch();
+  const { userLogin } = useCutomeHook();
   const navigate = useNavigate();
-
   const members = useSelector((state: RootState) => state.memberWs.memberWs);
-
   const member = members.find((member) => member.email === userLogin?.email);
-
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
+  const memberBoards = useSelector((state: RootState) => state.members.members);
+  const memberBoard = memberBoards.find(
+    (memberBoard) => memberBoard.email === userLogin?.email
+  );
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());
     dispatch(findAllMemberWs());
+    dispatch(findAllMember());
   }, []);
 
   const listWorkingSpace = useSelector((state: RootState) => {
@@ -141,7 +139,7 @@ export default function Guest() {
                       listBoard.map((board: BoardType) => {
                         if (
                           board.workingSpaceId === workingSpace.id &&
-                          member.role === Role.MEMBER
+                          memberBoard?.role === Role.MEMBER
                         ) {
                           return backgrounds.map((background) => {
                             if (background.id === board.backgroundId) {

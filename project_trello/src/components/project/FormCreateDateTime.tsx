@@ -18,7 +18,7 @@ const initialState = {
   status: false,
 };
 
-export default function CreateDateTime({ cardId }: CreateDateTimeProps) {
+export default function FormCreateDateTime({ cardId }: CreateDateTimeProps) {
   const [dateTime, setDateTime] = useState<DateTime>(initialState);
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
   const dispatch = useDispatch();

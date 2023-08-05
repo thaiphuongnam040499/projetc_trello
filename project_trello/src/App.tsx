@@ -6,14 +6,12 @@ import { Route, Routes } from 'react-router-dom';
 
 import Main_layout from './layout/Main_layout';
 import Auth_layout from './layout/Auth_layout';
-import Content from './components/yourBoard/Content';
-import ContentBoard from './components/yourBoard/ContentBoard';
+import Content from './components/Board/Content';
+import ContentBoard from './components/Board/ContentBoard';
 import SignUp from './pages/auth/SignUp';
 import HomeTrello from './pages/HomeTrello';
 import Home from './pages/app/Home';
-
 import BoardTrello from './components/project/BoardTrello';
-import TableProject from './components/project/TableProject';
 import { Chart } from './components/project/Chart';
 
 function App() {

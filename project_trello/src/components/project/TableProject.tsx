@@ -7,8 +7,8 @@ import { findAllCard } from '../../redux/reducer/cardSlice';
 import { findUserByEmail } from '../../redux/reducer/userSlice';
 import { useLocation } from 'react-router-dom';
 import { UserId } from '../../types/user.type';
-import CreateDateTime from './CreateDateTime';
-import CreateMember from './CreateMember';
+import CreateDateTime from './FormCreateDateTime';
+import CreateMember from './FormCreateMember';
 import { findAllDateTime } from '../../redux/reducer/dateTimeSlice';
 
 interface TableProjectProps {

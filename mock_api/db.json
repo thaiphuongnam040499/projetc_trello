@@ -80,16 +80,8 @@
       "name": "Anh nhân đạp xích lô",
       "workingSpaceId": 1,
       "workingSpaceName": "Anh nhân",
-      "backgroundId": 3,
-      "createdAt": 1690883789862
-    },
-    {
-      "id": 3,
-      "name": "aaaa",
-      "workingSpaceId": 1,
-      "workingSpaceName": "Anh nhân",
-      "backgroundId": 4,
-      "createdAt": 1691074718243
+      "backgroundId": 2,
+      "createdAt": 1691139045074
     }
   ],
   "lanes": [
@@ -195,6 +187,15 @@
       "role": "Quản trị viên",
       "createdAt": 1691135068063,
       "id": 7
+    },
+    {
+      "name": "Phương Nam Thái",
+      "email": "nambogia040499@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtdewkBKPFnP0OWa48KLO8Dd2yJd5aKGYeowLBIJNKzIibw=s96-c",
+      "boardId": 2,
+      "role": "Quản trị viên",
+      "createdAt": 1691139045535,
+      "id": 8
     }
   ],
   "memberCard": [

@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import WorkingSpace from '../yourBoard/WorkingSpace';
+import WorkingSpace from './WorkingSpace';
 import { useDispatch, useSelector } from 'react-redux';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { RootState } from '../../redux/store';
 import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
 import { UserId } from '../../types/user.type';
 import { match } from 'assert';
+import useCutomeHook from '../../customeHooks/useCutomeHook';
 
 export default function Sidebar() {
-  const user = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
   const dispatch = useDispatch();
   const listWorkingSpace = useSelector(
     (state: RootState) => state.workingSpace.listWorkingSpace
@@ -42,6 +41,7 @@ export default function Sidebar() {
     '#66CDAA',
   ];
   const [charColors, setCharColors] = React.useState<string[]>([]);
+  const { userLogin } = useCutomeHook();
 
   const getRandomCharColor = () => {
     const randomIndex = Math.floor(Math.random() * colorCodes.length);
@@ -57,12 +57,6 @@ export default function Sidebar() {
     }
     setCharColors(charColorsArray);
   }, [listWorkingSpace]);
-
-  useEffect(() => {
-    if (user) {
-      setUserLogin(JSON.parse(user).user);
-    }
-  }, [user]);
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());

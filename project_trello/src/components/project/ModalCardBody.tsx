@@ -8,7 +8,7 @@ import Task from './Task';
 import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { DateTime } from '../../types/dateTime.type';
 
-import CreateDescription from './CreateDescription';
+import CreateDescription from './FormCreateDescription';
 import { MemberId, MemberType } from '../../types/member.type';
 import { BgColor } from '../../types/bColor.type';
 import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
@@ -17,6 +17,7 @@ import { findAllCardTag } from '../../redux/reducer/cardTagSlice';
 import { toast } from 'react-hot-toast';
 import { updateCard } from '../../redux/reducer/cardSlice';
 import { Card } from '../../types/lanes.type';
+import FormCreateDescription from './FormCreateDescription';
 
 interface ModalCardBodyProps {
   cardId: string;
@@ -251,7 +252,7 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
         ) : (
           <div>
             {isShowDis ? (
-              <CreateDescription
+              <FormCreateDescription
                 handleOffShowDis={handleOffShowDis}
                 cardId={cardId}
               />

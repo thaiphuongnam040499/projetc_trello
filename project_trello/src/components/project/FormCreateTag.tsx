@@ -20,7 +20,7 @@ interface CreateTagProps {
   cards: Card[];
 }
 
-export default function CreateTag({ cardId, cards }: CreateTagProps) {
+export default function FormCreateTag({ cardId, cards }: CreateTagProps) {
   const bgColors = useSelector(
     (state: RootState) => state.backgrounds.backgroundColors
   );

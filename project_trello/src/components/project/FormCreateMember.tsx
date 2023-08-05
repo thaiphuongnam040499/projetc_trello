@@ -18,7 +18,7 @@ interface CreateMemberProps {
   memberArr?: MemberId[];
 }
 
-export default function CreateMember({
+export default function FormCreateMember({
   cardId,
   cards,
   boardId,

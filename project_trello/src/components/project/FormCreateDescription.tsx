@@ -10,7 +10,7 @@ interface CreateDiscriptionProps {
   handleOffShowDis: () => void;
 }
 
-export default function CreateDescription({
+export default function FormCreateDescription({
   handleOffShowDis,
   cardId,
 }: CreateDiscriptionProps) {

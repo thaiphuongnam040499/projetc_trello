@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'react-trello-ts/dist/types/Board';
-import CreateListTask from './CreateListTask';
+import CreateListTask from './FormCreateListTask';
 import ModalCardBody from './ModalCardBody';
 import { Lane } from '../../types/lanes.type';
-import CreateDateTime from './CreateDateTime';
-import CreateTag from './CreateTag';
-import CreateMember from './CreateMember';
+import CreateDateTime from './FormCreateDateTime';
+import CreateTag from './FormCreateTag';
+import CreateMember from './FormCreateMember';
+import FormCreateListTask from './FormCreateListTask';
+import FormCreateMember from './FormCreateMember';
+import FormCreateDateTime from './FormCreateDateTime';
+import FormCreateTag from './FormCreateTag';
 
 interface ModalCardProps {
   cardId: string;
@@ -66,15 +70,15 @@ export default function ModalCard({
                     <i className="bi bi-people me-2"></i>
                     Thành viên
                   </button>
-                  <CreateMember
+                  <FormCreateMember
                     cards={cards}
                     boardId={boardId}
                     cardId={cardId}
                   />
                 </div>
-                <CreateListTask cardId={cardId} />
-                <CreateDateTime cardId={cardId} />
-                <CreateTag cards={cards} cardId={cardId} />
+                <FormCreateListTask cardId={cardId} />
+                <FormCreateDateTime cardId={cardId} />
+                <FormCreateTag cards={cards} cardId={cardId} />
               </div>
             </form>
           </div>
