@@ -100,7 +100,7 @@ export default function ContentBoard() {
                 if (workingSpace.userId === userLogin?.id) {
                   return (
                     <div key={workingSpace.id} className="history mt-4">
-                      <div className="d-flex align-items-center justify-content-between ">
+                      <div className="d-flex align-items-center justify-content-between ws-header">
                         <div className="d-flex align-items-center">
                           <div
                             className="charAt me-2"
@@ -160,7 +160,7 @@ export default function ContentBoard() {
                         </div>
                       </div>
 
-                      <div className="d-flex flex-wrap mt-3">
+                      <div className="d-flex flex-wrap mt-3 ms-2">
                         {listBoard &&
                           listBoard.map((board: BoardType) => {
                             if (board.workingSpaceId === workingSpace.id) {

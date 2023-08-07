@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import useCutomeHook from '../../redux/contants/useCutomeHook';
+import { useState } from 'react';
 
 export default function () {
   const navigate = useNavigate();
@@ -8,6 +9,12 @@ export default function () {
   const handleSignOut = () => {
     localStorage.removeItem('userLogin');
     navigate('/');
+  };
+
+  const [isShowUser, setIsShowUser] = useState(false);
+  const handleShowOption = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsShowUser(true);
   };
 
   return (
@@ -184,32 +191,56 @@ export default function () {
               <div>
                 {userLogin ? (
                   <div className="dropdown">
-                    <img
-                      src={userLogin.imageUrl}
-                      className="border rounded-circle ms-2 fs-5 profile-img"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    />
-                    <ul
-                      className="dropdown-menu profile-menu"
-                      aria-labelledby="dropdownMenuButton1"
-                    >
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          {userLogin.name}
-                        </a>
-                      </li>
-                      <hr className="my-2" />
-                      <li>
-                        <button
-                          onClick={handleSignOut}
-                          className="dropdown-item btn btn-light"
-                        >
-                          Đăng xuất
-                        </button>
-                      </li>
-                    </ul>
+                    <button
+                      style={{ backgroundImage: `url(${userLogin.imageUrl})` }}
+                      onClick={(e) => handleShowOption(e)}
+                      className="border rounded-circle ms-2 fs-5 profile-img btn"
+                    ></button>
+                    {isShowUser ? (
+                      <ul className="profile-menu border rounded p-3">
+                        <li className="mb-2">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <p className="text-dark mb-2 p-0">Tài khoản</p>
+                            <button
+                              onClick={() => setIsShowUser(false)}
+                              className="btn btn-light"
+                            >
+                              <i className="bi bi-x-lg text-dark "></i>
+                            </button>
+                          </div>
+                          <div className="d-flex">
+                            <img
+                              src={userLogin.imageUrl}
+                              alt=""
+                              className="profile-img border rounded-circle"
+                            />
+                            <a className="dropdown-item" href="#">
+                              {userLogin.name}
+                            </a>
+                          </div>
+                        </li>
+                        <li>
+                          <button className=" btn btn-light w-100 text-start">
+                            Thông tin tài khoản
+                          </button>
+                        </li>
+                        <li>
+                          <button className=" btn btn-light w-100 text-start">
+                            Cài đặt
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            onClick={handleSignOut}
+                            className=" btn btn-light w-100 text-start"
+                          >
+                            Đăng xuất
+                          </button>
+                        </li>
+                      </ul>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 ) : (
                   ''

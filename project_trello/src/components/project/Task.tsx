@@ -67,6 +67,9 @@ export default function Task({ boardId, listTask }: TaskProps) {
 
   const handleChangeComplete = () => {
     let task = tasks.filter((task) => task.listTaskId === listTask.id);
+    if (task.length === 0) {
+      return 0;
+    }
     let tasksTrue = task.filter((task) => task.status === true);
     let complete = (tasksTrue.length / task.length) * 100;
     return complete;

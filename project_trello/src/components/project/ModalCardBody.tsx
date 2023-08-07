@@ -290,7 +290,7 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
         {listTask.map((listTask) => {
           if (listTask.cardId === cardId) {
             return (
-              <div key={listTask.id}>
+              <div key={listTask.id} className="mt-2">
                 <div className="ps-2 px-2 mb-2">
                   <div className="d-flex justify-content-between  ">
                     <div className="d-flex align-items-center">

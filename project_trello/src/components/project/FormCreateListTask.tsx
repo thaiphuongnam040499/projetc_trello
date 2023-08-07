@@ -31,6 +31,7 @@ export default function FormCreateListTask({ cardId }: CreateListTaskProps) {
         })
       );
       toast.success('Thêm mới thành công');
+      setListTask(initialState);
     } else {
       toast.error('Hãy nhập đầy đủ các thông tin!');
     }
