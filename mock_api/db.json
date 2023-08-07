@@ -55,6 +55,14 @@
       "description": "dự án",
       "userId": 1,
       "createdAt": 1691414797760
+    },
+    {
+      "id": 4,
+      "name": "Nhân tíc",
+      "type": "1",
+      "description": "aaaaa",
+      "userId": 3,
+      "createdAt": 1691423841816
     }
   ],
   "boards": [
@@ -618,6 +626,24 @@
       "role": "Thành viên",
       "createdAt": 1691415859431,
       "id": 7
+    },
+    {
+      "name": "User",
+      "email": "trongnhan34@gmail.com",
+      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
+      "workingSpaceId": 4,
+      "role": "Quản trị viên",
+      "createdAt": 1691423841846,
+      "id": 8
+    },
+    {
+      "name": "Nam Thái",
+      "email": "thainamvinhuni@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtfa4uxIM2UKErYRyaGuSGXj31d4LvWO8RN4HE59xJ4JbQ=s96-c",
+      "boardId": 1,
+      "role": "Thành viên",
+      "createdAt": 1691427210663,
+      "id": 9
     }
   ],
   "memberCard": [
@@ -642,7 +668,26 @@
       "id": 2
     }
   ],
-  "memberWs": [],
+  "memberWs": [
+    {
+      "name": "User",
+      "email": "trongnhan34@gmail.com",
+      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
+      "role": "Thành viên",
+      "workingSpaceId": 1,
+      "createdAt": 1691423446856,
+      "id": 1
+    },
+    {
+      "name": "Nam Thái",
+      "email": "thainamvinhuni@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtfa4uxIM2UKErYRyaGuSGXj31d4LvWO8RN4HE59xJ4JbQ=s96-c",
+      "role": "Thành viên",
+      "workingSpaceId": 1,
+      "createdAt": 1691425545148,
+      "id": 2
+    }
+  ],
   "backgrounds": [
     {
       "id": 1,

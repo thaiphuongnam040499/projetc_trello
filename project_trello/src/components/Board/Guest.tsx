@@ -24,6 +24,11 @@ export default function Guest() {
   const memberBoard = memberBoards.find(
     (memberBoard) => memberBoard.email === userLogin?.email
   );
+  const listBoard = useSelector((state: RootState) => state.board.listBoard);
+  const workingSpaces = useSelector(
+    (state: RootState) => state.workingSpace.listWorkingSpace
+  );
+  console.log(workingSpaces);
 
   useEffect(() => {
     dispatch(findAllWorkingSpace());
@@ -31,15 +36,9 @@ export default function Guest() {
     dispatch(findAllMember());
   }, []);
 
-  const listWorkingSpace = useSelector((state: RootState) => {
-    return state.workingSpace.listWorkingSpace;
-  });
-
   useEffect(() => {
     dispatch(findAllBoard());
   }, []);
-
-  const listBoard = useSelector((state: RootState) => state.board.listBoard);
 
   const handleClick = (
     board: BoardType,
@@ -97,81 +96,77 @@ export default function Guest() {
 
   useEffect(() => {
     const charColorsArray: any[] = [];
-    if (listWorkingSpace && listWorkingSpace.length > 0) {
-      listWorkingSpace.forEach((workingSpace: WorkingSpaceType) => {
+    if (workingSpaces && workingSpaces.length > 0) {
+      workingSpaces.forEach((workingSpace: WorkingSpaceType) => {
         charColorsArray.push(getRandomCharColor());
       });
     }
     setCharColors(charColorsArray);
-  }, [listWorkingSpace]);
+  }, [workingSpaces]);
 
   return (
     <div>
-      {listWorkingSpace &&
-        listWorkingSpace.map((workingSpace, index) => {
-          if (
-            workingSpace.id === member?.workingSpaceId &&
-            member.role === Role.MEMBER
-          ) {
-            return (
-              <div>
-                <h5 className="mt-3">Các không gian làm việc của khách</h5>
-                <div key={workingSpace.id} className="history mt-4 ">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className="d-flex align-items-center">
-                      <div
-                        className="charAt me-2"
-                        style={{
-                          backgroundColor: charColors[index],
-                        }}
-                      >
-                        <p className="text-center text-white">
-                          {workingSpace.name.charAt(0).toUpperCase()}
-                        </p>
-                      </div>
-                      <p className="m-0 fs-5 font">{workingSpace.name}</p>
+      {workingSpaces.map((workingSpace, index) => {
+        if (workingSpace.id === member?.workingSpaceId) {
+          return (
+            <div key={workingSpace.id}>
+              <h5 className="mt-3">Các không gian làm việc của khách</h5>
+              <div key={workingSpace.id} className="history mt-4 ">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex align-items-center">
+                    <div
+                      className="charAt me-2"
+                      style={{
+                        backgroundColor: charColors[index],
+                      }}
+                    >
+                      <p className="text-center text-white">
+                        {workingSpace.name.charAt(0).toUpperCase()}
+                      </p>
                     </div>
-                  </div>
-
-                  <div className="d-flex flex-wrap mt-3">
-                    {listBoard &&
-                      listBoard.map((board: BoardType) => {
-                        if (
-                          board.workingSpaceId === workingSpace.id &&
-                          memberBoard?.role === Role.MEMBER
-                        ) {
-                          return backgrounds.map((background) => {
-                            if (background.id === board.backgroundId) {
-                              return (
-                                <div
-                                  onClick={() =>
-                                    handleClick(
-                                      board,
-                                      workingSpace.id,
-                                      background
-                                    )
-                                  }
-                                  key={board.id}
-                                  className="card text-white me-2 mb-2 board "
-                                  style={{
-                                    backgroundImage: `url(${background.url})`,
-                                  }}
-                                >
-                                  <div className="card-img-overlay">
-                                    <h5 className="card-title">{board.name}</h5>
-                                  </div>
-                                </div>
-                              );
-                            }
-                          });
-                        }
-                      })}
+                    <p className="m-0 fs-5 font">{workingSpace.name}</p>
                   </div>
                 </div>
+
+                <div className="d-flex flex-wrap mt-3">
+                  {listBoard &&
+                    listBoard.map((board: BoardType) => {
+                      if (
+                        board.workingSpaceId === workingSpace.id &&
+                        memberBoard?.role === Role.MEMBER
+                      ) {
+                        return backgrounds.map((background) => {
+                          if (background.id === board.backgroundId) {
+                            return (
+                              <div
+                                onClick={() =>
+                                  handleClick(
+                                    board,
+                                    workingSpace.id,
+                                    background
+                                  )
+                                }
+                                key={board.id}
+                                className="card text-white me-2 mb-2 board "
+                                style={{
+                                  backgroundImage: `url(${background.url})`,
+                                }}
+                              >
+                                <div className="card-img-overlay">
+                                  <h5 className="card-title">{board.name}</h5>
+                                </div>
+                              </div>
+                            );
+                          }
+                        });
+                      }
+                    })}
+                </div>
               </div>
-            );
-          }
-        })}
+            </div>
+          );
+        }
+      })}
     </div>
   );
 }

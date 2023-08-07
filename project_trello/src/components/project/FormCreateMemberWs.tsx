@@ -26,7 +26,7 @@ export default function FormCreateMemberWs({
 }: CreateMemberWsProps) {
   const users = useSelector((state: RootState) => state.user.listUser);
   const [userSearch, setUserSearch] = useState('');
-  const [members, setMembers] = useState<MemberWsType[]>([]);
+  const [members, setMembers] = useState<MemberWsType>();
   const dispatch = useDispatch();
   const memberWs = useSelector((state: RootState) => state.memberWs.memberWs);
   const { userLogin } = useCutomeHook();
@@ -40,42 +40,23 @@ export default function FormCreateMemberWs({
   }, [userSearch]);
 
   const handleAddMember = (user: User) => {
-    if (!checkExits(user, members)) {
-      setMembers([
-        ...members,
-        {
-          name: user.name,
-          email: user.email,
-          imageUrl: user.imageUrl,
-          role: Role.MEMBER,
-          workingSpaceId: workingSpaceId,
-        },
-      ]);
-    }
-  };
-  const member = memberWs.find(
-    (memberWs) => memberWs.workingSpaceId === workingSpaceId
-  );
-
-  const checkExits = (user: User, members: MemberWsType[]) => {
-    return members.find((item) => item.email === user.email);
+    setMembers({
+      name: user.name,
+      email: user.email,
+      imageUrl: user.imageUrl,
+      role: Role.MEMBER,
+      workingSpaceId: workingSpaceId,
+    });
   };
 
   const handleCreateMember = () => {
-    const isExits = memberWs.find((item) => item.email === member?.email);
-
-    if (isExits) {
-      toast.error('Bạn đã thêm người này!!!');
-      return;
+    let member = memberWs.find((memberWs) => memberWs.email === members?.email);
+    if (member?.email != members?.email && member?.role === Role.MEMBER) {
+      dispatch(createMemberWs(members));
+      toast.success('Thêm mới thành công');
+      setUserSearch('');
     } else {
-      for (let i = 0; i < members.length; i++) {
-        if (userLogin?.email != members[i].email) {
-          dispatch(createMemberWs(members[i]));
-          toast.success('thêm mới thành công');
-          setUserSearch('');
-          setMembers([]);
-        }
-      }
+      toast.error('Bạn đã thêm người này');
     }
   };
   const countMember = memberWs.filter(
@@ -125,42 +106,52 @@ export default function FormCreateMemberWs({
           {userSearch ? (
             <div className="">
               <p>Danh sách tìm kiếm</p>
-              {users.map((user) => {
-                return (
-                  <button
-                    className="btn btn-light d-flex align-items-center mb-2"
-                    onClick={() => handleAddMember(user)}
-                  >
-                    <img
-                      src={user.imageUrl}
-                      alt=""
-                      className="member-input me-2"
-                    />
-                    <p>{user.email}</p>
-                  </button>
-                );
+              {users.map((user, index) => {
+                if (userLogin?.email != user.email) {
+                  return (
+                    <button
+                      key={index}
+                      className="btn btn-light d-flex align-items-center mb-2"
+                      onClick={() => handleAddMember(user)}
+                    >
+                      <img
+                        src={user.imageUrl}
+                        alt=""
+                        className="member-input me-2"
+                      />
+                      <p>{user.email}</p>
+                    </button>
+                  );
+                }
               })}
             </div>
           ) : (
             ''
           )}
-          {memberWs.map((member) => {
-            if (member.workingSpaceId === workingSpaceId) {
-              return (
-                <div key={member.workingSpaceId}>
-                  <p>Đã thêm</p>
-                  <button className="btn btn-light d-flex align-items-center mb-2">
-                    <img
-                      src={member.imageUrl}
-                      alt=""
-                      className="member-input me-2"
-                    />
-                    <p>{member.email}</p>
-                  </button>
-                </div>
-              );
-            }
-          })}
+          {memberWs ? (
+            <div>
+              <p>Đã thêm</p>
+              {memberWs.map((member) => {
+                if (member.workingSpaceId === workingSpaceId) {
+                  return (
+                    <div key={member.workingSpaceId}>
+                      <button className="btn btn-light d-flex align-items-center mb-2">
+                        <img
+                          src={member.imageUrl}
+                          alt=""
+                          className="member-input me-2"
+                        />
+                        <p>{member.email}</p>
+                      </button>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          ) : (
+            ''
+          )}
+
           <li className="p-2">
             <button
               onClick={handleCreateMember}

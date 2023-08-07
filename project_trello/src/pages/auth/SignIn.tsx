@@ -11,6 +11,7 @@ import {
 } from '../../redux/reducer/userSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { toast } from 'react-hot-toast';
 
 export default function SignIn() {
   const [user, setUser] = useState({
@@ -36,20 +37,18 @@ export default function SignIn() {
   };
 
   const handleSignIn = () => {
-    if (user.email != '' && user.password != '') {
-      for (let i = 0; i < users.length; i++) {
-        if (user.email === users[i].email) {
-          dispatch(login({ email: user.email, password: user.password }));
-          setTimeout(() => {
-            dispatch(getUserLogin(null));
-          }, 1000);
-          return;
-        } else {
-          setResult('Tài khoản hoặc mật khẩu không chính xác');
-        }
+    let checkExits = users.find((users) => users.email === user.email);
+    if (checkExits?.email === user.email) {
+      if (user.email != '' && user.password != '') {
+        dispatch(login({ email: user.email, password: user.password }));
+        setTimeout(() => {
+          dispatch(getUserLogin(null));
+        }, 1000);
+      } else {
+        setResult('Không được để trống');
       }
     } else {
-      setResult('Không được để trống');
+      setResult('Email hoặc mật khẩu không chính xác');
     }
   };
 
