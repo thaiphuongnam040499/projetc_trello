@@ -7,6 +7,8 @@ import { deleteBoard, findAllBoard } from '../../redux/reducer/boardSlice';
 import { BoardType } from '../../types/board.type';
 import { findAllBackground } from '../../redux/reducer/backgroundSlice';
 import { toast } from 'react-hot-toast';
+import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
+import { WorkingSpaceType } from '../../types/workingSpace.type';
 
 export default function SidebarProject() {
   const boards = useSelector((state: RootState) => state.board.listBoard);
@@ -16,9 +18,19 @@ export default function SidebarProject() {
   const bgImage = useSelector(
     (state: RootState) => state.backgrounds.backgrounds
   );
+  const workingSpaces = useSelector(
+    (state: RootState) => state.workingSpace.listWorkingSpace
+  );
+  const workingSpace = workingSpaces.find(
+    (item) => item.id === location.state.workingSpaceId
+  );
+  const listWorkingSpace = useSelector((state: RootState) => {
+    return state.workingSpace.listWorkingSpace;
+  });
 
   useEffect(() => {
     dispatch(findAllBackground());
+    dispatch(findAllWorkingSpace());
   }, []);
 
   const handleClickBtn = (
@@ -44,6 +56,33 @@ export default function SidebarProject() {
     });
   };
 
+  const handleClickTable = () => {
+    navigate(`table`, {
+      state: {
+        board: location.state.board,
+        workingSpaceId: location.state.workingSpaceId,
+      },
+    });
+  };
+
+  const colorCodes = ['#4B0082'];
+  const [charColors, setCharColors] = React.useState<any[]>([]);
+
+  const getRandomCharColor = () => {
+    const randomIndex = Math.floor(Math.random() * colorCodes.length);
+    return colorCodes[randomIndex];
+  };
+
+  useEffect(() => {
+    const charColorsArray: any[] = [];
+    if (listWorkingSpace && listWorkingSpace.length > 0) {
+      listWorkingSpace.forEach((workingSpace: WorkingSpaceType) => {
+        charColorsArray.push(getRandomCharColor());
+      });
+    }
+    setCharColors(charColorsArray);
+  }, [listWorkingSpace]);
+
   useEffect(() => {
     dispatch(findAllBoard());
   }, []);
@@ -61,7 +100,19 @@ export default function SidebarProject() {
       <div className="flex-shrink-0 p-3 sidebar sidebar-project border-end">
         <ul className="list-unstyled ps-0">
           <li>
-            <p>Không gian làm việc của Phương Nam</p>
+            <div className="d-flex align-items-center">
+              <div
+                className="charAt me-2"
+                style={{
+                  backgroundColor: charColors[0],
+                }}
+              >
+                <p className="text-center text-white">
+                  {workingSpace?.name.charAt(0).toUpperCase()}
+                </p>
+              </div>
+              <p className="m-0 fs-5 font">{workingSpace?.name}</p>
+            </div>
           </li>
           <hr className="my-3" />
           <li className="mb-1">
@@ -70,6 +121,7 @@ export default function SidebarProject() {
               data-bs-toggle="collapse"
               data-bs-target="#home-collapse"
               aria-expanded="false"
+              onClick={handleClickTable}
             >
               <i className="bi bi-trello px-2"></i>
               Bảng
@@ -85,30 +137,6 @@ export default function SidebarProject() {
               <i className="bi bi-person px-2"></i>
               Thành viên
             </button>
-            <div className="collapse" id="dashboard-collapse">
-              <ul className="btn-toggle w-100 text-start sidebar-btn-nav list-unstyled fw-normal pb-1 small">
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Overview
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Weekly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Monthly
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="link-dark rounded">
-                    Annually
-                  </a>
-                </li>
-              </ul>
-            </div>
           </li>
           <li className="mb-1">
             <button

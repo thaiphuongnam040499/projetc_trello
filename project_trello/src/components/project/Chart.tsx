@@ -11,7 +11,6 @@ import {
 } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useDispatch } from 'react-redux';
@@ -144,13 +143,9 @@ export function Chart() {
   useEffect(() => {
     let lane = lanes.find((lane) => lane.boardId === location.state.board.id);
     let card = cards.find((card) => card.laneId === lane?.id);
-    console.log(card);
-
     const listTaskFilter = listTasks.filter(
       (listTask) => listTask.cardId === card?.id
     );
-    console.log(listTaskFilter);
-
     let completes = [];
     let listTaskNames = [];
     for (let i = 0; i < listTaskFilter.length; i++) {
@@ -174,7 +169,6 @@ export function Chart() {
     const listTaskFilter = listTasks.filter(
       (listTask) => listTask.cardId === card?.id
     );
-    console.log(listTaskFilter);
 
     let completes = [];
     let listTaskNames = [];
@@ -213,7 +207,7 @@ export function Chart() {
               {boards.map((board) => {
                 if (board.workingSpaceId === location.state.workingSpaceId) {
                   return (
-                    <li>
+                    <li key={board.id}>
                       <button
                         onClick={() => handleSelectBoard(board.id)}
                         className="btn btn-light w-100 mb-2 border rounded "
@@ -245,7 +239,7 @@ export function Chart() {
               {lanes.map((lane) => {
                 if (lane.boardId === location.state.board.id) {
                   return (
-                    <li>
+                    <li key={lane.id}>
                       <button
                         onClick={() => handleSelectLane(lane.id)}
                         className="btn btn-light w-100 mb-2 border rounded "
@@ -265,7 +259,7 @@ export function Chart() {
         <Bar className="chart" options={options} data={dataBar} />
       </div>
       <div className="mt-5">
-        <h4 className="text-center">Thống kê</h4>
+        <h5 className="text-center">Thống kê bảng</h5>
       </div>
     </div>
   );

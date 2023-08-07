@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { findUserByEmail } from '../../redux/reducer/userSlice';
 import { MemberType } from '../../types/member.type';
 import { Role } from '../../enums/Role';
-import { User, UserId } from '../../types/user.type';
+import { User } from '../../types/user.type';
 import {
   createMember,
   findAllMember,
@@ -15,6 +15,9 @@ import { toast } from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import Filter from './Filter';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useCutomeHook from '../../redux/contants/useCutomeHook';
+import Loading from '../homeTrello/Loading';
+import { ScaleLoader } from 'react-spinners';
 
 interface HeaderProjectProps {
   workingSpaceId: string;
@@ -42,19 +45,15 @@ export default function HeaderProject({
   const [userSearch, setUserSearch] = useState('');
   const [member, setMember] = useState<MemberType>(initialState);
   const listMember = useSelector((state: RootState) => state.members.members);
-  const currentUser = localStorage.getItem('userLogin');
-  const [userLogin, setUserLogin] = useState<UserId>();
+
   const [members, setMembers] = useState<MemberType[]>([]);
   const boards = useSelector((state: RootState) => state.board.listBoard);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (currentUser) {
-      setUserLogin(JSON.parse(currentUser).user);
-    }
-  }, [currentUser]);
+  const { userLogin } = useCutomeHook();
 
   useEffect(() => {
     dispatch(findUserByEmail(userSearch));
@@ -84,17 +83,25 @@ export default function HeaderProject({
   };
 
   const handleCreateMember = () => {
-    const isExits = members.find((item) => item.email === member.email);
-    if (isExits) {
-      toast.error('Bạn đã thêm người này!!!');
-      return;
+    if (members.length != 0) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        const isExits = members.find((item) => item.email === member.email);
+        if (isExits) {
+          toast.error('Bạn đã thêm người này!!!');
+          return;
+        } else {
+          for (let i = 0; i < members.length; i++) {
+            dispatch(createMember(members[i]));
+            toast.success('thêm mới thành công');
+            setUserSearch('');
+            setMembers([]);
+          }
+        }
+      }, 2000);
     } else {
-      for (let i = 0; i < members.length; i++) {
-        dispatch(createMember(members[i]));
-        toast.success('thêm mới thành công');
-        setUserSearch('');
-        setMembers([]);
-      }
+      toast.error('Hãy chọn thành viên muốn thêm');
     }
   };
 
@@ -298,7 +305,13 @@ export default function HeaderProject({
                   onClick={handleCreateMember}
                   className="btn btn-primary w-25"
                 >
-                  Chia sẻ
+                  {loading ? (
+                    <div className="create-member-loading">
+                      <ScaleLoader className="scale-loader" loading={loading} />
+                    </div>
+                  ) : (
+                    'Chia sẻ'
+                  )}
                 </button>
               </div>
               {listMember.map((member) => {

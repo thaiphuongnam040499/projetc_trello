@@ -101,15 +101,18 @@ export default function FormCreateTag({ cardId, cards }: CreateTagProps) {
   ) => {
     e.preventDefault();
     let tag = cardTagFilter.find((item) => item.tagId === bgColor.id);
-
-    dispatch(
-      updateCardTag({
-        ...tag,
-        name: cardTagName,
-      })
-    );
-    handleOffShowUp();
-    toast.success('Cập nhật thành công');
+    if (cardTagName != '') {
+      dispatch(
+        updateCardTag({
+          ...tag,
+          name: cardTagName,
+        })
+      );
+      handleOffShowUp();
+      toast.success('Cập nhật thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin!');
+    }
   };
 
   return (
@@ -130,9 +133,7 @@ export default function FormCreateTag({ cardId, cards }: CreateTagProps) {
             <button
               className="btn btn-light"
               type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              onClick={handleOffShowUp}
             >
               <i className="bi bi-chevron-left"></i>
             </button>

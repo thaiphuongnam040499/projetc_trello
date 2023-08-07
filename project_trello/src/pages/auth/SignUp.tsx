@@ -1,13 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AuthSupport from './AuthSupport';
 import { useDispatch } from 'react-redux';
 import { createUser, register } from '../../redux/reducer/userSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { Toaster, toast } from 'react-hot-toast';
 export default function SignUp() {
   const [email, setEmail] = useState({
     email: '',
   });
-
   const [password, setPassword] = useState({
     password: '',
   });
@@ -15,13 +17,32 @@ export default function SignUp() {
   const navigate = useNavigate();
   const EMAIL_PATTERN = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
   const PASS_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-  const [result, setResult] = useState('');
+  const [resultEmail, setResultEmail] = useState('');
+  const [resultPass, setResultPass] = useState('');
+  const users = useSelector((state: RootState) => state.user.listUser);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
     let value = e.target.value;
     setEmail({ ...email, [name]: value });
   };
+
+  useEffect(() => {
+    if (email.email != '') {
+      if (!EMAIL_PATTERN.test(email.email)) {
+        setResultEmail('Email không đúng định dạng!');
+      } else {
+        setResultEmail('');
+      }
+    }
+    if (password.password != '') {
+      if (!PASS_PATTERN.test(password.password)) {
+        setResultPass('Mật khẩu phải ít nhất 8 kí tự bao gồm kí tự hoa và số!');
+      } else {
+        setResultPass('');
+      }
+    }
+  }, [email.email, password.password]);
 
   const handleChangePass = (e: ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
@@ -30,22 +51,27 @@ export default function SignUp() {
   };
 
   const handleCreateUser = () => {
-    dispatch(
-      createUser({
-        type: 'nomarl',
-        user: {
-          email: email.email,
-          password: password.password,
-          googleId: '',
-          imageUrl:
-            'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78',
-          name: '',
-          emagivenNamel: '',
-          familyName: '',
-        },
-      })
-    );
-    navigate('/signIn');
+    let checkExit = users.find((user) => user.email === email.email);
+    if (!checkExit) {
+      dispatch(
+        createUser({
+          type: 'nomarl',
+          user: {
+            email: email.email,
+            password: password.password,
+            googleId: '',
+            imageUrl:
+              'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78',
+            name: '',
+            emagivenNamel: '',
+            familyName: '',
+          },
+        })
+      );
+      navigate('/signIn');
+    } else {
+      toast.error('email đã tồn tại');
+    }
   };
 
   const changeButton = () => {
@@ -70,6 +96,7 @@ export default function SignUp() {
   };
   return (
     <div>
+      <Toaster />
       <section className="vh-100" style={{ backgroundColor: '#fffff' }}>
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -94,7 +121,7 @@ export default function SignUp() {
                       value={email.email}
                       onChange={handleChange}
                     />
-                    <p className="result mt-2">{result}</p>
+                    <p className="result mt-2">{resultEmail}</p>
                     <input
                       name="password"
                       type="password"
@@ -103,7 +130,7 @@ export default function SignUp() {
                       value={password.password}
                       onChange={handleChangePass}
                     />
-                    <p className="result mt-2">{result}</p>
+                    <p className="result mt-2">{resultPass}</p>
                     <label
                       className="form-label mt-4"
                       htmlFor="typeEmailX-2"

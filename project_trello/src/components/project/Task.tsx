@@ -56,9 +56,13 @@ export default function Task({ boardId, listTask }: TaskProps) {
 
   const handleCreateTask = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(taskSlice.createTask(task));
-    toast.success('Thêm mới thành công');
-    setTask(initialState);
+    if (task.name != '') {
+      dispatch(taskSlice.createTask(task));
+      toast.success('Thêm mới thành công');
+      setTask(initialState);
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin!');
+    }
   };
 
   const handleChangeComplete = () => {
@@ -96,15 +100,20 @@ export default function Task({ boardId, listTask }: TaskProps) {
     taskU: TaskType
   ) => {
     e.preventDefault();
-    let taskUp = {
-      ...taskU,
-      name: task.name,
-    };
-    dispatch(taskSlice.updateTask(taskUp));
-    setIsShowInputUp({
-      id: taskUp.id,
-      stat: false,
-    });
+    if (task.name != '') {
+      let taskUp = {
+        ...taskU,
+        name: task.name,
+      };
+      dispatch(taskSlice.updateTask(taskUp));
+      setIsShowInputUp({
+        id: taskUp.id,
+        stat: false,
+      });
+      toast.success('Sửa thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin!');
+    }
   };
 
   const handleChangeTask = (e: React.ChangeEvent<HTMLInputElement>) => {

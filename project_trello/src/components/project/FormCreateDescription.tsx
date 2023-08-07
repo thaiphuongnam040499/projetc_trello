@@ -26,12 +26,16 @@ export default function FormCreateDescription({
 
   const handleCreateDes = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    let uCard = {
-      ...card[0],
-      description: description,
-    };
-    dispatch(updateCard(uCard));
-    toast.success('Thêm mới thành công');
+    if (description != '') {
+      let uCard = {
+        ...card[0],
+        description: description,
+      };
+      dispatch(updateCard(uCard));
+      toast.success('Thêm mới thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin!');
+    }
   };
 
   return (

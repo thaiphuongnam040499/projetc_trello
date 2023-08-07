@@ -10,6 +10,7 @@ import {
   findAllMemberCard,
 } from '../../redux/reducer/memberCardSlice';
 import { toast } from 'react-hot-toast';
+import { ScaleLoader } from 'react-spinners';
 
 interface CreateMemberProps {
   cardId: string;

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { deleteTask, updateTask } from '../../redux/reducer/taskSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { findAllMember, updateMember } from '../../redux/reducer/memberSlice';
+import { findAllMember } from '../../redux/reducer/memberSlice';
 import { MemberId } from '../../types/member.type';
 import { toast } from 'react-hot-toast';
 

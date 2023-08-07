@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { useDispatch } from 'react-redux';
 import { createWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
-import { User, UserId } from '../../types/user.type';
-import { MemberId, MemberType } from '../../types/member.type';
 import { createMember } from '../../redux/reducer/memberSlice';
 import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { toast } from 'react-hot-toast';
-import useCutomeHook from '../../customeHooks/useCutomeHook';
+import useCutomeHook from '../../redux/contants/useCutomeHook';
 
 interface Option {
   label: string;
@@ -69,13 +67,18 @@ export default function WorkingSpace() {
   }, [currentCreateWs]);
 
   const handleCreate = () => {
-    dispatch(
-      createWorkingSpace({
-        ...workingSpace,
-        userId: userLogin?.id,
-      })
-    );
-    toast.success('Thêm mới thành công');
+    if (workingSpace.name != '' && workingSpace.description != '') {
+      dispatch(
+        createWorkingSpace({
+          ...workingSpace,
+          userId: userLogin?.id,
+        })
+      );
+      setWorkingSpace(initialState);
+      toast.success('Thêm mới thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ dữ liệu');
+    }
   };
 
   return (

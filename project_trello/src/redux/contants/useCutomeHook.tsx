@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UserId } from '../types/user.type';
+import { UserId } from '../../types/user.type';
 
 function useCutomeHook() {
   const user = localStorage.getItem('userLogin');

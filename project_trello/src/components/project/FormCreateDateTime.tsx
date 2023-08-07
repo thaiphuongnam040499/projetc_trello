@@ -48,9 +48,11 @@ export default function FormCreateDateTime({ cardId }: CreateDateTimeProps) {
         dispatch(dateTimeSlice.updateDateTime(uDateTime));
         toast.success('Sửa thành công');
       }
-    } else {
+    } else if (dateTime.expirationDate != '' && dateTime.startDay != '') {
       dispatch(dateTimeSlice.createDateTime(dateTime));
       toast.success('Thêm mới thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin');
     }
   };
 

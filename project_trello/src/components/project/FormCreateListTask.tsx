@@ -23,13 +23,17 @@ export default function FormCreateListTask({ cardId }: CreateListTaskProps) {
 
   const handleAddList = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(
-      createListTask({
-        ...listTask,
-        cardId: cardId,
-      })
-    );
-    toast.success('Thêm mới thành công');
+    if (listTask.name != '') {
+      dispatch(
+        createListTask({
+          ...listTask,
+          cardId: cardId,
+        })
+      );
+      toast.success('Thêm mới thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ các thông tin!');
+    }
   };
   return (
     <div className="dropdown">
@@ -52,7 +56,7 @@ export default function FormCreateListTask({ cardId }: CreateListTaskProps) {
           <p className="mb-2">Tiêu đề</p>
           <input
             type="text"
-            className="w-100 mb-2 input-list-task"
+            className="w-100 mb-2 input-list-task border rounded"
             placeholder="nhập tiêu đề..."
             value={listTask.name}
             onChange={(e) =>

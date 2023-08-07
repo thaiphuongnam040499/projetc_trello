@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { RootState } from '../../redux/store';
 import { findAllWorkingSpace } from '../../redux/reducer/workingSpaceSlice';
-import { UserId } from '../../types/user.type';
-import { match } from 'assert';
-import useCutomeHook from '../../customeHooks/useCutomeHook';
+import useCutomeHook from '../../redux/contants/useCutomeHook';
 
 export default function Sidebar() {
   const dispatch = useDispatch();
@@ -15,31 +13,7 @@ export default function Sidebar() {
     (state: RootState) => state.workingSpace.listWorkingSpace
   );
 
-  const colorCodes = [
-    '#FF5733',
-    '#4B0082',
-    '#00FF7F',
-    '#800080',
-    '#FFD700',
-    '#FF1493',
-    '#00BFFF',
-    '#FF4500',
-    '#008080',
-    '#FF6347',
-    '#4682B4',
-    '#FF69B4',
-    '#20B2AA',
-    '#EE82EE',
-    '#7B68EE',
-    '#CD5C5C',
-    '#00CED1',
-    '#9370DB',
-    '#8A2BE2',
-    '#F08080',
-    '#00FA9A',
-    '#C71585',
-    '#66CDAA',
-  ];
+  const colorCodes = ['#4B0082'];
   const [charColors, setCharColors] = React.useState<string[]>([]);
   const { userLogin } = useCutomeHook();
 
@@ -63,7 +37,7 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <div className="ms-5 pt-5">
+    <div className="pt-4">
       <div className="flex-shrink-0 p-3 sidebar border-secondary">
         <ul className="list-unstyled ps-0">
           <NavLink to={'/home/contentBoard'} className="mb-1">

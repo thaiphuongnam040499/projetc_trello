@@ -18,11 +18,8 @@ export default function SignIn() {
     password: '',
   });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const userLogin = useSelector((state: RootState) => state.user.userLogin);
-  console.log(userLogin);
-
+  const users = useSelector((state: RootState) => state.user.listUser);
   const [result, setResult] = useState('');
 
   useEffect(() => {
@@ -39,11 +36,21 @@ export default function SignIn() {
   };
 
   const handleSignIn = () => {
-    // navigate('/home');
-    dispatch(login({ email: user.email, password: user.password }));
-    setTimeout(() => {
-      dispatch(getUserLogin(null));
-    }, 1000);
+    if (user.email != '' && user.password != '') {
+      for (let i = 0; i < users.length; i++) {
+        if (user.email === users[i].email) {
+          dispatch(login({ email: user.email, password: user.password }));
+          setTimeout(() => {
+            dispatch(getUserLogin(null));
+          }, 1000);
+          return;
+        } else {
+          setResult('Tài khoản hoặc mật khẩu không chính xác');
+        }
+      }
+    } else {
+      setResult('Không được để trống');
+    }
   };
 
   useEffect(() => {

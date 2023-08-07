@@ -1,8 +1,5 @@
-import { useState, useEffect } from 'react';
-import { UserId } from '../../types/user.type';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
-import useCutomeHook from '../../customeHooks/useCutomeHook';
+import useCutomeHook from '../../redux/contants/useCutomeHook';
 
 export default function () {
   const navigate = useNavigate();

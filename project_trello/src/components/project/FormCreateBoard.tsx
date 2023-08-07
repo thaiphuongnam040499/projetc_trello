@@ -4,14 +4,13 @@ import { useDispatch } from 'react-redux';
 import { createBoard, reset } from '../../redux/reducer/boardSlice';
 import { WorkingSpaceType } from '../../types/workingSpace.type';
 import { BgType } from '../../types/bg.type';
-import { createMember, findAllMember } from '../../redux/reducer/memberSlice';
-import { User, UserId } from '../../types/user.type';
+import { createMember } from '../../redux/reducer/memberSlice';
 import { Role } from '../../enums/Role';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { toast } from 'react-hot-toast';
 
-import useCutomeHook from '../../customeHooks/useCutomeHook';
+import useCutomeHook from '../../redux/contants/useCutomeHook';
 
 const initialState: BoardType = {
   id: '',
@@ -62,15 +61,19 @@ export default function FormCreateBoard({
   }, [currentCreateBoard]);
 
   const handleCreateBoard = () => {
-    dispatch(
-      createBoard({
-        ...board,
-        workingSpaceId: workingSpace?.id,
-        backgroundId: board.backgroundId,
-      })
-    );
-    setBoard(initialState);
-    toast.success('Thêm mới thành công');
+    if (board.name != '') {
+      dispatch(
+        createBoard({
+          ...board,
+          workingSpaceId: workingSpace?.id,
+          backgroundId: board.backgroundId,
+        })
+      );
+      setBoard(initialState);
+      toast.success('Thêm mới thành công');
+    } else {
+      toast.error('Bạn phải nhập đầy đủ các dữ liệu');
+    }
   };
 
   return (

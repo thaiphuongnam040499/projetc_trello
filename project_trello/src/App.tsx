@@ -13,6 +13,7 @@ import HomeTrello from './pages/HomeTrello';
 import Home from './pages/app/Home';
 import BoardTrello from './components/project/BoardTrello';
 import { Chart } from './components/project/Chart';
+import Table from './components/project/Table';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           </Route>
           <Route path="/project/:boardId" element={<BoardTrello />} />
           <Route path="/chart" element={<Chart />} />
+          <Route path="/table" element={<Table />} />
         </Route>
       </Routes>
     </div>

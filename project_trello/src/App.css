@@ -114,7 +114,15 @@ p {
   background-color: hsla(206, 13.7%, 10%, 0.9);
   color: #ffff;
   height: 50px;
+
+  z-index: 1001;
 }
+/* .content-ws {
+  margin-top: 100px;
+}
+.sidebar {
+  margin-top: 15px !important;
+} */
 .btn-create-board {
   position: relative;
   height: 100px;
@@ -228,6 +236,7 @@ p {
 .header-project {
   background-color: #ece8f0 !important;
   opacity: 0.95;
+  z-index: 1000;
 }
 .showModal {
   z-index: 1000;
@@ -317,15 +326,35 @@ p {
   height: 30px;
   border-radius: 50%;
 }
-
+.table-project-tag {
+  border-radius: 10px;
+  font-size: 12px;
+}
+.btn-cardTag {
+  height: 8px;
+}
+.tag-table {
+  overflow: hidden;
+}
+.card-tag-table {
+  width: 45px;
+  height: 26px;
+  border-radius: 10px;
+}
 .create-workingSpace {
   width: 300px;
   border-radius: 15px;
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
 }
 
 .update-tag {
   position: absolute;
   left: -132px;
+  background-color: white;
 }
 .input-update-tag {
   width: 100%;
@@ -384,7 +413,32 @@ p {
 }
 .boards {
   width: 100% !important;
-  height: 335px !important ;
+  height: 384px !important ;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+.boards::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
+.content-board {
+  height: 650px !important;
+  background-color: white;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+.content-board::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
+.content-ws-board {
+  height: 70vh !important;
+}
+.create-member-loading {
+  height: 35px;
+}
+.scale-loader {
+  color: #000;
 }
 
 .admin-image {
@@ -413,6 +467,12 @@ p {
   overflow-y: scroll;
   height: 80px;
   overflow-x: hidden;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+.search-user::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
 }
 
 .user-email-search {

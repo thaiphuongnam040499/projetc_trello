@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
 import { useDispatch } from 'react-redux';
-
 import {
   findAllCard,
   findCardByTitle,
@@ -9,12 +7,10 @@ import {
 } from '../../redux/reducer/cardSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { MemberId, MemberType } from '../../types/member.type';
+import { MemberId } from '../../types/member.type';
 import { Role } from '../../enums/Role';
 import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
 import { Card } from '../../types/lanes.type';
-import { User } from '../../types/user.type';
-import { MemberCardType } from '../../types/memberCard.type';
 
 interface FilterProps {
   listMember: MemberId[];
@@ -185,7 +181,7 @@ export default function Filter({ listMember, boardId }: FilterProps) {
             })}
           </div>
           <div className="d-flex align-items-center ms-2 mt-3">
-            <input type="checkbox" className="me-2 align-items-center" />
+            {/* <input type="checkbox" className="me-2 align-items-center" /> */}
             <div className="select-filter">
               <button
                 className="btn btn-light w-100 btn-show-member"

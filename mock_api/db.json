@@ -50,14 +50,6 @@
       "createdAt": 1690883738322
     },
     {
-      "id": 3,
-      "name": "Anh nhân đỏ",
-      "type": "1",
-      "description": "aaa",
-      "userId": 1,
-      "createdAt": 1691074876148
-    },
-    {
       "id": 4,
       "name": "Anh nam",
       "type": "1",
@@ -82,6 +74,22 @@
       "workingSpaceName": "Anh nhân",
       "backgroundId": 2,
       "createdAt": 1691139045074
+    },
+    {
+      "id": 3,
+      "name": "abc",
+      "workingSpaceId": 1,
+      "workingSpaceName": "Anh nhân",
+      "backgroundId": 1,
+      "createdAt": 1691402621897
+    },
+    {
+      "id": 4,
+      "name": "cacs",
+      "workingSpaceId": 1,
+      "workingSpaceName": "",
+      "backgroundId": 2,
+      "createdAt": 1691402632246
     }
   ],
   "lanes": [
@@ -96,6 +104,18 @@
       "boardId": 1,
       "createdAt": 1691033777993,
       "id": 2
+    },
+    {
+      "title": "Nam gầy",
+      "boardId": 1,
+      "createdAt": 1691328186672,
+      "id": 3
+    },
+    {
+      "title": "Nhân béo",
+      "boardId": 1,
+      "createdAt": 1691328195440,
+      "id": 4
     }
   ],
   "cards": [
@@ -115,15 +135,61 @@
       "id": "e8dde1f0-31ae-11ee-b9e8-d9c01aa79d67",
       "title": "aa",
       "order": 0,
-      "laneId": 2,
-      "description": "",
-      "createdAt": 1691033779637
+      "laneId": 2
     }
   ],
-  "listTask": [],
+  "listTask": [
+    {
+      "id": 1,
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "name": "Anh nhân",
+      "status": false,
+      "complete": 100,
+      "createdAt": 1691373993647
+    },
+    {
+      "id": 2,
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "name": "abc",
+      "status": false,
+      "complete": 50,
+      "createdAt": 1691377384106
+    }
+  ],
   "datetime": [],
-  "tasks": [],
-  "cardTags": [],
+  "tasks": [
+    {
+      "id": 1,
+      "listTaskId": 1,
+      "name": "a",
+      "status": true,
+      "createdAt": 1691374120238
+    },
+    {
+      "id": 2,
+      "listTaskId": 2,
+      "name": "cccc",
+      "status": true,
+      "createdAt": 1691377388527
+    },
+    {
+      "id": 3,
+      "listTaskId": 2,
+      "name": "aaa",
+      "status": false,
+      "createdAt": 1691377393634
+    }
+  ],
+  "cardTags": [
+    {
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "tagId": 1,
+      "backgroundColor": "#4bce97",
+      "name": "",
+      "createdAt": 1691398498344,
+      "id": 1
+    }
+  ],
   "members": [
     {
       "name": "Phương Nam Thái",
@@ -196,6 +262,33 @@
       "role": "Quản trị viên",
       "createdAt": 1691139045535,
       "id": 8
+    },
+    {
+      "name": "",
+      "email": "nhan@gmail.com",
+      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
+      "boardId": 2,
+      "role": "Thành viên",
+      "createdAt": 1691332422434,
+      "id": 9
+    },
+    {
+      "name": "Phương Nam Thái",
+      "email": "nambogia040499@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtdewkBKPFnP0OWa48KLO8Dd2yJd5aKGYeowLBIJNKzIibw=s96-c",
+      "workingSpaceId": 5,
+      "role": "Quản trị viên",
+      "createdAt": 1691399452979,
+      "id": 10
+    },
+    {
+      "name": "Phương Nam Thái",
+      "email": "nambogia040499@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtdewkBKPFnP0OWa48KLO8Dd2yJd5aKGYeowLBIJNKzIibw=s96-c",
+      "workingSpaceId": 6,
+      "role": "Quản trị viên",
+      "createdAt": 1691399462651,
+      "id": 11
     }
   ],
   "memberCard": [
@@ -218,6 +311,16 @@
       "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
       "createdAt": 1691124204159,
       "id": 2
+    },
+    {
+      "memberId": 3,
+      "name": "Phương Nam Thái",
+      "email": "nambogia040499@gmail.com",
+      "imageUrl": "https://lh3.googleusercontent.com/a/AAcHTtdewkBKPFnP0OWa48KLO8Dd2yJd5aKGYeowLBIJNKzIibw=s96-c",
+      "role": "Quản trị viên",
+      "cardId": "c89a6570-3051-11ee-8904-e7ac26191a06",
+      "createdAt": 1691332462808,
+      "id": 3
     }
   ],
   "memberWs": [
@@ -227,26 +330,8 @@
       "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
       "role": "Thành viên",
       "workingSpaceId": 1,
-      "createdAt": 1691134608859,
+      "createdAt": 1691394342177,
       "id": 1
-    },
-    {
-      "name": "",
-      "email": "thainamvinhuni@gmail.com",
-      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
-      "role": "Thành viên",
-      "workingSpaceId": 1,
-      "createdAt": 1691134747165,
-      "id": 2
-    },
-    {
-      "name": "",
-      "email": "thainamvinhuni@gmail.com",
-      "imageUrl": "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=XGc5nFwI_4gAX_6ABBQ&_nc_ht=scontent.fhan14-2.fna&oh=00_AfAxT4lPSLzx0x6EiWlscsW7y4TN0_PtPIBWLItFmwFpOQ&oe=64E68E78",
-      "role": "Thành viên",
-      "workingSpaceId": 2,
-      "createdAt": 1691135794000,
-      "id": 3
     }
   ],
   "backgrounds": [

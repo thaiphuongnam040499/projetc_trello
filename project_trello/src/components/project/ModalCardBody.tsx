@@ -1,18 +1,12 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { ListTask } from '../../types/listTask.type';
 import { useDispatch } from 'react-redux';
 import * as listTaskSlice from '../../redux/reducer/listTaskSlice';
 import Task from './Task';
 import * as dateTimeSlice from '../../redux/reducer/dateTimeSlice';
 import { DateTime } from '../../types/dateTime.type';
-
-import CreateDescription from './FormCreateDescription';
-import { MemberId, MemberType } from '../../types/member.type';
-import { BgColor } from '../../types/bColor.type';
 import { findAllMemberCard } from '../../redux/reducer/memberCardSlice';
-import { CardTagType } from '../../types/cardTag.type';
 import { findAllCardTag } from '../../redux/reducer/cardTagSlice';
 import { toast } from 'react-hot-toast';
 import { updateCard } from '../../redux/reducer/cardSlice';
@@ -23,12 +17,6 @@ interface ModalCardBodyProps {
   cardId: string;
   boardId: string;
 }
-const initialState = {
-  id: '',
-  listTaskId: '',
-  name: '',
-  status: false,
-};
 
 export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
   const [isShowComment, setIsShowComment] = useState(false);
@@ -104,13 +92,18 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
     card: Card
   ) => {
     e.preventDefault();
-    dispatch(
-      updateCard({
-        ...card,
-        description: disUp,
-      })
-    );
-    handleOffShowDis();
+    if (disUp != '') {
+      dispatch(
+        updateCard({
+          ...card,
+          description: disUp,
+        })
+      );
+      handleOffShowDis();
+      toast.success('Sửa thành công');
+    } else {
+      toast.error('Hãy nhập đầy đủ thông tin!');
+    }
   };
 
   return (
@@ -174,26 +167,52 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
 
         {dateTimes.map((dateTime: DateTime) => {
           if (dateTime.cardId === cardId) {
+            let dateNow = new Date();
+            console.log(dateNow);
+
             let date = new Date(dateTime.expirationDate);
             return (
               <div className="mt-2 mb-2" key={dateTime.id}>
                 <p>Ngày hết hạn</p>
-                <input
-                  type="checkbox"
-                  className="me-2"
-                  checked={dateTime.status}
-                  onChange={(e) => handleChangeStatus(dateTime, e)}
-                />
-                <button type="button" className="btn btn-light border rounded">
-                  {`${date.getDate()}/${
-                    date.getMonth() + 1
-                  }/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
-                  {dateTime.status ? (
-                    <span className="bg-success ms-2 text-white">Hoàn tất</span>
-                  ) : (
-                    <p></p>
-                  )}
-                </button>
+                <div className="d-flex">
+                  <input
+                    type="checkbox"
+                    className="me-2"
+                    checked={dateTime.status}
+                    onChange={(e) => handleChangeStatus(dateTime, e)}
+                  />
+                  <div>
+                    {dateNow >= date ? (
+                      <button
+                        type="button"
+                        className="btn btn-light border rounded"
+                      >
+                        {`${date.getDate()}/${
+                          date.getMonth() + 1
+                        }/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
+                        <span className="bg-danger ms-2 text-white">
+                          Hết hạn
+                        </span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-light border rounded"
+                      >
+                        {`${date.getDate()}/${
+                          date.getMonth() + 1
+                        }/${date.getFullYear()} lúc ${date.getHours()}:${date.getMinutes()}`}
+                        {dateTime.status ? (
+                          <span className="bg-success ms-2 text-white">
+                            Hoàn tất
+                          </span>
+                        ) : (
+                          ''
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
             );
           }
@@ -279,9 +298,6 @@ export default function ModalCardBody({ cardId, boardId }: ModalCardBodyProps) {
                       <h6 className="m-0 p-0">{listTask.name}</h6>
                     </div>
                     <div>
-                      <button className="btn btn-light border rounded me-2">
-                        Ẩn danh sách đã chọn
-                      </button>
                       <button
                         className="btn btn-light border rounded"
                         onClick={(e) => handleDeleteListTask(e, listTask.id)}

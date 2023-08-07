@@ -10,6 +10,7 @@ import { UserId } from '../../types/user.type';
 import CreateDateTime from './FormCreateDateTime';
 import CreateMember from './FormCreateMember';
 import { findAllDateTime } from '../../redux/reducer/dateTimeSlice';
+import { findAllCardTag } from '../../redux/reducer/cardTagSlice';
 
 interface TableProjectProps {
   workingSpaceId: string;
@@ -32,6 +33,7 @@ export default function TableProject({
   const currentUser = localStorage.getItem('userLogin');
   const [userLogin, setUserLogin] = useState<UserId>();
   const dateTimes = useSelector((state: RootState) => state.dateTime.dateTimes);
+  const cardTags = useSelector((state: RootState) => state.cardTags.cardTags);
 
   useEffect(() => {
     if (currentUser) {
@@ -46,6 +48,7 @@ export default function TableProject({
   useEffect(() => {
     dispatch(findAllCard());
     dispatch(findAllDateTime());
+    dispatch(findAllCardTag());
   }, []);
 
   useEffect(() => {
@@ -59,6 +62,7 @@ export default function TableProject({
           <tr className="text-center">
             <th scope="col">Thẻ</th>
             <th scope="col">Danh sách</th>
+            <th scope="col">Nhãn</th>
             <th scope="col">Thành viên</th>
             <th scope="col">Ngày hết hạn</th>
           </tr>
@@ -105,6 +109,33 @@ export default function TableProject({
                               <p>{lane.title}</p>
                             </li>
                           </ul>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center tag-table">
+                          {cardTags.map((cardTag) => {
+                            if (cardTag.cardId === card.id) {
+                              return (
+                                <div
+                                  key={cardTag.id}
+                                  className={`${
+                                    cardTag.name === ''
+                                      ? 'card-tag-table ms-1'
+                                      : 'table-project-tag'
+                                  }`}
+                                  style={{
+                                    backgroundColor: cardTag.backgroundColor,
+                                  }}
+                                >
+                                  <div>
+                                    <p className="text-white p-1 ">
+                                      {cardTag.name}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            }
+                          })}
                         </div>
                       </td>
                       <td>
